@@ -1,0 +1,13 @@
+name: semtrace
+version: 0.1.0
+
+authors:
+  - Thomas Sawyer <transfire@gmail.com>
+
+crystal: '>= 1.19.1'
+
+dependencies:
+  usearch:
+    path: ../usearch.cr
+
+license: MIT
