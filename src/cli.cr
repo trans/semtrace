@@ -102,6 +102,8 @@ module Semtrace
       when "calibrate"
         model = args[0]? || "llama3.2:3b"
         run_calibrate(store, model)
+      when "norm-test"
+        run_norm_test(decomposer, store)
       when "interactive"
         run_interactive(decomposer, tokenizer)
       else
@@ -558,6 +560,100 @@ module Semtrace
         end
         s << "."
       end
+    end
+
+    private def self.run_norm_test(d : Decomposer, store : EmbeddingStore)
+      puts "\n=== Normalization Impact Test ==="
+      puts "  #{store.vocab_size} tokens x #{store.dimensions}d"
+      dims = store.dimensions
+
+      # Build normalized vector copies for a working set
+      # We'll normalize the vectors on-the-fly during search to avoid
+      # doubling memory usage
+
+      rng = Random.new(42_u64)
+      good_tokens = (1000...20000).to_a
+
+      puts "\n#{"N".rjust(5)}  #{"Raw".rjust(8)}  #{"NormVecs".rjust(8)}  #{"NormAll".rjust(8)}"
+      puts "-" * 35
+
+      [6, 12, 25, 50, 100].each do |n|
+        token_ids = good_tokens.sample(n, rng)
+        tid_set = token_ids.to_set
+
+        # === Raw baseline ===
+        target_raw = Array(Float32).new(dims, 0.0_f32)
+        token_ids.each { |tid| target_raw = EmbeddingStore.add(target_raw, store.vector_for(tid)) }
+        result_raw = d.decompose(target_raw, max_steps: n + 10)
+        match_raw = result_raw.token_ids.to_set
+        pct_raw = (tid_set & match_raw).size * 100 // n
+
+        # === Normalized vecs, unnormalized sum ===
+        target_nv = Array(Float32).new(dims, 0.0_f32)
+        token_ids.each do |tid|
+          vec = store.vector_for(tid).to_a
+          vec_norm = EmbeddingStore.norm(vec)
+          normalized = vec.map { |v| v / vec_norm }
+          target_nv = EmbeddingStore.add(target_nv, normalized)
+        end
+        # Decompose against normalized vectors using brute-force
+        result_nv = decompose_normalized(target_nv, store, n + 10)
+        match_nv = result_nv.to_set
+        pct_nv = (tid_set & match_nv).size * 100 // n
+
+        # === Fully normalized (sum also normalized) ===
+        target_fn_norm = EmbeddingStore.norm(target_nv)
+        target_fn = target_nv.map { |v| v / target_fn_norm }
+        result_fn = decompose_normalized(target_fn, store, n + 10)
+        match_fn = result_fn.to_set
+        pct_fn = (tid_set & match_fn).size * 100 // n
+
+        puts "#{n.to_s.rjust(5)}  #{pct_raw.to_s.rjust(7)}%  #{pct_nv.to_s.rjust(7)}%  #{pct_fn.to_s.rjust(7)}%"
+      end
+    end
+
+    # Greedy decomposition against L2-normalized token embeddings
+    private def self.decompose_normalized(target : Array(Float32), store : EmbeddingStore, max_steps : Int32) : Array(Int32)
+      dims = store.dimensions
+      residual = target.dup
+      tokens = [] of Int32
+      prev_norm = Float32::MAX
+
+      max_steps.times do
+        r_norm = EmbeddingStore.norm(residual)
+        break if r_norm < 0.001_f32
+        break if r_norm > prev_norm
+        prev_norm = r_norm
+
+        # Find nearest normalized token to residual (by cosine)
+        best_id = -1
+        best_sim = -Float32::MAX
+
+        store.vocab_size.times do |i|
+          vec = store.vector_for(i)
+          vec_norm = EmbeddingStore.norm(vec)
+          next if vec_norm < 1e-10_f32
+
+          dot = 0.0_f32
+          dims.times { |d| dot += residual.unsafe_fetch(d) * vec.unsafe_fetch(d) }
+          sim = dot / (r_norm * vec_norm)
+
+          if sim > best_sim
+            best_sim = sim
+            best_id = i
+          end
+        end
+
+        break if best_id < 0
+        tokens << best_id
+
+        # Subtract the NORMALIZED token vector
+        vec = store.vector_for(best_id)
+        vec_norm = EmbeddingStore.norm(vec)
+        dims.times { |d| residual[d] -= vec.unsafe_fetch(d) / vec_norm }
+      end
+
+      tokens
     end
 
     private def self.run_calibrate(store : EmbeddingStore, model : String)
