@@ -15,7 +15,7 @@ module Semtrace
     @index : USearch::Index
     @vectors : Slice(Float32)
 
-    def initialize(embeddings_path : String, vocab_path : String)
+    def initialize(embeddings_path : String, vocab_path : String, skip_index : Bool = false)
       # Load vocabulary
       vocab_json = JSON.parse(File.read(vocab_path))
       @vocab = Array(String).new(vocab_json.size) { |i| vocab_json[i.to_s].as_s }
@@ -39,21 +39,28 @@ module Semtrace
         f.close
       end
 
-      # Build USearch HNSW index
-      @index = USearch::Index.new(
-        dimensions: @dimensions,
-        metric: :cos,
-        quantization: :f16,
-        connectivity: 32,
-        expansion_add: 128,
-        expansion_search: 256,
-      )
-      @index.reserve(@vocab_size)
+      if skip_index
+        # Lightweight mode — no HNSW index, use brute-force search
+        @index = USearch::Index.new(dimensions: @dimensions, metric: :cos)
+      else
+        # Build USearch HNSW index
+        @index = USearch::Index.new(
+          dimensions: @dimensions,
+          metric: :cos,
+          quantization: :f16,
+          connectivity: 32,
+          expansion_add: 128,
+          expansion_search: 256,
+        )
+        @index.reserve(@vocab_size)
 
-      @vocab_size.times do |i|
-        vec = vector_for(i)
-        @index.add(i.to_u64, vec)
+        @vocab_size.times do |i|
+          vec = vector_for(i)
+          @index.add(i.to_u64, vec)
+        end
       end
+
+      @skip_index = skip_index
     end
 
     # Returns the raw embedding vector for a token ID.
@@ -69,7 +76,52 @@ module Semtrace
 
     # Finds the k nearest tokens to a query vector.
     def search(query : Array(Float32) | Slice(Float32), k : Int = 1) : Array(USearch::SearchResult)
-      @index.search(query, k)
+      if @skip_index
+        brute_force_search(query, k)
+      else
+        @index.search(query, k)
+      end
+    end
+
+    # Linear scan nearest-neighbor search (no index needed).
+    private def brute_force_search(query : Array(Float32) | Slice(Float32), k : Int) : Array(USearch::SearchResult)
+      # Compute cosine distance to every token
+      query_norm = EmbeddingStore.norm(query)
+      return [] of USearch::SearchResult if query_norm < 1e-10
+
+      # Use a simple top-k selection
+      results = Array({UInt64, Float32}).new(k) { {0_u64, Float32::MAX} }
+      worst_dist = Float32::MAX
+
+      @vocab_size.times do |i|
+        vec = vector_for(i)
+        # Cosine distance = 1 - cosine_similarity
+        dot = 0.0_f32
+        vec_norm_sq = 0.0_f32
+        @dimensions.times do |d|
+          dot += query.unsafe_fetch(d) * vec.unsafe_fetch(d)
+          vec_norm_sq += vec.unsafe_fetch(d) * vec.unsafe_fetch(d)
+        end
+        vec_norm = Math.sqrt(vec_norm_sq).to_f32
+        next if vec_norm < 1e-10_f32
+
+        cos_dist = 1.0_f32 - dot / (query_norm * vec_norm)
+
+        if cos_dist < worst_dist
+          # Replace the worst entry
+          worst_idx = 0
+          results.each_with_index do |(_, d), j|
+            if d > results[worst_idx][1]
+              worst_idx = j
+            end
+          end
+          results[worst_idx] = {i.to_u64, cos_dist}
+          worst_dist = results.max_of { |_, d| d }
+        end
+      end
+
+      results.sort_by! { |_, d| d }
+      results.map { |key, dist| USearch::SearchResult.new(key, dist) }
     end
 
     # Computes the L2 (Euclidean) norm of a vector.

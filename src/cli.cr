@@ -57,8 +57,10 @@ module Semtrace
       end
 
       model_name = Path[data_dir].basename
-      print "Loading #{model_name} embeddings... "
-      store = EmbeddingStore.new(embeddings_path, vocab_path)
+      # Use lightweight mode (no HNSW index) for commands that don't need full search
+      skip_index = command == "contextual" || command == "calibrate"
+      print "Loading #{model_name} embeddings#{skip_index ? " (brute-force mode)" : ""}... "
+      store = EmbeddingStore.new(embeddings_path, vocab_path, skip_index: skip_index)
       puts "#{store.vocab_size} tokens x #{store.dimensions}d"
 
       tokenizer = if File.exists?(merges_path)
@@ -92,6 +94,14 @@ module Semtrace
       when "sweep"
         abort "Tokenizer not available (missing merges.txt)" unless tokenizer
         run_sweep(decomposer, store, tokenizer, args)
+      when "contextual"
+        text = args.join(" ")
+        abort "Usage: semtrace contextual <text>" if text.empty?
+        model = "llama3.2:3b"  # TODO: make configurable
+        run_contextual(decomposer, store, text, model)
+      when "calibrate"
+        model = args[0]? || "llama3.2:3b"
+        run_calibrate(store, model)
       when "interactive"
         run_interactive(decomposer, tokenizer)
       else
@@ -548,6 +558,126 @@ module Semtrace
         end
         s << "."
       end
+    end
+
+    private def self.run_calibrate(store : EmbeddingStore, model : String)
+      puts "\n=== Static vs Contextual Calibration ==="
+      puts "  Model: #{model}"
+      puts "  Vocab: #{store.vocab_size} tokens x #{store.dimensions}d"
+
+      # Pick diverse common tokens that are likely single-token in most models
+      test_words = %w[the cat dog sat on man woman king hello world
+                      big small red blue run walk good bad is and
+                      water fire sun moon day night house tree book car]
+
+      puts "  Embedding #{test_words.size} individual tokens through Ollama..."
+      contextual = Ollama.embed_batch(test_words, model)
+
+      puts "\n#{"Token".ljust(10)} #{"Static Norm".rjust(12)} #{"Ctx Norm".rjust(10)} #{"Cos Dist".rjust(10)} #{"Cos Sim".rjust(10)}"
+      puts "-" * 55
+
+      sims = [] of Float64
+      found = 0
+
+      test_words.each_with_index do |word, i|
+        tid = store.vocab.index(word)
+        unless tid
+          puts "#{word.ljust(10)} — not in vocab"
+          next
+        end
+        found += 1
+
+        static = store.vector_for(tid)
+        ctx = contextual[i]
+
+        s_norm = EmbeddingStore.norm(static)
+        c_norm = EmbeddingStore.norm(ctx)
+
+        dot = 0.0_f64
+        store.dimensions.times do |d|
+          dot += static[d].to_f64 * ctx[d].to_f64
+        end
+        cos_sim = dot / (s_norm * c_norm)
+        cos_dist = 1.0 - cos_sim
+        sims << cos_sim
+
+        puts "#{word.ljust(10)} #{("%.4f" % s_norm).rjust(12)} #{("%.4f" % c_norm).rjust(10)} #{("%.4f" % cos_dist).rjust(10)} #{("%.4f" % cos_sim).rjust(10)}"
+      end
+
+      if found > 0
+        avg_sim = sims.sum / sims.size
+        min_sim = sims.min
+        max_sim = sims.max
+        puts "\n  Tokens compared: #{found}"
+        puts "  Cosine similarity: avg=#{"%.4f" % avg_sim}, min=#{"%.4f" % min_sim}, max=#{"%.4f" % max_sim}"
+
+        if avg_sim > 0.5
+          puts "  => Moderate correlation — linear mapping may work"
+        elsif avg_sim > 0.1
+          puts "  => Weak correlation — mapping will be challenging"
+        else
+          puts "  => Near-orthogonal — spaces are fundamentally different"
+        end
+      end
+    end
+
+    private def self.run_contextual(d : Decomposer, store : EmbeddingStore, text : String, model : String)
+      puts "\n=== Contextual Embedding Decomposition ==="
+      puts "  Model: #{model}"
+      puts "  Text: #{text.inspect}"
+      puts "  Static index: #{store.vocab_size} tokens x #{store.dimensions}d"
+
+      # Get contextual embedding from Ollama forward pass
+      print "  Getting contextual embedding from Ollama... "
+      ctx_embedding = Ollama.embed(text, model)
+      puts "#{ctx_embedding.size}d"
+
+      if ctx_embedding.size != store.dimensions
+        puts "  ERROR: Dimension mismatch! Contextual=#{ctx_embedding.size}d, Static=#{store.dimensions}d"
+        return
+      end
+
+      # Compare: bag-of-words static sum vs contextual
+      # First, find nearest static token to the contextual embedding
+      puts "\n--- Nearest static tokens to contextual embedding ---"
+      nearest = store.search(ctx_embedding, k: 10)
+      nearest.each_with_index do |r, i|
+        puts "  #{(i+1).to_s.rjust(2)}. #{store.token_for(r.key).inspect.ljust(15)} (distance: #{"%.4f" % r.distance})"
+      end
+
+      # Decompose the contextual embedding
+      puts "\n--- Greedy decomposition of contextual embedding ---"
+      result = d.decompose(ctx_embedding, max_steps: 30)
+      puts "  Tokens (#{result.tokens.size}): #{result.tokens.map(&.inspect).join(", ")}"
+      puts "  Norms: #{result.residual_norms.map { |n| "%.4f" % n }.join(" → ")}"
+      puts "  Final residual: #{"%.4f" % result.final_residual_norm}"
+
+      # Also show what the bag-of-words decomposition would give for comparison
+      # Embed each word individually and sum for a static baseline
+      puts "\n--- Comparison: individual token embeddings ---"
+      words = text.split
+      puts "  Embedding each word individually via Ollama..."
+      word_embeddings = Ollama.embed_batch(words, model)
+
+      # How far is the sentence embedding from the sum of word embeddings?
+      word_sum = Array(Float32).new(store.dimensions, 0.0_f32)
+      word_embeddings.each do |we|
+        word_sum = EmbeddingStore.add(word_sum, we)
+      end
+      ctx_vs_sum = EmbeddingStore.norm(EmbeddingStore.subtract(ctx_embedding, word_sum))
+      ctx_norm = EmbeddingStore.norm(ctx_embedding)
+      sum_norm = EmbeddingStore.norm(word_sum)
+
+      puts "  Contextual embedding norm: #{"%.4f" % ctx_norm}"
+      puts "  Sum of word embeddings norm: #{"%.4f" % sum_norm}"
+      puts "  Distance (contextual vs sum): #{"%.4f" % ctx_vs_sum}"
+      puts "  Relative distance: #{"%.4f" % (ctx_vs_sum / ctx_norm)}"
+
+      # Also decompose the contextual sum-of-words for comparison
+      puts "\n--- Decomposition of contextual word sum ---"
+      result2 = d.decompose(word_sum, max_steps: 30)
+      puts "  Tokens (#{result2.tokens.size}): #{result2.tokens.map(&.inspect).join(", ")}"
+      puts "  Final residual: #{"%.4f" % result2.final_residual_norm}"
     end
 
     private def self.run_stress_test(d : Decomposer, tok : Tokenizer)
