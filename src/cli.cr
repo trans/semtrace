@@ -566,47 +566,57 @@ module Semtrace
       puts "\n=== Normalization Impact Test ==="
       puts "  #{store.vocab_size} tokens x #{store.dimensions}d"
       dims = store.dimensions
+      trials = 5
 
-      # Build normalized vector copies for a working set
-      # We'll normalize the vectors on-the-fly during search to avoid
-      # doubling memory usage
+      # Sample from tokens in a safe range
+      max_token = [store.vocab_size - 1, 20000].min
+      min_token = [1000, store.vocab_size // 10].min
+      good_tokens = (min_token..max_token).to_a
 
-      rng = Random.new(42_u64)
-      good_tokens = (1000...20000).to_a
-
+      puts "  Trials: #{trials}, Token range: #{min_token}..#{max_token}"
       puts "\n#{"N".rjust(5)}  #{"Raw".rjust(8)}  #{"NormVecs".rjust(8)}  #{"NormAll".rjust(8)}"
       puts "-" * 35
 
       [6, 12, 25, 50, 100].each do |n|
-        token_ids = good_tokens.sample(n, rng)
-        tid_set = token_ids.to_set
+        next if n > good_tokens.size
 
-        # === Raw baseline ===
-        target_raw = Array(Float32).new(dims, 0.0_f32)
-        token_ids.each { |tid| target_raw = EmbeddingStore.add(target_raw, store.vector_for(tid)) }
-        result_raw = d.decompose(target_raw, max_steps: n + 10)
-        match_raw = result_raw.token_ids.to_set
-        pct_raw = (tid_set & match_raw).size * 100 // n
+        sum_raw = 0
+        sum_nv = 0
+        sum_fn = 0
 
-        # === Normalized vecs, unnormalized sum ===
-        target_nv = Array(Float32).new(dims, 0.0_f32)
-        token_ids.each do |tid|
-          vec = store.vector_for(tid).to_a
-          vec_norm = EmbeddingStore.norm(vec)
-          normalized = vec.map { |v| v / vec_norm }
-          target_nv = EmbeddingStore.add(target_nv, normalized)
+        trials.times do |trial|
+          rng = Random.new((42 * (n + 1) + trial).to_u64)
+          token_ids = good_tokens.sample(n, rng)
+          tid_set = token_ids.to_set
+
+          # === Raw baseline ===
+          target_raw = Array(Float32).new(dims, 0.0_f32)
+          token_ids.each { |tid| target_raw = EmbeddingStore.add(target_raw, store.vector_for(tid)) }
+          result_raw = d.decompose(target_raw, max_steps: n + 10)
+          sum_raw += (tid_set & result_raw.token_ids.to_set).size
+
+          # === Normalized vecs, unnormalized sum ===
+          target_nv = Array(Float32).new(dims, 0.0_f32)
+          token_ids.each do |tid|
+            vec = store.vector_for(tid).to_a
+            vec_norm = EmbeddingStore.norm(vec)
+            normalized = vec.map { |v| v / vec_norm }
+            target_nv = EmbeddingStore.add(target_nv, normalized)
+          end
+          result_nv = decompose_normalized(target_nv, store, n + 10)
+          sum_nv += (tid_set & result_nv.to_set).size
+
+          # === Fully normalized ===
+          target_fn_norm = EmbeddingStore.norm(target_nv)
+          target_fn = target_nv.map { |v| v / target_fn_norm }
+          result_fn = decompose_normalized(target_fn, store, n + 10)
+          sum_fn += (tid_set & result_fn.to_set).size
         end
-        # Decompose against normalized vectors using brute-force
-        result_nv = decompose_normalized(target_nv, store, n + 10)
-        match_nv = result_nv.to_set
-        pct_nv = (tid_set & match_nv).size * 100 // n
 
-        # === Fully normalized (sum also normalized) ===
-        target_fn_norm = EmbeddingStore.norm(target_nv)
-        target_fn = target_nv.map { |v| v / target_fn_norm }
-        result_fn = decompose_normalized(target_fn, store, n + 10)
-        match_fn = result_fn.to_set
-        pct_fn = (tid_set & match_fn).size * 100 // n
+        total = n * trials
+        pct_raw = sum_raw * 100 // total
+        pct_nv = sum_nv * 100 // total
+        pct_fn = sum_fn * 100 // total
 
         puts "#{n.to_s.rjust(5)}  #{pct_raw.to_s.rjust(7)}%  #{pct_nv.to_s.rjust(7)}%  #{pct_fn.to_s.rjust(7)}%"
       end
