@@ -247,10 +247,87 @@ Positional embeddings have larger norms (~4-10) than token embeddings (~2.5-3.5)
 
 ---
 
-## 12. Open Questions
+## 12. Contextual Embedding Experiments (Llama 3.2 3B)
 
-1. **Contextual embeddings**: Does decomposition of transformer output (post-attention) embeddings produce semantically meaningful tokens? This is the central question from DESIGN.md.
-2. **Cross-space decomposition**: Can output-layer embeddings be meaningfully decomposed against input-layer (static) embeddings, given they occupy different subspaces?
-3. **Llama 3.2 3B (3072d)**: How does a modern model with 2.5x the vocabulary and 4x the dimensions compare?
-4. **GPT-2 Medium anomaly**: Why does 1024d perform worse than 768d? Is this a known training quality issue or a deeper structural phenomenon?
-5. **Security implications**: What are the practical risks of embedding decomposition for information leakage in vector databases and RAG systems?
+Attempted decomposition of contextual embeddings from Ollama's `/api/embed` endpoint against the static token embedding matrix extracted from the same model (128,256 tokens x 3,072d).
+
+### 12a. Static vs Contextual Space Alignment
+
+Calibration test: embed 30 individual tokens through both the static matrix (lookup) and the forward pass (Ollama), then compare.
+
+| Metric | Value |
+|---|---|
+| Average cosine similarity | 0.003 |
+| Min cosine similarity | -0.036 |
+| Max cosine similarity | 0.054 |
+
+**The spaces are orthogonal.** Static and contextual embeddings share dimensionality (3072) but zero structure. Every contextual vector is normalized to exactly 1.0 by Ollama.
+
+### 12b. Contextual Space Internal Cohesion
+
+While orthogonal to static space, contextual embeddings have strong internal semantic structure:
+
+| Pair | Cosine Similarity |
+|---|---|
+| cat / kitten | 0.72 |
+| cat / dog | 0.70 |
+| king / queen | 0.67 |
+| cat / car | 0.47 |
+| "the cat sat on the mat" / "a cat was sitting on a mat" | 0.88 |
+| "the cat sat on the mat" / "quantum physics is fascinating" | 0.52 |
+
+Sentence-to-sentence similarity works well. These embeddings are optimized for semantic comparison, not decomposition.
+
+### 12c. Contextual Word-Level Decomposition
+
+Attempted decomposition of sentence embeddings against contextual word embeddings (335 common words embedded individually through Ollama). Greedy residual subtraction diverges after 1-2 steps due to L2 normalization placing all vectors on a unit sphere.
+
+Similarity ranking (without subtraction) shows a strong bias toward generic function words ("again", "told", "knew", "decide") regardless of input sentence. Actual content words from the sentence rarely appear in the top 20.
+
+### 12d. Why Contextual Decomposition Fails
+
+Investigation of Ollama's source code (github.com/ollama/ollama) revealed:
+
+1. **The embed endpoint uses a different code path than generation.** Generation runs the full pipeline: `token_embd → layers → OutputNorm → Output projection → logits`. The embed endpoint uses llama.cpp's internal `GetEmbeddingsSeq`, which returns the hidden state **without the output projection**.
+
+2. **L2 normalization is applied by llama.cpp** before returning the embedding, destroying magnitude information needed for arithmetic operations.
+
+3. **Llama 3.2 3B ties weights** (no separate `output.weight` tensor). The model uses `token_embd.weight^T` as the output projection. But since the embed endpoint skips this projection, the returned vector lives in pre-projection space.
+
+4. **Sentence embeddings encode meaning holistically, not compositionally.** The embedding of "the cat sat on the mat" is not a combination of word-level signals — it's a high-level semantic representation optimized for similarity comparison.
+
+### 12e. Concept Arithmetic in Contextual Space
+
+Vector arithmetic partially works within contextual space:
+
+| Analogy | Expected | Rank | Similarity |
+|---|---|---|---|
+| puppy - dog + cat | kitten | 3 | 0.74 |
+| king - man + woman | queen | 3 | 0.59 |
+| puppy - dog + horse | foal | 4 | 0.60 |
+
+Expected answers appear in top-5 but not rank-1, confirming the space has relational structure but not the clean linear geometry of static embeddings.
+
+---
+
+## 13. Broader Goal and Future Directions
+
+The motivating question: **given an embedding, how much of the original input can be recovered?** Not necessarily verbatim, but semantically equivalent. If this works efficiently, it enables:
+
+- **Reasoning over embeddings** rather than over tokens
+- **Embedding-only storage** — drop verbatim text, keep only the embedding, recover approximate text on demand
+- **Semantic compression** — fixed-size vector regardless of text length
+
+### What we've established:
+
+- **Static bag-of-words**: essentially fully recoverable (99.7% at 10,000 tokens). Security implication: bag-of-words embeddings are effectively plaintext.
+- **Contextual embeddings**: not directly decomposable against static tokens. The spaces are orthogonal.
+- **Within contextual space**: sentence similarity works, but word-level decomposition does not.
+
+### Promising next directions:
+
+1. **Dedicated embedding models** (nomic-embed-text, etc.) — purpose-built for embeddings, might have more compositional structure.
+2. **Full pipeline control** (GPT-2 in Python) — extract hidden states at every layer, find where decomposability degrades through the transformer.
+3. **Learned mapping** — train a transformation (linear or small NN) between contextual and static spaces using paired token embeddings as training data. Could also explore topological mapping approaches.
+4. **Logits as embeddings** — the model's output projection IS a decomposition into token scores. Using logit vectors as the "embedding" would be inherently decomposable.
+5. **GPT-2 Medium anomaly** — why does 1024d perform worse than 768d? Training quality vs architecture investigation.
