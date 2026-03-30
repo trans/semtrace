@@ -120,82 +120,69 @@ The GPT-2 family provides a controlled experiment: same vocabulary, same tokeniz
 
 ---
 
-## 8. Large-Scale Sweep (50–1000+ tokens)
+## 8. Real Text Decomposition (Gettysburg Address)
 
-Parameterized sweep using reproducible seeded text generation, 3 trials per data point, greedy decomposition (k=1). Accuracy = percentage of original tokens recovered. Overshoot = percentage of extra tokens beyond the original count.
+The Gettysburg Address (Abraham Lincoln, 1863) provides a real-world test: 252 words, producing 286 BPE tokens with 143 unique token IDs (50% unique ratio). This is natural English prose with punctuation, repeated function words, and varied vocabulary.
 
-### 8a. Cross-Model Comparison (Simple Vocabulary)
+**Search method**: HNSW approximate nearest-neighbor (USearch, cosine metric, f16 quantization) — the same index used for all standard decomposition throughout this project. Greedy residual subtraction with norm-inflection stopping.
 
-| N | Small 768d | Medium 1024d | Large 1280d | XL 1600d |
-|---|---|---|---|---|
-| 100 | 77.8% | 69.5% | 96.7% | 98.3% |
-| 200 | 79.2% | 71.2% | 94.8% | 96.3% |
-| 300 | 82.3% | 72.2% | 97.0% | 97.3% |
-| 400 | 82.4% | 73.9% | 97.3% | 98.4% |
-| 500 | 82.8% | 71.5% | 98.0% | 98.4% |
-| 600 | 79.0% | 74.0% | 97.9% | 98.6% |
-| 700 | 84.1% | 72.8% | 98.4% | 98.7% |
-| 800 | 83.1% | 73.5% | 98.9% | 99.7% |
-| 900 | 83.0% | 72.7% | 98.3% | 99.0% |
-| 1000 | 84.1% | 76.8% | 99.3% | 99.4% |
+### 8a. Cross-Model Comparison
+
+| Model | Dims | Total Recovery | Unique Recovery | Missing Unique | Extra Tokens |
+|---|---|---|---|---|---|
+| GPT-2 Small | 768 | 66.1% (189/286) | 42.0% (60/143) | 83 | 88 |
+| GPT-2 Medium | 1024 | 65.0% (186/286) | 40.6% (58/143) | 85 | 74 |
+| GPT-2 Large | 1280 | 94.1% (269/286) | 89.5% (128/143) | 15 | 16 |
+| GPT-2 XL | 1600 | 94.4% (270/286) | 90.2% (129/143) | 14 | 14 |
+
+**Input statistics:**
+- Words: 252
+- BPE tokens: 286
+- Unique token IDs: 143 (50.0% unique ratio)
+- Most repeated tokens: `,` (20x), ` that` (13x), `.` (9x), ` we` (8x), ` a` (7x)
+- Tokens appearing only once: 95
+
+**Two accuracy metrics reported:**
+- **Total recovery**: counts every token occurrence including duplicates. If "that" appears 13 times and is recovered 13 times, all 13 count toward accuracy.
+- **Unique recovery**: counts each distinct token ID once. If "that" is recovered at all, it counts as 1 out of 143.
 
 **Observations:**
-- GPT-2 Small plateaus at ~80-84% regardless of length.
-- GPT-2 Medium is consistently the worst performer (~70-77%), confirming the training anomaly.
-- GPT-2 Large maintains 97-99% across all lengths, reaching 99.3% at 1,000 tokens.
-- GPT-2 XL achieves 99.4% at 1,000 tokens — only ~6 tokens wrong out of 1,015.
-- **Missing token count is roughly constant across lengths** for all models. The failures are from fixed near-duplicate token pairs, not length-dependent degradation.
+- The critical dimensionality threshold at ~1280d is confirmed on real text.
+- GPT-2 Large and XL recover ~90% of unique tokens from the Gettysburg Address.
+- GPT-2 Small and Medium recover only ~40% of unique tokens.
+- The GPT-2 Medium anomaly persists: 1024d performs slightly worse than 768d.
+- Missing tokens on XL are mostly common function words (" on", " they", " by") and a few content words (" seven", " created", " perish").
 
-### 8b. Overshoot Rates (Simple Vocabulary)
+### 8b. Correction: Synthetic Sweep Results (Previously Reported)
 
-| N | Small 768d | Medium 1024d | Large 1280d | XL 1600d |
-|---|---|---|---|---|
-| 100 | 24.8% | 38.1% | 7.0% | 2.0% |
-| 500 | 28.1% | 35.2% | 14.3% | 11.4% |
-| 1000 | 29.4% | 34.9% | 13.7% | 11.7% |
+**Important note**: Earlier versions of this document reported "99.7% accuracy at 10,000 tokens" from a parameterized sweep. This result was misleading. The sweep generated text from a fixed word list of ~120 English words, meaning at 10,000 tokens each word repeated ~158 times. The high accuracy reflected the decomposer's ability to find the same ~129 unique tokens repeatedly, not its ability to handle 10,000 distinct tokens.
 
-Overshoot stabilizes for each model. Smaller models overshoot more because near-duplicate confusion causes the norm inflection to trigger late. A tighter stopping condition would reduce this.
+The sweep results remain valid for the specific question "can the decomposer recover tokens from sums with heavy repetition?" but should not be interpreted as general decomposition accuracy at high token counts. The synthetic sweep data is retained below for reference but the Gettysburg Address results (Section 8a) are the authoritative measure of real-text decomposition performance.
 
-### 8c. GPT-2 XL Across All Batteries
+<details>
+<summary>Synthetic sweep data (click to expand)</summary>
 
-| N | Simple | Complex (mixed) | Multi-Sentence |
+Parameterized sweep using seeded text from a ~120-word list. At high N, each word repeats many times. 3 trials per data point, HNSW search, greedy k=1.
+
+**Cross-model (simple vocabulary):**
+
+| N (total) | ~Unique | Small 768d | Medium 1024d | Large 1280d | XL 1600d |
+|---|---|---|---|---|---|
+| 100 | ~75 | 77.8% | 69.5% | 96.7% | 98.3% |
+| 500 | ~120 | 82.8% | 71.5% | 98.0% | 98.4% |
+| 1000 | ~129 | 84.1% | 76.8% | 99.3% | 99.4% |
+
+**GPT-2 XL extended sweep:**
+
+| N (total) | ~Unique | Accuracy | Overshoot |
 |---|---|---|---|
-| 100 | 98.3% (2.0% over) | 99.3% (0.7% over) | 96.3% (3.7% over) |
-| 200 | 96.3% (7.3% over) | 99.7% (1.6% over) | 95.6% (7.7% over) |
-| 300 | 97.3% (10.3% over) | 99.9% (1.1% over) | 97.4% (10.2% over) |
-| 500 | 98.4% (11.4% over) | 100.0% (1.8% over) | 98.4% (11.2% over) |
-| 700 | 98.7% (11.9% over) | 100.0% (2.8% over) | 98.8% (11.9% over) |
-| 1000 | 99.4% (11.7% over) | 99.9% (3.0% over) | 99.2% (11.7% over) |
+| 1,000 | ~129 | 99.4% | 11.7% |
+| 5,000 | ~129 | 99.7% | 11.5% |
+| 10,000 | ~129 | 99.7% | 11.8% |
 
-**Key findings:**
-- **Complex vocabulary is the easiest battery** — 99.9% at 1,000 tokens with only 3% overshoot. Multi-syllable words produce distinctive subword fragment combinations that are well-separated in the embedding space.
-- **Multi-sentence/punctuation is hardest** but still achieves 99.2% at 1,000 tokens.
-- **Simple vocabulary overshoot (~12%) equals multi-sentence overshoot (~12%)**, while complex vocabulary overshoot is much lower (~3%). This suggests repeated common function words are harder to count precisely than diverse vocabulary.
+These high accuracies reflect heavy token repetition, not large unique-token recovery. The actual unique token count is only ~129 regardless of total N.
 
----
-
-### 8d. GPT-2 XL Extended Sweep (1,000–10,000 tokens)
-
-Testing the upper limits of greedy decomposition. Simple vocabulary, 3 trials per point, k=1.
-
-| N | Accuracy | Missing | Overshoot |
-|---|---|---|---|
-| 1,000 | 99.4% | 6 | 11.7% |
-| 2,000 | 99.5% | 10 | 11.4% |
-| 3,000 | 99.7% | 10 | 11.9% |
-| 4,000 | 99.5% | 19 | 11.6% |
-| 5,000 | 99.7% | 13 | 11.5% |
-| 6,000 | 100.0% | 1 | 12.0% |
-| 7,000 | 99.5% | 35 | 11.8% |
-| 8,000 | 99.5% | 44 | 11.8% |
-| 9,000 | 99.5% | 44 | 11.5% |
-| 10,000 | 99.7% | 28 | 11.8% |
-
-**Key finding: There is no degradation.** Accuracy remains 99.5–99.7% from 1,000 to 10,000 tokens (~15 pages of text). The missing token count fluctuates in a narrow band, always caused by the same near-duplicate token pairs. Overshoot is rock-steady at ~12%.
-
-At 6,000 tokens, one trial achieved 100.0% recovery (only 1.3 tokens missing on average across 3 trials).
-
-**Implication for security**: Any system storing bag-of-words embeddings (or approximations thereof) in a vector database is effectively storing recoverable plaintext. This is achievable with the simplest possible greedy algorithm and a freely available embedding matrix.
+</details>
 
 ---
 
