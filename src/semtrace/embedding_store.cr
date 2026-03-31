@@ -13,9 +13,11 @@ module Semtrace
     getter vocab : Array(String)
 
     @index : USearch::Index
+    @norm_index : USearch::Index?
     @vectors : Slice(Float32)
+    @norm_vectors : Slice(Float32)?
 
-    def initialize(embeddings_path : String, vocab_path : String, skip_index : Bool = false)
+    def initialize(embeddings_path : String, vocab_path : String, skip_index : Bool = false, build_norm_index : Bool = false)
       # Load vocabulary
       vocab_json = JSON.parse(File.read(vocab_path))
       @vocab = Array(String).new(vocab_json.size) { |i| vocab_json[i.to_s].as_s }
@@ -43,7 +45,7 @@ module Semtrace
         # Lightweight mode — no HNSW index, use brute-force search
         @index = USearch::Index.new(dimensions: @dimensions, metric: :cos)
       else
-        # Build USearch HNSW index
+        # Build USearch HNSW index for raw vectors
         @index = USearch::Index.new(
           dimensions: @dimensions,
           metric: :cos,
@@ -61,6 +63,38 @@ module Semtrace
       end
 
       @skip_index = skip_index
+
+      # Optionally build a second index with L2-normalized vectors
+      if build_norm_index && !skip_index
+        print "(building normalized index...) "
+        STDOUT.flush
+
+        norm_vecs = Slice(Float32).new(@vocab_size.to_i64 * @dimensions)
+        @vocab_size.times do |i|
+          vec = vector_for(i)
+          n = EmbeddingStore.norm(vec)
+          inv_n = n > 1e-10_f32 ? 1.0_f32 / n : 0.0_f32
+          offset = i.to_i64 * @dimensions
+          @dimensions.times { |d| norm_vecs[offset + d] = vec[d] * inv_n }
+        end
+        @norm_vectors = norm_vecs
+
+        ni = USearch::Index.new(
+          dimensions: @dimensions,
+          metric: :cos,
+          quantization: :f16,
+          connectivity: 32,
+          expansion_add: 128,
+          expansion_search: 256,
+        )
+        ni.reserve(@vocab_size)
+
+        @vocab_size.times do |i|
+          offset = i.to_i64 * @dimensions
+          ni.add(i.to_u64, norm_vecs[offset, @dimensions])
+        end
+        @norm_index = ni
+      end
     end
 
     # Returns the raw embedding vector for a token ID.
@@ -74,6 +108,20 @@ module Semtrace
       @vocab[token_id]
     end
 
+    # Returns the L2-normalized embedding vector for a token ID.
+    # Only available if build_norm_index was true.
+    def norm_vector_for(token_id : Int) : Slice(Float32)
+      nv = @norm_vectors
+      raise "Normalized vectors not available (pass build_norm_index: true)" unless nv
+      offset = token_id.to_i64 * @dimensions
+      nv[offset, @dimensions]
+    end
+
+    # Whether a normalized index is available.
+    def has_norm_index? : Bool
+      !@norm_index.nil?
+    end
+
     # Finds the k nearest tokens to a query vector.
     def search(query : Array(Float32) | Slice(Float32), k : Int = 1) : Array(USearch::SearchResult)
       if @skip_index
@@ -81,6 +129,13 @@ module Semtrace
       else
         @index.search(query, k)
       end
+    end
+
+    # Finds the k nearest normalized tokens to a query vector.
+    def search_normalized(query : Array(Float32) | Slice(Float32), k : Int = 1) : Array(USearch::SearchResult)
+      ni = @norm_index
+      raise "Normalized index not available (pass build_norm_index: true)" unless ni
+      ni.search(query, k)
     end
 
     # Linear scan nearest-neighbor search (no index needed).
@@ -143,6 +198,7 @@ module Semtrace
 
     def close
       @index.close
+      @norm_index.try(&.close)
     end
   end
 
