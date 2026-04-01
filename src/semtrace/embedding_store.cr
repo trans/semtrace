@@ -41,9 +41,17 @@ module Semtrace
         f.close
       end
 
+      # Check for pre-built index on disk
+      index_path = embeddings_path.sub(/\.bin$/, "").sub(/embeddings$/, "index.usearch")
+      index_dir = File.dirname(embeddings_path)
+      saved_index = File.join(index_dir, "index.usearch")
+
       if skip_index
         # Lightweight mode — no HNSW index, use brute-force search
         @index = USearch::Index.new(dimensions: @dimensions, metric: :cos)
+      elsif File.exists?(saved_index)
+        # Load pre-built index from disk
+        @index = USearch::Index.load(saved_index, @dimensions, metric: :cos, quantization: :f16)
       else
         # Build USearch HNSW index for raw vectors
         @index = USearch::Index.new(
