@@ -125,6 +125,57 @@ module Semtrace
       decompose(vec, **opts)
     end
 
+    # Decomposes using L2-normalized token vectors.
+    # Requires the store to have a normalized HNSW index (build_norm_index: true).
+    # Searches the normalized index AND subtracts normalized vectors.
+    def decompose_normalized(
+      target : Array(Float32) | Slice(Float32),
+      epsilon : Float32 = 0.01_f32,
+      max_steps : Int32 = 20,
+      lookahead : Int32 = 1
+    ) : TraceResult
+      raise "Normalized index not available" unless @store.has_norm_index?
+
+      residual = target.is_a?(Slice) ? target.to_a : target.dup
+      tokens = [] of String
+      token_ids = [] of Int32
+      residual_norms = [] of Float32
+
+      prev_norm = Float32::MAX
+
+      max_steps.times do
+        norm = EmbeddingStore.norm(residual)
+        residual_norms << norm
+        break if norm < epsilon
+        break if norm > prev_norm
+        prev_norm = norm
+
+        candidates = @store.search_normalized(residual, k: lookahead)
+        break if candidates.empty?
+
+        best = if candidates.size == 1
+                 candidates.first
+               else
+                 candidates.min_by do |c|
+                   next_residual = EmbeddingStore.subtract(residual, @store.norm_vector_for(c.key.to_i32))
+                   EmbeddingStore.norm(next_residual)
+                 end
+               end
+
+        best_id = best.key.to_i32
+        tokens << @store.token_for(best_id)
+        token_ids << best_id
+        residual = EmbeddingStore.subtract(residual, @store.norm_vector_for(best_id))
+      end
+
+      TraceResult.new(
+        tokens: tokens,
+        token_ids: token_ids,
+        residual_norms: residual_norms,
+        final_residual_norm: EmbeddingStore.norm(residual),
+      )
+    end
+
     # Midpoint between two tokens.
     def midpoint(token_a : String, token_b : String, **opts) : TraceResult
       id_a = @store.vocab.index(token_a)
