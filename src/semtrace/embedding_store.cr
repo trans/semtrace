@@ -72,11 +72,11 @@ module Semtrace
 
       @skip_index = skip_index
 
-      # Optionally build a second index with L2-normalized vectors
+      # Optionally load or build normalized index + vectors
       if build_norm_index && !skip_index
-        print "(building normalized index...) "
-        STDOUT.flush
+        saved_norm_index = File.join(index_dir, "index_norm.usearch")
 
+        # Always need the normalized vectors for subtraction
         norm_vecs = Slice(Float32).new(@vocab_size.to_i64 * @dimensions)
         @vocab_size.times do |i|
           vec = vector_for(i)
@@ -87,21 +87,28 @@ module Semtrace
         end
         @norm_vectors = norm_vecs
 
-        ni = USearch::Index.new(
-          dimensions: @dimensions,
-          metric: :cos,
-          quantization: :f16,
-          connectivity: 32,
-          expansion_add: 128,
-          expansion_search: 256,
-        )
-        ni.reserve(@vocab_size)
+        if File.exists?(saved_norm_index)
+          @norm_index = USearch::Index.load(saved_norm_index, @dimensions, metric: :cos, quantization: :f16)
+        else
+          print "(building normalized index...) "
+          STDOUT.flush
 
-        @vocab_size.times do |i|
-          offset = i.to_i64 * @dimensions
-          ni.add(i.to_u64, norm_vecs[offset, @dimensions])
+          ni = USearch::Index.new(
+            dimensions: @dimensions,
+            metric: :cos,
+            quantization: :f16,
+            connectivity: 32,
+            expansion_add: 128,
+            expansion_search: 256,
+          )
+          ni.reserve(@vocab_size)
+
+          @vocab_size.times do |i|
+            offset = i.to_i64 * @dimensions
+            ni.add(i.to_u64, norm_vecs[offset, @dimensions])
+          end
+          @norm_index = ni
         end
-        @norm_index = ni
       end
     end
 
