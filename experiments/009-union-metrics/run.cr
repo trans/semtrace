@@ -1,4 +1,4 @@
-require "../src/semtrace"
+require "../../src/semtrace"
 require "json"
 
 # Union Metric Test

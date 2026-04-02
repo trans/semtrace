@@ -1,4 +1,4 @@
-require "../src/semtrace"
+require "../../src/semtrace"
 
 # Capacity Test
 #

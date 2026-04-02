@@ -1,4 +1,4 @@
-require "../src/semtrace"
+require "./semtrace"
 
 # Sanity Check Benchmark
 #

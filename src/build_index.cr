@@ -1,4 +1,4 @@
-require "../src/semtrace"
+require "./semtrace"
 
 # Build and save a USearch HNSW index for a model's embeddings.
 # Run once, then subsequent benchmarks can load the pre-built index.

@@ -1,4 +1,4 @@
-require "../src/semtrace"
+require "../../src/semtrace"
 require "json"
 
 # Metric Comparison for Llama (uses pre-tokenized IDs instead of BPE tokenizer)
