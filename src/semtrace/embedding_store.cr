@@ -14,6 +14,7 @@ module Semtrace
 
     @index : USearch::Index
     @norm_index : USearch::Index?
+    @ip_index : USearch::Index?
     @vectors : Slice(Float32)
     @norm_vectors : Slice(Float32)?
 
@@ -110,6 +111,14 @@ module Semtrace
           @norm_index = ni
         end
       end
+
+      # Load inner product index if available on disk
+      unless skip_index
+        saved_ip_index = File.join(index_dir, "index_ip.usearch")
+        if File.exists?(saved_ip_index)
+          @ip_index = USearch::Index.load(saved_ip_index, @dimensions, metric: :ip, quantization: :f16)
+        end
+      end
     end
 
     # Returns the raw embedding vector for a token ID.
@@ -151,6 +160,18 @@ module Semtrace
       ni = @norm_index
       raise "Normalized index not available (pass build_norm_index: true)" unless ni
       ni.search(query, k)
+    end
+
+    # Finds the k nearest tokens by inner product.
+    def search_ip(query : Array(Float32) | Slice(Float32), k : Int = 1) : Array(USearch::SearchResult)
+      ipi = @ip_index
+      raise "Inner product index not available (build with: bin/build_index --data <dir> --ip)" unless ipi
+      ipi.search(query, k)
+    end
+
+    # Whether an inner product index is available.
+    def has_ip_index? : Bool
+      !@ip_index.nil?
     end
 
     # Linear scan nearest-neighbor search (no index needed).
@@ -214,6 +235,7 @@ module Semtrace
     def close
       @index.close
       @norm_index.try(&.close)
+      @ip_index.try(&.close)
     end
   end
 

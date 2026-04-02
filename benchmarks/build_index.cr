@@ -49,14 +49,17 @@ module Semtrace
       puts "done"
 
       # Build raw index
-      print "Building HNSW index (#{vocab_size} vectors x #{dims}d)... "
+      metric_name = ARGV.includes?("--ip") ? "ip" : "cos"
+      metric = ARGV.includes?("--ip") ? USearch::MetricKind::IP : USearch::MetricKind::Cos
+
+      print "Building HNSW index (#{vocab_size} vectors x #{dims}d, #{metric_name})... "
       STDOUT.flush
 
       index = USearch::Index.new(
         dimensions: dims,
-        metric: :cos,
+        metric: metric,
         quantization: :f16,
-        connectivity: 16,       # lower than default 32 to save memory
+        connectivity: 16,
         expansion_add: 128,
         expansion_search: 64,
       )
@@ -77,8 +80,9 @@ module Semtrace
       end
       puts "100%"
 
-      print "Saving to #{index_path}... "
-      index.save(index_path)
+      save_path = ARGV.includes?("--ip") ? File.join(data_dir, "index_ip.usearch") : index_path
+      print "Saving to #{save_path}... "
+      index.save(save_path)
       size_mb = File.size(index_path) / (1024.0 * 1024.0)
       puts "#{"%.1f" % size_mb} MB"
       index.close
