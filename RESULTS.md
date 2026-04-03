@@ -27,6 +27,7 @@ Shared corpus texts are in `experiments/texts/`.
 | 009 | [Union of Metrics](experiments/009-union-metrics/results.md) | Union of cosine+L2+IP: 98.6% GPT-2 XL, 64% Llama on Tale. Different metrics find same tokens in different order. |
 | 010 | [Contextual Embeddings](experiments/010-contextual-embeddings/results.md) | Contextual BoW decomposes at 83% (L6 cosine). Sentence embeddings never decompose — attention is non-additive. GPT-2 hidden states lack semantic discrimination. |
 | 011 | [Attention Bias Subtraction](experiments/011-attention-bias/results.md) | Attention adds a constant per-token bias (99.5% of energy). Subtracting it enables 17-80% contextual decomposition. Embedding norm encodes token count N. |
+| 012 | [Coordinate Descent](experiments/012-coordinate-descent/results.md) | Iterative optimization doubles static accuracy: GPT-2 Small 43%→94% on Gettysburg, matching XL greedy. Contextual landscape too noisy for descent without better bias removal. |
 
 ---
 
