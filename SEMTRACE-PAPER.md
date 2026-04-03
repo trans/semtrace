@@ -205,7 +205,33 @@ However, semantic similarity survives normalization — connotation detection, p
 
 ---
 
-## 6. Contextual Embeddings
+## 6. The Strata Model
+
+The findings on normalization (Section 5), attention bias (Section 7.4), and magnitude-as-N (Section 5.2) unify under a single geometric picture: embedding vectors are layered compositions of bias strata, each encoding information at a different level.
+
+### 6.1 Layered Structure
+
+A contextual embedding at the final layer contains (at minimum):
+
+1. **Vocabulary mean** (~3000 norm at L6): the shared direction of all token embeddings. Centering removes this, revealing semantic structure underneath.
+2. **Attention bias** (~2500 norm per token at L6): a near-constant vector added by attention at each layer. Accounts for 99.5% of the centered hidden state energy.
+3. **Token content** (~16 norm per token at L6): the actual semantic signal. Less than 0.5% of total energy.
+
+Each transformer layer likely contributes its own bias stratum — one per attention + normalization operation. We compute the aggregate; decomposing per-layer biases is an open direction that could yield a cleaner token signal.
+
+### 6.2 Magnitude as Compositional Depth
+
+The magnitude of a contextual embedding encodes how much was composed into it. A single token has magnitude ~`||bias||`. A 6-token sentence has magnitude ~`6 × ||bias||`. This relationship enables N estimation (Section 5.2) and, critically, reveals that L2 normalization discards not just scale but compositional depth — the difference between a word and a paragraph is flattened to a unit sphere.
+
+### 6.3 Cross-Space Mapping
+
+A linear projection W (768×768) learned from all 50,257 paired (contextual L6, static) embeddings preserves token identity with 89.9% accuracy: for 9 out of 10 tokens, the mapped contextual embedding lands nearest to the correct static embedding. This confirms the relationship between the spaces is largely linear for individual tokens, despite being non-additive for composed representations.
+
+The mapping succeeds on individual tokens but fails on sentence embeddings — further evidence that attention's contribution is non-linear and cannot be undone by a linear transform applied to the aggregate.
+
+---
+
+## 7. Contextual Embeddings
 
 ### 6.1 The Orthogonality Problem
 
@@ -262,35 +288,61 @@ N is estimated from the embedding magnitude: `N ≈ ||contextual_sum|| / ||bias|
 
 ---
 
-## 7. Word Order and the Full Recovery Pipeline
+## 8. Word Order and the Full Recovery Pipeline
 
-### 7.1 The Commutativity Barrier
+### 8.1 The Commutativity Barrier
 
 Vector addition is commutative: `E("cat") + E("sat") = E("sat") + E("cat")`. No algorithm can recover token order from a vector sum. This is a mathematical certainty. We verified empirically: all permutations of token-position assignments produce identical sum vectors (differences of ~10⁻⁷, attributable to floating-point ordering).
 
-### 7.2 A Three-Stage Pipeline
+### 8.2 A Three-Stage Pipeline
 
 The findings from static and contextual experiments suggest a practical pipeline for full text recovery from contextual embeddings:
 
-**Stage 1: Bias subtraction → candidate tokens.** Subtract the precomputed attention bias, estimate N from magnitude, greedy decompose. Produces a partial bag of words (17-80%) plus semantic neighbors of missing tokens. (Section 6.4)
+**Stage 1: Bias subtraction → candidate tokens.** Subtract the precomputed attention bias (Section 6), estimate N from magnitude (Section 5.2) or binary search (Section 8.4), greedy decompose. Produces a partial bag of words (17-80%) plus semantic neighbors of missing tokens.
 
-**Stage 2: Coordinate descent → refined bag.** Initialize from Stage 1, iteratively optimize each position. On static embeddings this achieves 94%; on contextual, improvement depends on bias subtraction quality. (Section 4.3)
+**Stage 2: Coordinate descent → refined bag.** Initialize from Stage 1, iteratively optimize each position (Section 4.3). On static embeddings this achieves 94%; on contextual, improvement is limited by the noisy landscape (Section 8.3).
 
 **Stage 3: Order recovery via API.** Given the refined bag, generate candidate orderings and score each through the embedding API: `score = similarity(embed(candidate), target)`. The candidate whose embedding most closely matches the target wins.
 
 The N! search space is constrained by: language model perplexity pruning (most orderings are ungrammatical), beam search over high-confidence positions, and coordinate descent over token positions (swap pairs, score via API, keep improvements). For N=10 with beam width 5 and 10 swap iterations: ~500 API calls. Tractable.
 
-### 7.3 The Residual Landscape
+### 8.3 The Residual Landscape
 
-The optimization landscape differs between static and contextual spaces. In static space, the objective `||target - Σ E(tokens)||` has a single global minimum at zero — every correct token substitution strictly reduces the residual. The landscape is convex and greedy search is effective.
+The optimization landscape differs fundamentally between static and contextual spaces.
 
-In contextual space (after bias subtraction), the landscape has local minima. The bias subtraction is imprecise (~0.005% variation across sentences), creating residual noise of ~460 norm against a token signal of ~97 norm. This noise produces bumps in the objective surface that trap both greedy search and coordinate descent. The residual-vs-N curve is V-shaped (bimonotonic), enabling binary search for optimal N in ~8 evaluations, but the minimum is shallow.
+**Static space is convex.** The objective `||target - Σ E(tokens)||` has a single global minimum at zero. The residual norm monotonically decreases with each correct token subtraction. Greedy search works because there are no local minima — every step that improves the objective leads toward the global optimum. This is why coordinate descent converges reliably (Section 4.3).
 
-Progress on contextual decomposition requires smoothing this landscape — through better bias modeling (per-layer subtraction), larger models with stronger token signals, or stochastic optimization methods that escape local minima.
+**Contextual space has local minima.** After bias subtraction, the target is approximately but not exactly a sum of centered contextual embeddings. The bias imprecision (~0.005% variation across sentences) creates residual noise of ~460 norm against a token signal of ~97 norm. This produces local minima in the objective surface.
+
+### 8.4 Bimonotonicity and Binary Search for N
+
+Sweeping the bias subtraction parameter N reveals a characteristic V-shaped (bimonotonic) residual curve: the residual decreases monotonically as N approaches the true token count from below, reaches a minimum, then increases monotonically as N overshoots. For "the cat sat on the mat" (true N=6):
+
+| N | Residual | Tokens Found |
+|---|---|---|
+| 4.0 | 2741 | 0/6 |
+| 5.0 | 487 | 0/6 |
+| 5.5 | **151** | **3/6** |
+| 6.0 | 245 | 0/6 |
+| 7.0 | 2405 | 0/6 |
+
+The minimum coincides with maximum token recovery. This bimonotonicity enables binary search for optimal N in ~8 evaluations (log₂ of the search range), rather than linear sweep. The property holds across all sentences tested, though the optimal N is consistently fractional (~0.5 below the true integer count), reflecting systematic bias underestimation.
+
+For normalized embeddings (where magnitude is lost), the search range is bounded by plausible sentence lengths (3-100 tokens). Binary search over this range requires ~8 evaluations, each consisting of a bias subtraction and partial decomposition. This makes N recovery tractable even without magnitude information.
+
+### 8.5 Implications for Search
+
+The convexity distinction explains the performance gap between methods:
+
+- **Greedy** succeeds in static space (convex), fails in contextual space (local minima)
+- **Coordinate descent** dramatically improves static space (corrects cascade errors along the convex surface), but plateaus in contextual space (trapped by local minima)
+- **Stochastic methods** (simulated annealing, random restarts) could escape local minima in contextual space but are untested
+
+Progress on contextual decomposition requires smoothing the landscape — through better bias modeling (per-layer subtraction as suggested by the strata model, Section 6), larger models with stronger token signals, or the black-box API scoring approach (Section 8.2, Stage 3) which bypasses the landscape entirely by using the model's own forward pass as the objective function.
 
 ---
 
-## 8. Related Work
+## 9. Related Work
 
 **Embedding inversion.** Morris et al. (2023) demonstrate that text embeddings can be inverted with high fidelity using Vec2Text, a trained corrector model that iteratively refines text hypotheses to match a target embedding. They achieve 92% recovery on 32-token inputs with a BLEU score of 97.3. Subsequent work extends this to zero-shot (Zero2Text, 2025) and cross-lingual settings (LAGO, 2025). These methods train neural models on (text, embedding) pairs. Our approach is complementary: we use no training, only the static embedding matrix and nearest-neighbor search. This reveals the geometric structure underlying recoverability — the dimensionality threshold, the role of normalization, the attention bias — which trained models exploit implicitly but do not characterize.
 
@@ -300,7 +352,7 @@ Progress on contextual decomposition requires smoothing this landscape — throu
 
 ---
 
-## 9. Implications
+## 10. Implications
 
 ### 8.1 Security
 
@@ -316,7 +368,7 @@ The fundamental limitation we identify — commutativity of vector addition dest
 
 ---
 
-## 10. Limitations
+## 11. Limitations
 
 - Static decomposition results assume the target vector is an exact sum of token embeddings. Real-world embeddings from API endpoints involve attention, normalization, and pooling. We address these barriers (Sections 5-6) but full contextual recovery remains partial.
 - The attention bias subtraction is demonstrated on GPT-2 Small. The bias is near-constant (cosine similarity 0.9999+ across sentences), but generalization to larger models requires verification. The layered bias structure (one stratum per attention layer) is hypothesized but not yet decomposed empirically.
@@ -326,7 +378,7 @@ The fundamental limitation we identify — commutativity of vector addition dest
 
 ---
 
-## 11. Conclusion
+## 12. Conclusion
 
 Embedding vectors are not opaque coordinates — they are readable sums, decomposable into the token primitives that constitute their meaning. The greedy residual algorithm is simple, fast, requires no training, and achieves high fidelity on static embeddings. Coordinate descent extends this to near-perfect recovery even on smaller models.
 
