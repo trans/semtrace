@@ -75,7 +75,7 @@ Standard tokenizers (BPE and variants) are frequency-based compression schemes. 
 
 We propose a small learned character-level model — the *prefrontal model* — that reads raw characters and outputs a single matrix token per meaningful chunk. The main LLM never sees characters; it sees compressed, semantically coherent matrix tokens.
 
-### 3.2a Architecture
+### 3.2 Architecture
 
 The prefrontal model is a lightweight sequence model operating over character embeddings. Each character $c_i$ has a matrix embedding $M_{c_i}$. A chunk of characters is composed left-to-right:
 
@@ -83,21 +83,15 @@ $$M_{\text{chunk}} = M_{c_1} \cdot M_{c_2} \cdots M_{c_n}$$
 
 This single matrix is passed to the main model as one token. Sequence length fed to the main model is dramatically reduced — a few hundred characters becomes tens of matrix tokens — while each token carries far richer structure than a BPE unit.
 
-### 3.2b — Determining n
-
-[TODO: this has effect on the above, the logic of 3.2b must over 3.2a, but still merge with it.]
-
-This is actually a feature, not a problem. The prefrontal model learns where chunks end — it's a segmentation problem solved jointly with composition. In practice: train with a lightweight boundary predictor that emits a "commit" signal, outputting the current matrix token and resetting composition. The boundaries emerge from the data — morpheme boundaries, syllables, words — without being prescribed.
-
-Alternatively, fixed-width windows (say n=4 characters) with overlap, letting the main model learn to weight them. Simpler, less elegant.
-The cleanest framing: n is learned, not set. Add one sentence to 3.2 stating this and noting it as an open training question.
-
+Chunk boundaries (determining $n$) are learned, not prescribed. A lightweight boundary predictor emits a "commit" signal, outputting the current matrix token and resetting composition. Boundaries emerge from the data — morpheme boundaries, syllables, words — without being imposed. This is segmentation solved jointly with composition.
 
 ### 3.3 Empirical Grounding
 
-Prior work on embedding summation (Sawyer, unpublished) demonstrates that for static embeddings, a sum $v_f + v_u + v_n$ recovers constituent tokens with approximately 90% fidelity via greedy residual subtraction. This establishes that character-level meaning is compositionally recoverable from vector sums.
+Prior work on embedding summation (Sawyer & Claude, 2026) demonstrates that greedy residual decomposition recovers constituent tokens from static embedding sums with high fidelity: 100% on short texts (55 tokens) and 90% unique token recovery on the Gettysburg Address (143 unique tokens) using GPT-2 XL (1600d). Recovery degrades predictably with the ratio of unique tokens to embedding dimensions, with a critical threshold at ~1280 dimensions. Coordinate descent optimization further improves recovery from 43% to 94% on GPT-2 Small (768d).
 
-Matrix composition is strictly more expressive than vector summation — it preserves order and encodes relational structure — suggesting recovery fidelity under matrix composition should meet or exceed this baseline while additionally encoding sequence order.
+Critically, vector summation is commutative — word order is mathematically unrecoverable from a sum, regardless of algorithm. This is a fundamental limitation of vector embeddings: the sum $v_f + v_u + v_n = v_n + v_f + v_u$.
+
+Matrix composition is strictly more expressive. It preserves order via non-commutativity and encodes relational structure, suggesting recovery fidelity under matrix composition should meet or exceed the vector baseline while additionally encoding sequence order — the property vectors provably lack.
 
 ---
 
@@ -117,36 +111,19 @@ Matrices have internal degrees of freedom: their rank. A full-rank $d \times d$ 
 
 Gradient descent drifts toward rank collapse because prediction loss is blind to representational geometry. If two rows of a matrix both weakly predict the same signal, gradient descent reinforces their correlation. Over many steps, rows converge. Rank quietly degrades. Loss never complained.
 
-### 4.3a Redefined Loss
+### 4.3 Redefined Loss
 
-We propose augmenting standard prediction loss with two lightweight scalar terms:
+We propose augmenting standard prediction loss with a rank penalty:
 
-$$\mathcal{L} = \mathcal{L}_{\text{pred}} + \lambda \cdot \mathcal{L}_{\text{comp}} + \mu \cdot \mathcal{L}_{\text{rank}}$$
-
-**Compositional consistency** $\mathcal{L}_{\text{comp}}$: For any sequence of characters composing a known unit, the composed matrix should relate coherently to the directly embedded unit:
-
-$$\mathcal{L}_{\text{comp}} = \left\| M_{c_1} \cdot M_{c_2} \cdots M_{c_n} - M_{\text{word}} \right\|_F$$
-
-This is a self-supervised signal requiring no external labels — the compositional structure of language itself provides ground truth. It rewards geometric coherence without prescribing geometric form.
+$$\mathcal{L} = \mathcal{L}_{\text{pred}} + \mu \cdot \mathcal{L}_{\text{rank}}$$
 
 **Rank penalty** $\mathcal{L}_{\text{rank}}$: Penalize matrices whose determinant approaches zero:
 
 $$\mathcal{L}_{\text{rank}} = -\log |\det(M) + \epsilon|$$
 
-The determinant measures the volume a transformation preserves. A collapsed matrix has determinant near zero. This term is differentiable, geometry-agnostic, and requires knowing nothing about what the geometry should look like — only that it should not die.
+The determinant measures the volume a transformation preserves. A collapsed matrix has determinant near zero. This term is differentiable, geometry-agnostic, and requires knowing nothing about what the geometry should look like — only that it should not die. It allows the geometry to find its own shape while ensuring it remains alive.
 
-Together these terms allow the geometry to find its own shape while ensuring it remains alive and internally consistent.
-
-### 4.3b — Consistency loss
-
-[TODO: This affects the above, the logic of 4.3b must override 4.3a, but still merged with it.]
-
-Your skepticism is right. Testing M_f · M_u · M_n against M_fun requires M_fun to exist independently — which means a separate word-level vocabulary, circular dependencies, and significant complexity. It's not obviously tractable at scale.
-Is rank penalty alone sufficient? Possibly yes. It prevents geometric death. Whether the geometry that survives is good — coherent, compositionally meaningful — is a separate question, but one the prediction loss may handle adequately on its own.
-The honest position: start with rank penalty only. If geometry fails to cohere empirically, consistency loss is the natural next intervention. But don't pay the complexity cost speculatively.
-Reorder as you suggest, and soften the consistency loss to a proposed extension rather than a core term:
-L=Lpred+μ⋅Lrank\mathcal{L} = \mathcal{L}_{\text{pred}} + \mu \cdot \mathcal{L}_{\text{rank}}L=Lpred​+μ⋅Lrank​
-With consistency noted as a potential augmentation pending empirical results.
+**Compositional consistency** (proposed extension): For sequences composing a known unit, a consistency term $\mathcal{L}_{\text{comp}} = \left\| M_{c_1} \cdot M_{c_2} \cdots M_{c_n} - M_{\text{word}} \right\|_F$ would reward geometric coherence. However, this requires a separate word-level vocabulary and introduces circular dependencies. The honest position: start with rank penalty only. If geometry fails to cohere empirically, consistency loss is the natural next intervention. Prediction loss may handle coherence adequately on its own.
 
 ---
 
@@ -234,5 +211,5 @@ Bronstein, M. M., Bruna, J., Cohen, T., & Veličković, P. (2021). Geometric dee
 
 **Empirical grounding**
 
-Sawyer, T. (unpublished). Semtrace: Greedy residual decomposition of embedding vectors into constituent tokens. *Independent research.*
+Sawyer, T. & Claude Opus 4.6 (2026). Semantic Tracing: Greedy Residual Decomposition of Embedding Vectors. 90% unique token recovery on static embeddings (GPT-2 XL), coordinate descent doubles accuracy on smaller models, attention bias subtraction enables partial contextual decomposition. Vector commutativity proven as fundamental barrier to order recovery. *Independent research.* https://github.com/transfire/semtrace
 
