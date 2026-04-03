@@ -211,5 +211,5 @@ Bronstein, M. M., Bruna, J., Cohen, T., & Veličković, P. (2021). Geometric dee
 
 **Empirical grounding**
 
-Sawyer, T. & Claude Opus 4.6 (2026). Semantic Tracing: Greedy Residual Decomposition of Embedding Vectors. 90% unique token recovery on static embeddings (GPT-2 XL), coordinate descent doubles accuracy on smaller models, attention bias subtraction enables partial contextual decomposition. Vector commutativity proven as fundamental barrier to order recovery. *Independent research.* https://github.com/transfire/semtrace
+Sawyer, T. & Claude Opus 4.6 (2026). Semantic Tracing: Greedy Residual Decomposition of Embedding Vectors. High accuracy token recovery on static embeddings across the GPT-2 family and Llama 3.2, coordinate descent doubles accuracy on smaller models, attention bias subtraction enables partial contextual decomposition. Vector commutativity proven as fundamental barrier to order recovery. *Independent research.* https://github.com/transfire/semtrace
 
