@@ -61,7 +61,7 @@ Shared corpus texts are in `experiments/texts/`.
 
 4. **No single metric dominates.** IP is best at medium scale, cosine at large scale, L2 best for Llama. Union of all three outperforms any single metric.
 
-5. **L2-normalizing the sum destroys all signal.** Embedding systems that normalize outputs are discarding recoverable semantic structure.
+5. **L2-normalizing the sum destroys magnitude-dependent signal.** Normalization preserves semantic similarity (connotation, paraphrase detection) but discards magnitude information needed for additive decomposition and token count estimation. Recovery techniques that depend on residual magnitude or token count cannot operate on normalized embeddings.
 
 6. **Semantic coherence improves recovery 6x** over random tokens at the same unique count.
 
@@ -71,6 +71,6 @@ Shared corpus texts are in `experiments/texts/`.
 
 9. **Attention adds a constant per-token bias** that accounts for 99.5% of contextual embedding energy. Subtracting it reveals the token signal, enabling 17-80% contextual decomposition from previously 0%.
 
-10. **Embedding magnitude encodes token count.** N can be estimated from `||embedding|| / ||bias||`. L2 normalization destroys this, making token count and content unrecoverable.
+10. **Embedding magnitude encodes token count.** N can be estimated from `||embedding|| / ||bias||`. L2 normalization destroys this, preventing any magnitude-dependent recovery technique from estimating N or performing residual subtraction.
 
-11. **The model preserves token content internally.** The barrier to decomposition is not the model but the serving layer — normalization and pooling discard recoverable information. A non-normalizing embedding API would enable significantly better content recovery.
+11. **The model preserves token content internally.** The barrier to additive decomposition is not the model but the serving layer — normalization discards magnitude and pooling collapses per-position representations. However, semantic content survives normalization (similarity and connotation detection still work), so recovery techniques that don't depend on magnitude may still be viable on normalized embeddings.
