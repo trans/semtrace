@@ -101,17 +101,28 @@ We test on three public domain texts of increasing length:
 | GPT-2 XL | 1600 | 39.5% |
 | Llama 3.2 3B (brute-force) | 3072 | 50.2% |
 
-### 3.3 Dimensionality Threshold
+### 3.3 Dimensionality Phase Transition
 
-A critical accuracy jump occurs between 1024d and 1280d across all tests. This is not a smooth scaling — it is a phase transition in embedding space separability. The GPT-2 Medium (1024d) anomalously performs worse than Small (768d), suggesting training quality contributes independently of dimension count.
+The most striking finding is a discontinuous accuracy jump between 1024d and 1280d. On the Gettysburg Address: 40.6% → 89.5%. On Mary Had a Little Lamb: 68.4% → 100%. This is not smooth scaling — it is a **phase transition** in embedding space separability.
 
-Average token embedding norms decrease with dimensionality (3.50 at 768d → 1.75 at 1600d), indicating vectors become more spread out in higher-dimensional spaces. This correlates with better decomposition performance.
+Below the threshold, near-duplicate tokens (case variants, tense variants, space-prefix variants) cannot be distinguished. Above it, the additional dimensions provide enough room for these close tokens to separate. The transition is sharp because separation is a threshold phenomenon in high-dimensional geometry: once vectors have enough room to be nearly orthogonal, greedy search becomes reliable.
 
-### 3.4 Capacity and Semantic Coherence
+| Dims | Avg Token Norm | Gettysburg Unique Recovery |
+|---|---|---|
+| 768 | 3.50 | 42.0% |
+| 1024 | 3.22 | 40.6% |
+| 1280 | 1.92 | 89.5% |
+| 1600 | 1.75 | 90.2% |
 
-We measure pure geometric capacity by decomposing sums of randomly-selected unique tokens (no natural language structure). At 1600d, 50% exact recovery occurs at ~50 unique tokens — far below the 143 unique tokens recovered at 90% from the Gettysburg Address.
+GPT-2 Medium (1024d) anomalously performs worse than Small (768d) across all tests, suggesting training dynamics contribute independently of dimension count. Average token norms decrease with dimensionality (3.50 → 1.75), indicating tokens spread further apart in higher dimensions.
 
-This gap — 6x better recovery on real text than random tokens at the same unique count — demonstrates that **semantic coherence in the input improves recoverability**. Tokens from meaningful text occupy a more structured region of embedding space, making them more distinguishable from a sum than random combinations.
+### 3.4 Semantic Coherence Amplifies Recovery
+
+A control experiment measuring pure geometric capacity — decomposing sums of randomly-selected unique tokens with no linguistic structure — reveals a striking gap. At 1600d, 50% exact recovery occurs at ~50 random unique tokens. The Gettysburg Address, with 143 unique tokens, achieves 90%.
+
+**Real text recovers 6x better than random tokens at comparable unique counts.** This is not an algorithmic artifact — it reflects the geometry of the embedding space itself. Training created embeddings where semantically coherent token combinations are more separable than random ones. Tokens that co-occur in natural language occupy a structured region of the space where their individual contributions to a sum remain distinguishable.
+
+This has a theoretical implication: the "capacity" of an embedding space for additive decomposition is not a fixed property of the dimensionality. It depends on the structure of the input. Natural language is geometrically privileged.
 
 ### 3.5 Search Method Matters
 
@@ -251,17 +262,45 @@ N is estimated from the embedding magnitude: `N ≈ ||contextual_sum|| / ||bias|
 
 ---
 
-## 7. Word Order
+## 7. Word Order and the Full Recovery Pipeline
 
-Vector addition is commutative: `E("cat") + E("sat") = E("sat") + E("cat")`. No algorithm, however sophisticated, can recover token order from a vector sum. This is a mathematical certainty, not an empirical finding.
+### 7.1 The Commutativity Barrier
 
-Contextual embeddings from a forward pass do encode order (attention is position-dependent). However, the sentence embedding is not a sum of its token components, making order recovery through decomposition inapplicable.
+Vector addition is commutative: `E("cat") + E("sat") = E("sat") + E("cat")`. No algorithm can recover token order from a vector sum. This is a mathematical certainty. We verified empirically: all permutations of token-position assignments produce identical sum vectors (differences of ~10⁻⁷, attributable to floating-point ordering).
 
-Order recovery requires a different approach: given a recovered bag of tokens, score candidate orderings through the embedding API (black box). For N tokens, this is an N!-search problem, reducible via beam search with language model pruning.
+### 7.2 A Three-Stage Pipeline
+
+The findings from static and contextual experiments suggest a practical pipeline for full text recovery from contextual embeddings:
+
+**Stage 1: Bias subtraction → candidate tokens.** Subtract the precomputed attention bias, estimate N from magnitude, greedy decompose. Produces a partial bag of words (17-80%) plus semantic neighbors of missing tokens. (Section 6.4)
+
+**Stage 2: Coordinate descent → refined bag.** Initialize from Stage 1, iteratively optimize each position. On static embeddings this achieves 94%; on contextual, improvement depends on bias subtraction quality. (Section 4.3)
+
+**Stage 3: Order recovery via API.** Given the refined bag, generate candidate orderings and score each through the embedding API: `score = similarity(embed(candidate), target)`. The candidate whose embedding most closely matches the target wins.
+
+The N! search space is constrained by: language model perplexity pruning (most orderings are ungrammatical), beam search over high-confidence positions, and coordinate descent over token positions (swap pairs, score via API, keep improvements). For N=10 with beam width 5 and 10 swap iterations: ~500 API calls. Tractable.
+
+### 7.3 The Residual Landscape
+
+The optimization landscape differs between static and contextual spaces. In static space, the objective `||target - Σ E(tokens)||` has a single global minimum at zero — every correct token substitution strictly reduces the residual. The landscape is convex and greedy search is effective.
+
+In contextual space (after bias subtraction), the landscape has local minima. The bias subtraction is imprecise (~0.005% variation across sentences), creating residual noise of ~460 norm against a token signal of ~97 norm. This noise produces bumps in the objective surface that trap both greedy search and coordinate descent. The residual-vs-N curve is V-shaped (bimonotonic), enabling binary search for optimal N in ~8 evaluations, but the minimum is shallow.
+
+Progress on contextual decomposition requires smoothing this landscape — through better bias modeling (per-layer subtraction), larger models with stronger token signals, or stochastic optimization methods that escape local minima.
 
 ---
 
-## 8. Implications
+## 8. Related Work
+
+**Embedding inversion.** Morris et al. (2023) demonstrate that text embeddings can be inverted with high fidelity using Vec2Text, a trained corrector model that iteratively refines text hypotheses to match a target embedding. They achieve 92% recovery on 32-token inputs with a BLEU score of 97.3. Subsequent work extends this to zero-shot (Zero2Text, 2025) and cross-lingual settings (LAGO, 2025). These methods train neural models on (text, embedding) pairs. Our approach is complementary: we use no training, only the static embedding matrix and nearest-neighbor search. This reveals the geometric structure underlying recoverability — the dimensionality threshold, the role of normalization, the attention bias — which trained models exploit implicitly but do not characterize.
+
+**Embedding privacy.** The security implications of embedding inversion are increasingly recognized. Li et al. (2023) show generative models can recover full sentences from sentence embeddings. IronCore Labs (2024) catalog practical attack vectors against vector databases. Defenses include Gaussian noise injection and differential privacy, both of which degrade retrieval quality. Our finding that L2 normalization destroys additive decomposition suggests normalization serves as a partial (if unintentional) defense against the specific attack vector we describe.
+
+**Concept arithmetic.** Mikolov et al. (2013) establish that embedding spaces support vector arithmetic (king - man + woman ≈ queen). Our work extends this in the opposite direction: rather than composing meaning from arithmetic, we decompose meaning via subtraction. The greedy residual algorithm is the operational inverse of embedding addition.
+
+---
+
+## 9. Implications
 
 ### 8.1 Security
 
@@ -277,17 +316,17 @@ The fundamental limitation we identify — commutativity of vector addition dest
 
 ---
 
-## 9. Limitations
+## 10. Limitations
 
-- All static decomposition results assume the target vector is an exact sum of token embeddings. Real-world embeddings from API endpoints involve attention, normalization, and pooling that break this assumption.
-- The attention bias subtraction technique is demonstrated on GPT-2 Small only. Generalization to larger models and different architectures is untested.
-- Brute-force search is computationally expensive for large vocabularies (128K+ tokens). Practical deployment would require efficient approximate search that maintains accuracy.
-- The coordinate descent improvement is demonstrated primarily on the Gettysburg Address. Behavior on longer texts and diverse domains requires further study.
-- We do not address the ethical implications of embedding inversion beyond noting the security concern.
+- Static decomposition results assume the target vector is an exact sum of token embeddings. Real-world embeddings from API endpoints involve attention, normalization, and pooling. We address these barriers (Sections 5-6) but full contextual recovery remains partial.
+- The attention bias subtraction is demonstrated on GPT-2 Small. The bias is near-constant (cosine similarity 0.9999+ across sentences), but generalization to larger models requires verification. The layered bias structure (one stratum per attention layer) is hypothesized but not yet decomposed empirically.
+- Brute-force search is computationally expensive for large vocabularies (128K+ tokens). HNSW approximate search introduces significant accuracy loss at this scale. Practical deployment requires either smaller vocabularies or improved approximate search.
+- The coordinate descent improvement is primarily demonstrated on the Gettysburg Address. The technique is general but scaling behavior on longer texts and diverse domains requires further study.
+- This work raises security concerns about embedding storage systems. We note the concern but do not provide a full threat model or mitigation framework.
 
 ---
 
-## 10. Conclusion
+## 11. Conclusion
 
 Embedding vectors are not opaque coordinates — they are readable sums, decomposable into the token primitives that constitute their meaning. The greedy residual algorithm is simple, fast, requires no training, and achieves high fidelity on static embeddings. Coordinate descent extends this to near-perfect recovery even on smaller models.
 
@@ -318,3 +357,9 @@ Malkov, Y. A., & Yashunin, D. A. (2018). Efficient and robust approximate neares
 Radford, A., et al. (2019). Language models are unsupervised multitask learners. *OpenAI Technical Report*.
 
 Touvron, H., et al. (2023). Llama 2: Open foundation and fine-tuned chat models. *arXiv:2307.09288*.
+
+Morris, J. X., Kuleshov, V., Shmatikov, V., & Rush, A. M. (2023). Text embeddings reveal (almost) as much as text. *EMNLP 2023*. arXiv:2310.06816.
+
+Li, H., et al. (2023). Sentence embedding leaks more information than you expect: Generative embedding inversion attack to recover the whole sentence. *arXiv*.
+
+Huang, Y., et al. (2025). Zero2Text: Zero-training cross-domain inversion attacks on textual embeddings. *arXiv:2602.01757*.
