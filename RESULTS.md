@@ -25,6 +25,8 @@ Shared corpus texts are in `experiments/texts/`.
 | 007 | [Metric Comparison](experiments/007-metric-comparison/results.md) | Inner product is best metric (93.7% brute-force) but HNSW degrades it. |
 | 008 | [Llama Brute-Force](experiments/008-llama-brute-force/results.md) | Llama brute-force: 100% on Gettysburg, 50.2% on Tale. HNSW was the bottleneck, not the embeddings. |
 | 009 | [Union of Metrics](experiments/009-union-metrics/results.md) | Union of cosine+L2+IP: 98.6% GPT-2 XL, 64% Llama on Tale. Different metrics find same tokens in different order. |
+| 010 | [Contextual Embeddings](experiments/010-contextual-embeddings/results.md) | Contextual BoW decomposes at 83% (L6 cosine). Sentence embeddings never decompose — attention is non-additive. GPT-2 hidden states lack semantic discrimination. |
+| 011 | [Attention Bias Subtraction](experiments/011-attention-bias/results.md) | Attention adds a constant per-token bias (99.5% of energy). Subtracting it enables 17-80% contextual decomposition. Embedding norm encodes token count N. |
 
 ---
 
@@ -66,3 +68,9 @@ Shared corpus texts are in `experiments/texts/`.
 7. **Order is unrecoverable from static embeddings.** Vector addition is commutative — positional information requires contextual embeddings.
 
 8. **Contextual embeddings (Ollama) are orthogonal to static space.** Direct decomposition produces noise. The embed endpoint skips the output projection and L2-normalizes.
+
+9. **Attention adds a constant per-token bias** that accounts for 99.5% of contextual embedding energy. Subtracting it reveals the token signal, enabling 17-80% contextual decomposition from previously 0%.
+
+10. **Embedding magnitude encodes token count.** N can be estimated from `||embedding|| / ||bias||`. L2 normalization destroys this, making token count and content unrecoverable.
+
+11. **The model preserves token content internally.** The barrier to decomposition is not the model but the serving layer — normalization and pooling discard recoverable information. A non-normalizing embedding API would enable significantly better content recovery.
