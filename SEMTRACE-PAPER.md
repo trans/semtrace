@@ -314,9 +314,9 @@ The optimization landscape differs fundamentally between static and contextual s
 
 **Contextual space has local minima.** After bias subtraction, the target is approximately but not exactly a sum of centered contextual embeddings. The bias imprecision (~0.005% variation across sentences) creates residual noise of ~460 norm against a token signal of ~97 norm. This produces local minima in the objective surface.
 
-### 8.4 Bimonotonicity and Binary Search for N
+### 8.4 Bitonic Property and Binary Search for N
 
-Sweeping the bias subtraction parameter N reveals a characteristic V-shaped (bimonotonic) residual curve: the residual decreases monotonically as N approaches the true token count from below, reaches a minimum, then increases monotonically as N overshoots. For "the cat sat on the mat" (true N=6):
+Sweeping the bias subtraction parameter N reveals a characteristic V-shaped (bitonic) residual curve: the residual decreases monotonically as N approaches the true token count from below, reaches a minimum, then increases monotonically as N overshoots. For "the cat sat on the mat" (true N=6):
 
 | N | Residual | Tokens Found |
 |---|---|---|
@@ -326,7 +326,7 @@ Sweeping the bias subtraction parameter N reveals a characteristic V-shaped (bim
 | 6.0 | 245 | 0/6 |
 | 7.0 | 2405 | 0/6 |
 
-The minimum coincides with maximum token recovery. This bimonotonicity enables binary search for optimal N in ~8 evaluations (log₂ of the search range), rather than linear sweep. The property holds across all sentences tested, though the optimal N is consistently fractional (~0.5 below the true integer count), reflecting systematic bias underestimation.
+The minimum coincides with maximum token recovery. This bitonicity enables binary search for optimal N in ~8 evaluations (log₂ of the search range), rather than linear sweep. The property holds across all sentences tested, though the optimal N is consistently fractional (~0.5 below the true integer count), reflecting systematic bias underestimation.
 
 For normalized embeddings (where magnitude is lost), the search range is bounded by plausible sentence lengths (3-100 tokens). Binary search over this range requires ~8 evaluations, each consisting of a bias subtraction and partial decomposition. This makes N recovery tractable even without magnitude information.
 
