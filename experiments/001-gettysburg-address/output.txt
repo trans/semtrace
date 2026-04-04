@@ -1,8 +1,7 @@
 === Experiment 001: Gettysburg Address ===
-Date: Fri Apr  3 07:26:57 PM EDT 2026
-Command: bin/exp001 --builtin gettysburg
-
---- GPT-2 Small (768d) ---
+Date: Sat Apr  4 01:24:59 PM EDT 2026
+Building exp001...
+Running exp001...
 Loading data... 50257 tokens x 768d
 
 === Real Text: Gettysburg Address ===
@@ -110,7 +109,7 @@ Loading data... 50257 tokens x 768d
     " by"           (appeared 1x)
     " perish"       (appeared 1x)
 
---- gpt2-medium ---
+--- GPT-2 Medium ---
 Loading gpt2-medium... 50257 tokens x 1024d
 
 === Real Text: Gettysburg Address ===
@@ -220,7 +219,7 @@ Loading gpt2-medium... 50257 tokens x 1024d
     " perish"       (appeared 1x)
     " earth"        (appeared 1x)
 
---- gpt2-large ---
+--- GPT-2 Large ---
 Loading gpt2-large... 50257 tokens x 1280d
 
 === Real Text: Gettysburg Address ===
@@ -260,7 +259,7 @@ Loading gpt2-large... 50257 tokens x 1280d
     " freedom"      (appeared 1x)
     " by"           (appeared 1x)
 
---- gpt2-xl ---
+--- GPT-2 XL ---
 Loading gpt2-xl... 50257 tokens x 1600d
 
 === Real Text: Gettysburg Address ===
@@ -298,4 +297,3 @@ Loading gpt2-xl... 50257 tokens x 1600d
     " which"        (appeared 1x)
     " by"           (appeared 1x)
     " perish"       (appeared 1x)
-

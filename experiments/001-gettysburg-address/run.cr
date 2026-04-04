@@ -44,6 +44,8 @@ module Semtrace
         end
       end
 
+      trace = ARGV.includes?("--trace")
+
       text = GETTYSBURG if text.empty?
       label = "Gettysburg Address" if label.empty?
 
@@ -82,11 +84,54 @@ module Semtrace
       puts "  Tokens appearing once: #{singles}"
 
       # Compose bag-of-words vector
-      puts "\n  Decomposing..."
       target = Array(Float32).new(store.dimensions, 0.0_f32)
       ids.each { |id| target = EmbeddingStore.add(target, store.vector_for(id)) }
 
-      result = decomposer.decompose(target, max_steps: ids.size + 20)
+      if trace
+        puts "\n  Decomposing (trace mode)..."
+        puts "  #{"Step".rjust(5)}  #{"Norm".rjust(10)}  #{"Token".ljust(18)} Hit?"
+        puts "  #{"-" * 42}"
+
+        residual = target.dup
+        result_tokens = [] of String
+        result_ids = [] of Int32
+        prev_norm = Float32::MAX
+        step = 0
+
+        (ids.size + 20).times do
+          norm = EmbeddingStore.norm(residual)
+          break if norm < 0.01 || norm > prev_norm
+          prev_norm = norm
+
+          results = store.search(residual, k: 1)
+          break if results.empty?
+          best_id = results.first.key.to_i32
+          token = store.token_for(best_id)
+          hit = unique_ids.includes?(best_id) ? "HIT" : "miss"
+
+          result_tokens << token
+          result_ids << best_id
+
+          puts "  #{step.to_s.rjust(5)}  #{"%.4f" % norm}  #{token.inspect.ljust(18)} #{hit}"
+
+          residual = EmbeddingStore.subtract(residual, store.vector_for(best_id))
+          step += 1
+        end
+
+        final_norm = EmbeddingStore.norm(residual)
+        puts "  #{"".rjust(5)}  #{"%.4f" % final_norm}  (final residual)"
+
+        # Build a TraceResult-compatible structure for the summary
+        result = Semtrace::TraceResult.new(
+          tokens: result_tokens,
+          token_ids: result_ids,
+          residual_norms: [] of Float32,
+          final_residual_norm: final_norm,
+        )
+      else
+        puts "\n  Decomposing..."
+        result = decomposer.decompose(target, max_steps: ids.size + 20)
+      end
 
       # Total token recovery (with duplicates)
       original_sorted = token_strs.sort
