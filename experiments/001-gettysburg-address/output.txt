@@ -1,0 +1,301 @@
+=== Experiment 001: Gettysburg Address ===
+Date: Fri Apr  3 07:26:57 PM EDT 2026
+Command: bin/exp001 --builtin gettysburg
+
+--- GPT-2 Small (768d) ---
+Loading data... 50257 tokens x 768d
+
+=== Real Text: Gettysburg Address ===
+  Total tokens: 286
+  Unique tokens: 143
+  Unique ratio: 50.0%
+  Most repeated:
+    ","          x20
+    " that"      x13
+    "."          x9
+    " we"        x8
+    " a"         x7
+  Tokens appearing once: 95
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  66.1% (189/286, 97 missing, 88 extra)
+  Unique token recovery: 42.0% (60/143)
+  Recovered tokens: 283
+  Final residual: 43.9909
+
+  Missing unique tokens (83):
+    " the"          (appeared 7x)
+    " on"           (appeared 2x)
+    " We"           (appeared 2x)
+    " dedicate"     (appeared 2x)
+    " gave"         (appeared 2x)
+    " It"           (appeared 2x)
+    " The"          (appeared 2x)
+    " they"         (appeared 2x)
+    " us"           (appeared 2x)
+    "Four"          (appeared 1x)
+    " score"        (appeared 1x)
+    " ago"          (appeared 1x)
+    " fathers"      (appeared 1x)
+    " forth"        (appeared 1x)
+    " continent"    (appeared 1x)
+    " Liberty"      (appeared 1x)
+    " proposition"  (appeared 1x)
+    " all"          (appeared 1x)
+    " created"      (appeared 1x)
+    " Now"          (appeared 1x)
+    " engaged"      (appeared 1x)
+    " civil"        (appeared 1x)
+    " testing"      (appeared 1x)
+    " endure"       (appeared 1x)
+    " met"          (appeared 1x)
+    "-"             (appeared 1x)
+    "field"         (appeared 1x)
+    " come"         (appeared 1x)
+    " portion"      (appeared 1x)
+    " final"        (appeared 1x)
+    " resting"      (appeared 1x)
+    " those"        (appeared 1x)
+    " lives"        (appeared 1x)
+    " might"        (appeared 1x)
+    " live"         (appeared 1x)
+    " altogether"   (appeared 1x)
+    " fitting"      (appeared 1x)
+    " proper"       (appeared 1x)
+    " should"       (appeared 1x)
+    " do"           (appeared 1x)
+    " But"          (appeared 1x)
+    " larger"       (appeared 1x)
+    " sense"        (appeared 1x)
+    "rate"          (appeared 1x)
+    "ow"            (appeared 1x)
+    " ground"       (appeared 1x)
+    " brave"        (appeared 1x)
+    " living"       (appeared 1x)
+    " struggled"    (appeared 1x)
+    "rated"         (appeared 1x)
+    " far"          (appeared 1x)
+    " above"        (appeared 1x)
+    " poor"         (appeared 1x)
+    " power"        (appeared 1x)
+    " add"          (appeared 1x)
+    " detract"      (appeared 1x)
+    " world"        (appeared 1x)
+    " little"       (appeared 1x)
+    " note"         (appeared 1x)
+    " nor"          (appeared 1x)
+    " remember"     (appeared 1x)
+    " say"          (appeared 1x)
+    " never"        (appeared 1x)
+    " forget"       (appeared 1x)
+    " rather"       (appeared 1x)
+    " remaining"    (appeared 1x)
+    " before"       (appeared 1x)
+    " honored"      (appeared 1x)
+    " take"         (appeared 1x)
+    " increased"    (appeared 1x)
+    " cause"        (appeared 1x)
+    " which"        (appeared 1x)
+    " last"         (appeared 1x)
+    " full"         (appeared 1x)
+    " highly"       (appeared 1x)
+    " resolve"      (appeared 1x)
+    " died"         (appeared 1x)
+    " under"        (appeared 1x)
+    " God"          (appeared 1x)
+    " birth"        (appeared 1x)
+    " government"   (appeared 1x)
+    " by"           (appeared 1x)
+    " perish"       (appeared 1x)
+
+--- gpt2-medium ---
+Loading gpt2-medium... 50257 tokens x 1024d
+
+=== Real Text: Gettysburg Address ===
+  Total tokens: 286
+  Unique tokens: 143
+  Unique ratio: 50.0%
+  Most repeated:
+    ","          x20
+    " that"      x13
+    "."          x9
+    " we"        x8
+    " a"         x7
+  Tokens appearing once: 95
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  65.0% (186/286, 100 missing, 74 extra)
+  Unique token recovery: 40.6% (58/143)
+  Recovered tokens: 280
+  Final residual: 50.5790
+
+  Missing unique tokens (85):
+    " the"          (appeared 7x)
+    " on"           (appeared 2x)
+    " conceived"    (appeared 2x)
+    " We"           (appeared 2x)
+    " It"           (appeared 2x)
+    " The"          (appeared 2x)
+    " they"         (appeared 2x)
+    " us"           (appeared 2x)
+    " from"         (appeared 2x)
+    " these"        (appeared 2x)
+    "Four"          (appeared 1x)
+    " score"        (appeared 1x)
+    " ago"          (appeared 1x)
+    " fathers"      (appeared 1x)
+    " brought"      (appeared 1x)
+    " forth"        (appeared 1x)
+    " continent"    (appeared 1x)
+    " Liberty"      (appeared 1x)
+    " proposition"  (appeared 1x)
+    " all"          (appeared 1x)
+    " created"      (appeared 1x)
+    " equal"        (appeared 1x)
+    " Now"          (appeared 1x)
+    " engaged"      (appeared 1x)
+    " civil"        (appeared 1x)
+    " testing"      (appeared 1x)
+    " whether"      (appeared 1x)
+    " any"          (appeared 1x)
+    " endure"       (appeared 1x)
+    " met"          (appeared 1x)
+    "-"             (appeared 1x)
+    "field"         (appeared 1x)
+    " come"         (appeared 1x)
+    " portion"      (appeared 1x)
+    " as"           (appeared 1x)
+    " final"        (appeared 1x)
+    " resting"      (appeared 1x)
+    " place"        (appeared 1x)
+    " those"        (appeared 1x)
+    " lives"        (appeared 1x)
+    " might"        (appeared 1x)
+    " live"         (appeared 1x)
+    " altogether"   (appeared 1x)
+    " fitting"      (appeared 1x)
+    " proper"       (appeared 1x)
+    " should"       (appeared 1x)
+    " do"           (appeared 1x)
+    " But"          (appeared 1x)
+    " larger"       (appeared 1x)
+    " sense"        (appeared 1x)
+    " hall"         (appeared 1x)
+    "ow"            (appeared 1x)
+    " brave"        (appeared 1x)
+    " struggled"    (appeared 1x)
+    "rated"         (appeared 1x)
+    " far"          (appeared 1x)
+    " above"        (appeared 1x)
+    " add"          (appeared 1x)
+    " detract"      (appeared 1x)
+    " little"       (appeared 1x)
+    " note"         (appeared 1x)
+    " nor"          (appeared 1x)
+    " remember"     (appeared 1x)
+    " say"          (appeared 1x)
+    " never"        (appeared 1x)
+    " forget"       (appeared 1x)
+    " did"          (appeared 1x)
+    " rather"       (appeared 1x)
+    " task"         (appeared 1x)
+    " before"       (appeared 1x)
+    " honored"      (appeared 1x)
+    " take"         (appeared 1x)
+    " increased"    (appeared 1x)
+    " cause"        (appeared 1x)
+    " which"        (appeared 1x)
+    " measure"      (appeared 1x)
+    " highly"       (appeared 1x)
+    " resolve"      (appeared 1x)
+    " vain"         (appeared 1x)
+    " under"        (appeared 1x)
+    " birth"        (appeared 1x)
+    " freedom"      (appeared 1x)
+    " by"           (appeared 1x)
+    " perish"       (appeared 1x)
+    " earth"        (appeared 1x)
+
+--- gpt2-large ---
+Loading gpt2-large... 50257 tokens x 1280d
+
+=== Real Text: Gettysburg Address ===
+  Total tokens: 286
+  Unique tokens: 143
+  Unique ratio: 50.0%
+  Most repeated:
+    ","          x20
+    " that"      x13
+    "."          x9
+    " we"        x8
+    " a"         x7
+  Tokens appearing once: 95
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  94.1% (269/286, 17 missing, 16 extra)
+  Unique token recovery: 89.5% (128/143)
+  Recovered tokens: 286
+  Final residual: 7.3787
+
+  Missing unique tokens (15):
+    " on"           (appeared 2x)
+    " they"         (appeared 2x)
+    " created"      (appeared 1x)
+    " those"        (appeared 1x)
+    " lives"        (appeared 1x)
+    " might"        (appeared 1x)
+    " But"          (appeared 1x)
+    " larger"       (appeared 1x)
+    " remember"     (appeared 1x)
+    " be"           (appeared 1x)
+    " before"       (appeared 1x)
+    " take"         (appeared 1x)
+    " increased"    (appeared 1x)
+    " freedom"      (appeared 1x)
+    " by"           (appeared 1x)
+
+--- gpt2-xl ---
+Loading gpt2-xl... 50257 tokens x 1600d
+
+=== Real Text: Gettysburg Address ===
+  Total tokens: 286
+  Unique tokens: 143
+  Unique ratio: 50.0%
+  Most repeated:
+    ","          x20
+    " that"      x13
+    "."          x9
+    " we"        x8
+    " a"         x7
+  Tokens appearing once: 95
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  94.4% (270/286, 16 missing, 14 extra)
+  Unique token recovery: 90.2% (129/143)
+  Recovered tokens: 288
+  Final residual: 7.3231
+
+  Missing unique tokens (14):
+    " on"           (appeared 2x)
+    " they"         (appeared 2x)
+    " seven"        (appeared 1x)
+    " created"      (appeared 1x)
+    " lives"        (appeared 1x)
+    " might"        (appeared 1x)
+    " But"          (appeared 1x)
+    " larger"       (appeared 1x)
+    " add"          (appeared 1x)
+    " take"         (appeared 1x)
+    " increased"    (appeared 1x)
+    " which"        (appeared 1x)
+    " by"           (appeared 1x)
+    " perish"       (appeared 1x)
+

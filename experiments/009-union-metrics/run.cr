@@ -13,7 +13,7 @@ require "json"
 module Semtrace
   module UnionTest
     def self.run
-      data_dir = (Path[__DIR__].parent / "data").to_s
+      data_dir = (Path[__DIR__].parent.parent / "data").to_s
       token_ids = nil.as(Array(Int32)?)
       file_path = ""
       merges_path_override = ""

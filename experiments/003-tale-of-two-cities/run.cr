@@ -19,7 +19,7 @@ module Semtrace
     TEXT
 
     def self.run
-      data_dir = (Path[__DIR__].parent / "data").to_s
+      data_dir = (Path[__DIR__].parent.parent / "data").to_s
       text = ""
       label = ""
 

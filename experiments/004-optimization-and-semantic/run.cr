@@ -17,7 +17,7 @@ require "../../src/semtrace"
 module Semtrace
   module OptimizationTest
     def self.run
-      data_dir = (Path[__DIR__].parent / "data").to_s
+      data_dir = (Path[__DIR__].parent.parent / "data").to_s
       file_path = ""
 
       i = 0
