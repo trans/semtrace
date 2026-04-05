@@ -24,33 +24,33 @@ run_crystal() {
 run_001() {
   echo "=== Experiment 001: Gettysburg Address ==="
   echo "Date: $(date)"
-  run_crystal experiments/001-gettysburg-address exp001 "--builtin gettysburg"
+  run_crystal experiments/001-gettysburg-address exp001 "--builtin gettysburg --trace"
   echo; echo "--- GPT-2 Medium ---"
   bin/exp001 --data data/gpt2-medium --builtin gettysburg
   echo; echo "--- GPT-2 Large ---"
   bin/exp001 --data data/gpt2-large --builtin gettysburg
   echo; echo "--- GPT-2 XL ---"
-  bin/exp001 --data data/gpt2-xl --builtin gettysburg
+  bin/exp001 --data data/gpt2-xl --builtin gettysburg --trace
 }
 
 # Experiment 002: Mary Had a Little Lamb
 run_002() {
   echo "=== Experiment 002: Mary Had a Little Lamb ==="
   echo "Date: $(date)"
-  run_crystal experiments/002-mary-had-a-little-lamb exp002 "--builtin mary"
+  run_crystal experiments/002-mary-had-a-little-lamb exp002 "--builtin mary --trace"
   echo; echo "--- GPT-2 Medium ---"
   bin/exp002 --data data/gpt2-medium --builtin mary
   echo; echo "--- GPT-2 Large ---"
   bin/exp002 --data data/gpt2-large --builtin mary
   echo; echo "--- GPT-2 XL ---"
-  bin/exp002 --data data/gpt2-xl --builtin mary
+  bin/exp002 --data data/gpt2-xl --builtin mary --trace
 }
 
 # Experiment 003: Tale of Two Cities
 run_003() {
   echo "=== Experiment 003: Tale of Two Cities ==="
   echo "Date: $(date)"
-  run_crystal experiments/003-tale-of-two-cities exp003 "--file experiments/texts/tale-ch1.txt"
+  run_crystal experiments/003-tale-of-two-cities exp003 "--file experiments/texts/tale-ch1.txt --trace"
   echo; echo "--- GPT-2 XL ---"
   bin/exp003 --data data/gpt2-xl --file experiments/texts/tale-ch1.txt
 }
