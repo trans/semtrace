@@ -11,8 +11,11 @@ cd "$(dirname "$0")"
 
 run_crystal() {
   local dir="$1" name="$2" args="$3"
-  echo "Building $name..."
-  crystal build "$dir/run.cr" -o "bin/$name" --release 2>/dev/null
+  # Only rebuild if source is newer than binary
+  if [ ! -f "bin/$name" ] || [ "$dir/run.cr" -nt "bin/$name" ] || [ "src/semtrace.cr" -nt "bin/$name" ]; then
+    echo "Building $name..."
+    crystal build "$dir/run.cr" -o "bin/$name" --release 2>/dev/null
+  fi
   echo "Running $name..."
   eval "bin/$name $args"
 }
