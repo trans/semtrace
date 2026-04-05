@@ -1,0 +1,46 @@
+=== Experiment 011: Attention Bias Subtraction ===
+Date: Sun Apr  5 05:36:31 AM EDT 2026
+Loading GPT-2...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 9862.84it/s]
+Static: (50257, 768), Contextual L6: (50257, 768)
+
+Fitting linear mapping (contextual L6 → static)...
+  Training on all 50257 token pairs...
+  W shape: (768, 768), rank: 768
+  Reconstruction error: mean=2.1286, median=2.0590, max=4.0310
+  Checking identity preservation (mapped contextual → nearest static)...
+  Identity preserved: 8986/10000 (89.9%)
+
+Text: 'the cat sat on the mat'
+Tokens (6): ['the', ' cat', ' sat', ' on', ' the', ' mat'], Unique: 6
+
+============================================================
+DECOMPOSITION RESULTS (Layer 6)
+
+  mean-pool (raw):
+    best: cosine 1/6 (17%)  union: 1/6 (17%)
+    tokens: [' the', ' the', ' the', ' the', ' the', ' the', ' the', ' the']
+
+  last-token (raw):
+    best:  0/6 (0%)  union: 0/6 (0%)
+    tokens: [' the', ' the', ' the', ' the', ' the', ' the', ' the', ' the']
+
+  mean-pool (mapped):
+    best:  0/6 (0%)  union: 0/6 (0%)
+    tokens: [' the', ' the', ' the', ' the', ' the', ' the', ' the', ' the']
+
+  last-token (mapped):
+    best: cosine 1/6 (17%)  union: 1/6 (17%)
+    tokens: [' mat', 'aman', 'eln', ' mob', ' Beauty', 'eret']
+
+  sum of mapped positions:
+    best:  0/6 (0%)  union: 0/6 (0%)
+    tokens: [' mat', 'aman', 'eln', ' mob', ' Beauty', 'eret']
+
+  static BoW (control):
+    best: cosine 6/6 (100%)  union: 6/6 (100%)
+    tokens: ['the', ' sat', ' cat', ' on', ' mat', ' the']
+
+  ctx BoW mapped:
+    best: ip 5/6 (83%)  union: 5/6 (83%)
+    tokens: [' mathemat', ' sat', ' cat', 'the', ' mat', ' on', ' initial']

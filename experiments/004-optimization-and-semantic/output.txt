@@ -1,0 +1,43 @@
+=== Experiment 004: Optimization & Semantic Accuracy ===
+Date: Sun Apr  5 04:59:19 AM EDT 2026
+Building exp004...
+Running exp004...
+Loading gpt2-xl (with normalized index)... (building normalized index...) 50257 tokens x 1600d
+
+=== Optimization Test ===
+  File: gettysburg.txt
+  Total tokens: 286, Unique: 143
+  Model: gpt2-xl (50257 x 1600d)
+  Search: HNSW (both raw and normalized indexes)
+
+  Running: Baseline (k=1, raw)... 0.4s
+    Total: 248/286 (86.7%)
+    Unique: 123/143 (86.0%)
+    Missing unique: 20, Extra unique: 17
+    Recovered tokens: 287
+
+  Running: Lookahead (k=5, raw)... 0.4s
+    Total: 249/286 (87.1%)
+    Unique: 126/143 (88.1%)
+    Missing unique: 17, Extra unique: 17
+    Recovered tokens: 289
+
+  Running: Normalized (k=1, norm)... 1.4s
+    Total: 252/286 (88.1%)
+    Unique: 124/143 (86.7%)
+    Missing unique: 19, Extra unique: 20
+    Recovered tokens: 289
+
+  Running: Both (k=5, norm)... 1.4s
+    Total: 252/286 (88.1%)
+    Unique: 126/143 (88.1%)
+    Missing unique: 17, Extra unique: 17
+    Recovered tokens: 289
+
+=== Summary ===
+Config                            Total     Unique   Miss  Extra  Recov
+----------------------------------------------------------------------
+Baseline (k=1, raw)               86.7%      86.0%     20     17    287
+Lookahead (k=5, raw)              87.1%      88.1%     17     17    289
+Normalized (k=1, norm)            88.1%      86.7%     19     20    289
+Both (k=5, norm)                  88.1%      88.1%     17     17    289

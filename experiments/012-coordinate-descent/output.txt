@@ -1,0 +1,29 @@
+=== Experiment 012: Coordinate Descent ===
+Date: Sun Apr  5 05:55:34 AM EDT 2026
+Loading GPT-2...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 10616.68it/s]
+Text: 'the cat sat on the mat'
+Tokens: 6, Unique: 6
+
+============================================================
+STATIC: Coordinate Descent
+  Greedy:      6/6 (100.0%)
+  Coord Desc:  6/6 (100.0%), 1 iters, dist=0.0000
+
+============================================================
+CONTEXTUAL L6: Bias Subtraction + Coordinate Descent (est N=5.6)
+  Greedy:      3/6 (50.0%)
+  Coord Desc:  3/6 (50.0%), 1 iters, dist=142.74
+  Tokens: ['sat', ' seated', ' mat', 'the', ' on', ' Cat']
+
+--- Gettysburg Address (static only) ---
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 14602.27it/s]
+Text: 'Four score and seven years ago our fathers brought forth on '...
+Tokens: 286, Unique: 143
+
+============================================================
+STATIC: Coordinate Descent
+  Greedy:      62/143 (43.4%)
+  Coord Desc:  139/143 (97.2%), 12 iters, dist=6.4843

@@ -1,0 +1,23 @@
+=== Experiment 009: Union of Metrics ===
+Date: Sun Apr  5 05:29:13 AM EDT 2026
+Building exp009...
+Running exp009...
+Loading gpt2-xl (brute-force)... 50257 tokens x 1600d
+
+=== Union Metric Test ===
+  Tokens: 286, Unique: 143
+  Search: brute-force (50257 x 1600d)
+  Running cosine... 284 steps, 29.0s
+  Running l2... 288 steps, 17.5s
+  Running ip... 286 steps, 16.2s
+
+Method               Exact   Case-Ins  IDs Found   Extran
+--------------------------------------------------------
+ Cosine              88.1%      88.8%        139       13
+ L2                  91.6%      93.0%        145       14
+ IP                  93.7%      95.1%        145       11
+ UNION               97.2%      98.6%        167       28
+
+  Still missing after union + case-insensitive (2):
+    " lives"
+    " which"

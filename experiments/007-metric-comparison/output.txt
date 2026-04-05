@@ -1,0 +1,13 @@
+=== Experiment 007: Metric Comparison ===
+Date: Sun Apr  5 05:19:00 AM EDT 2026
+Building exp007...
+Running exp007...
+Loading gpt2-xl (skip index — brute-force only)... 50257 tokens x 1600d
+
+=== Metric Comparison: Gettysburg Address ===
+  Tokens: 286, Unique: 143
+  Search: brute-force (exact)
+
+  cosine    exact:  88.1% (126/143)  sem<0.5:  92.3%  sem<0.7:  98.6%  steps: 284  time: 28.0s
+  l2        exact:  91.6% (131/143)  sem<0.5:  95.8%  sem<0.7:  99.3%  steps: 288  time: 17.7s
+  ip        exact:  93.7% (134/143)  sem<0.5:  95.8%  sem<0.7: 100.0%  steps: 286  time: 15.9s
