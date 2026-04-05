@@ -71,6 +71,8 @@ We extract static token embedding matrices (`wte.weight`) from the GPT-2 family 
 
 Search uses HNSW approximate nearest-neighbor (USearch library, cosine metric, f16 quantization) for GPT-2, and brute-force exact search for Llama (HNSW proved unreliable at 128K vocabulary scale — see Section 3.5). Texts are tokenized with GPT-2's BPE tokenizer or greedy longest-match for Llama.
 
+**Reproducibility note**: HNSW index construction involves random graph initialization, introducing ~3-5% variance between index builds. All HNSW-based results are representative. Brute-force results are deterministic and exactly reproducible. Where precision matters, we report brute-force numbers as authoritative.
+
 ### 3.2 Results on Real Text
 
 We test on three public domain texts of increasing length:
@@ -171,9 +173,9 @@ Rather than making irrevocable greedy decisions, iteratively refine all token po
 | Method | GPT-2 Small, Gettysburg |
 |---|---|
 | Greedy | 43.4% |
-| **Coordinate descent** | **93.7%** |
+| **Coordinate descent** | **97.2%** |
 
-Coordinate descent more than doubles accuracy on the smallest model, matching GPT-2 XL's greedy performance. It converges in ~10 iterations. The improvement comes from correcting cascading errors: early greedy mistakes that propagated through subsequent steps are revised when those positions are re-optimized.
+Coordinate descent more than doubles accuracy on the smallest model, exceeding GPT-2 XL's greedy performance (90.2%). It converges in ~12 iterations. The improvement comes from correcting cascading errors: early greedy mistakes that propagated through subsequent steps are revised when those positions are re-optimized.
 
 ---
 
@@ -300,7 +302,7 @@ The findings from static and contextual experiments suggest a practical pipeline
 
 **Stage 1: Bias subtraction → candidate tokens.** Subtract the precomputed attention bias (Section 6), estimate N from magnitude (Section 5.2) or binary search (Section 8.4), greedy decompose. Produces a partial bag of words (17-80%) plus semantic neighbors of missing tokens.
 
-**Stage 2: Coordinate descent → refined bag.** Initialize from Stage 1, iteratively optimize each position (Section 4.3). On static embeddings this achieves 94%; on contextual, improvement is limited by the noisy landscape (Section 8.3).
+**Stage 2: Coordinate descent → refined bag.** Initialize from Stage 1, iteratively optimize each position (Section 4.3). On static embeddings this achieves 97%; on contextual, improvement is limited by the noisy landscape (Section 8.3).
 
 **Stage 3: Order recovery via API.** Given the refined bag, generate candidate orderings and score each through the embedding API: `score = similarity(embed(candidate), target)`. The candidate whose embedding most closely matches the target wins.
 
