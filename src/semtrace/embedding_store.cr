@@ -65,10 +65,22 @@ module Semtrace
         )
         @index.reserve(@vocab_size)
 
+        last_pct = -1
         @vocab_size.times do |i|
           vec = vector_for(i)
           @index.add(i.to_u64, vec)
+          pct = (i * 100) // @vocab_size
+          if pct != last_pct && pct % 10 == 0
+            print "\r  Building index... #{pct}%"
+            STDOUT.flush
+            last_pct = pct
+          end
         end
+        print "\r  Building index... saving..."
+        STDOUT.flush
+        @index.save(saved_index)
+        print "\r  Building index... done. (cached to #{saved_index})\n"
+        STDOUT.flush
       end
 
       @skip_index = skip_index

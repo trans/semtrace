@@ -1,5 +1,5 @@
 === Experiment 001: Gettysburg Address ===
-Date: Sat Apr  4 01:24:59 PM EDT 2026
+Date: Sat Apr  4 11:00:18 PM EDT 2026
 Building exp001...
 Running exp001...
 Loading data... 50257 tokens x 768d
