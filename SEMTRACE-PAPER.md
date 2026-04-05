@@ -235,7 +235,7 @@ The magnitude of a contextual embedding encodes how much was composed into it. A
 
 ### 6.3 Cross-Space Mapping
 
-A linear projection W (768×768) learned from all 50,257 paired (contextual L6, static) embeddings preserves token identity with 89.9% accuracy: for 9 out of 10 tokens, the mapped contextual embedding lands nearest to the correct static embedding. This confirms the relationship between the spaces is largely linear for individual tokens, despite being non-additive for composed representations.
+A linear projection W (768×768) maps contextual L6 embeddings to static embeddings. W is learned via least-squares regression on all 50,257 paired token embeddings: `W = argmin ||ctx @ W - static||`. The resulting projection preserves token identity with 89.9% accuracy: for 9 out of 10 tokens, the nearest static embedding to the mapped contextual embedding is the correct token. This confirms the relationship between the spaces is largely linear for individual tokens, despite being non-additive for composed representations.
 
 The mapping succeeds on individual tokens but fails on sentence embeddings — further evidence that attention's contribution is non-linear and cannot be undone by a linear transform applied to the aggregate.
 
@@ -268,6 +268,18 @@ Unaffected — quantization errors cancel between target and vocabulary.
 The signal norm is preserved (~555 at all precisions) but the signal **direction** is corrupted by quantization noise at int8 and below. f16 loses 2 tokens compared to f32 — precision loss is already biting at half-precision for longer inputs.
 
 The signal-to-bias ratio decreases with token count (1.1% at 6 tokens, 0.85% at 23 tokens), confirming that more tokens compound the bias, pushing the token signal deeper into the fractional precision. This has a practical implication: **quantized models are more resistant to contextual embedding inversion** — an unintentional defense with a precise geometric explanation.
+
+### 6.5 The Norm-Stratified Residual Hypothesis
+
+We propose that transformer hidden states are **norm-stratified compositions**: each attention + normalization operation contributes a bias stratum occupying a distinct magnitude range. Under this model, the residual stream is not an opaque high-dimensional vector but a layered structure where:
+
+- The outermost (highest-magnitude) strata encode model-wide computation artifacts
+- Middle strata encode sentence-level context
+- The innermost (lowest-magnitude) strata encode token-specific semantics
+
+Quantization selectively destroys the deepest strata first — predicting that token-specific signals are disproportionately vulnerable to precision reduction. The quantization experiment (Section 6.4) is consistent with this prediction. The signal-to-bias ratio decreasing with token count (Section 6.2) follows directly: more tokens compound the outer strata, pushing the semantic signal deeper.
+
+A full treatment — per-layer stratum decomposition, empirical norm distributions across model families, and the relationship between layer count and effective precision range — is deferred to subsequent work.
 
 ---
 
@@ -390,7 +402,7 @@ Progress on contextual decomposition requires smoothing the landscape. Three pat
 
 ## 9. Related Work
 
-**Embedding inversion.** Morris et al. (2023) demonstrate that text embeddings can be inverted with high fidelity using Vec2Text, a trained corrector model that iteratively refines text hypotheses to match a target embedding. They achieve 92% recovery on 32-token inputs with a BLEU score of 97.3. Subsequent work extends this to zero-shot (Zero2Text, 2025) and cross-lingual settings (LAGO, 2025). These methods train neural models on (text, embedding) pairs. Our approach is complementary: we use no training, only the static embedding matrix and nearest-neighbor search. This reveals the geometric structure underlying recoverability — the dimensionality threshold, the role of normalization, the attention bias — which trained models exploit implicitly but do not characterize.
+**Embedding inversion.** Morris et al. (2023) demonstrate that text embeddings can be inverted with high fidelity using Vec2Text, a trained corrector model that iteratively refines text hypotheses to match a target embedding. They achieve 92% recovery on 32-token inputs with a BLEU score of 97.3. Subsequent work extends this to zero-shot (Zero2Text, 2025) and cross-lingual settings (LAGO, 2025). These methods train neural models on (text, embedding) pairs. Our approach is fundamentally different: we use no training, only the static embedding matrix and nearest-neighbor search. Where Vec2Text learns to invert embeddings, we characterize the geometry that makes inversion possible — the dimensionality threshold, the role of normalization, the attention bias structure, the quantization sensitivity. Trained decoders exploit this geometry implicitly; our approach makes it explicit and measurable.
 
 **Embedding privacy.** The security implications of embedding inversion are increasingly recognized. Li et al. (2023) show generative models can recover full sentences from sentence embeddings. IronCore Labs (2024) catalog practical attack vectors against vector databases. Defenses include Gaussian noise injection and differential privacy, both of which degrade retrieval quality. Our finding that L2 normalization destroys additive decomposition suggests normalization serves as a partial (if unintentional) defense against the specific attack vector we describe.
 
@@ -426,9 +438,11 @@ The fundamental limitation we identify — commutativity of vector addition dest
 
 ## 12. Conclusion
 
-Embedding vectors are not opaque coordinates — they are readable sums, decomposable into the token primitives that constitute their meaning. The greedy residual algorithm is simple, fast, requires no training, and achieves high fidelity on static embeddings. Coordinate descent extends this to near-perfect recovery even on smaller models.
+Embedding vectors are not opaque coordinates — they are readable sums, decomposable into the token primitives that constitute their meaning. The greedy residual algorithm is simple, fast, requires no training, and achieves high fidelity on static embeddings. Coordinate descent extends this to near-perfect recovery even on smaller models. Together, these methods serve as diagnostic instruments: their transparent failure modes characterize the geometry of the embedding space as precisely as their successes.
 
 The barriers to contextual decomposition are precise and characterizable: attention adds a constant bias (subtractable), normalization destroys magnitude (avoidable), and the representation is non-additive (fundamental). Each barrier suggests a specific intervention, from bias subtraction to non-commutative architectures.
+
+These barriers suggest a deeper geometric structure to transformer computation — one where magnitude encodes not just token count but compositional depth across layers. The norm-stratified residual hypothesis (Section 6.5) offers a framework that unifies our empirical findings and generates testable predictions, pointing toward a geometric theory of transformer representations.
 
 The model remembers. The question is whether we can read its memory. For static embeddings, the answer is yes. For contextual embeddings, we have opened the door.
 
@@ -460,4 +474,4 @@ Morris, J. X., Kuleshov, V., Shmatikov, V., & Rush, A. M. (2023). Text embedding
 
 Li, H., et al. (2023). Sentence embedding leaks more information than you expect: Generative embedding inversion attack to recover the whole sentence. *arXiv*.
 
-Huang, Y., et al. (2025). Zero2Text: Zero-training cross-domain inversion attacks on textual embeddings. *arXiv:2602.01757*.
+Huang, Y., et al. (2025). Zero2Text: Zero-training cross-domain inversion attacks on textual embeddings. *arXiv:2602.01757*. (Note: preprint date pending verification.)
