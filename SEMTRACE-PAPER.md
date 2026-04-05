@@ -231,6 +231,36 @@ A linear projection W (768×768) learned from all 50,257 paired (contextual L6, 
 
 The mapping succeeds on individual tokens but fails on sentence embeddings — further evidence that attention's contribution is non-linear and cannot be undone by a linear transform applied to the aggregate.
 
+### 6.4 Quantization Sensitivity: A Testable Prediction
+
+The strata model predicts that quantization should selectively destroy the contextual token signal while leaving static decomposition unaffected. Rationale: the token signal lives in the low-order bits (0.5-1.1% of total energy), exactly the precision that quantization removes. Static decomposition uses the same quantized values for both target and vocabulary, so quantization errors cancel.
+
+We test this by simulating f32, f16, int8, and int4 precision on the same GPT-2 Small hidden states:
+
+**Static decomposition (23-token input):**
+
+| Precision | Recovery |
+|---|---|
+| f32 | 18/21 |
+| f16 | 18/21 |
+| int8 | 18/21 |
+| int4 | 19/21 |
+
+Unaffected — quantization errors cancel between target and vocabulary.
+
+**Contextual decomposition after bias subtraction (same input):**
+
+| Precision | Recovery | Signal % |
+|---|---|---|
+| f32 | 6/21 | 0.85% |
+| f16 | 4/21 | 0.85% |
+| int8 | 0/21 | 0.85% |
+| int4 | 0/21 | 0.90% |
+
+The signal norm is preserved (~555 at all precisions) but the signal **direction** is corrupted by quantization noise at int8 and below. f16 loses 2 tokens compared to f32 — precision loss is already biting at half-precision for longer inputs.
+
+The signal-to-bias ratio decreases with token count (1.1% at 6 tokens, 0.85% at 23 tokens), confirming that more tokens compound the bias, pushing the token signal deeper into the fractional precision. This has a practical implication: **quantized models are more resistant to contextual embedding inversion** — an unintentional defense with a precise geometric explanation.
+
 ---
 
 ## 7. Contextual Embeddings
