@@ -1,0 +1,12 @@
+=== Experiment 008: Llama Brute-Force ===
+Date: Sun Apr  5 06:23:48 AM EDT 2026
+Building exp008...
+Running exp008...
+Loading llama-3-2-3b-instruct (skip index — brute-force only)... 128256 tokens x 3072d
+
+=== Metric Comparison: gettysburg_ids.json ===
+  Tokens: 286, Unique: 143
+  Search: brute-force (128256 vocab x 3072d)
+
+  cosine    exact: 100.0% (143/143)  sem<0.5: 100.0%  sem<0.7: 100.0%  steps: 286  time: 147.0s
+  ip        exact: 100.0% (143/143)  sem<0.5: 100.0%  sem<0.7: 100.0%  steps: 286  time: 81.3s
