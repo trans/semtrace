@@ -233,13 +233,13 @@ The mapping succeeds on individual tokens but fails on sentence embeddings — f
 
 ## 7. Contextual Embeddings
 
-### 6.1 The Orthogonality Problem
+### 7.1 The Orthogonality Problem
 
 Contextual embeddings from Ollama's `/api/embed` endpoint (Llama 3.2 3B) are orthogonal to static token embeddings: average cosine similarity 0.003 across 30 test tokens. Direct decomposition of contextual embeddings against static vocabularies produces noise.
 
 Investigation of Ollama's source code reveals the embed endpoint uses a different code path than generation: it returns pooled hidden states without the output projection, and L2-normalizes the result.
 
-### 6.2 Contextual Space Has Semantic Structure
+### 7.2 Contextual Space Has Semantic Structure
 
 Despite being orthogonal to static space, contextual embeddings encode real semantic distinctions:
 
@@ -252,7 +252,7 @@ Despite being orthogonal to static space, contextual embeddings encode real sema
 
 The semantic content is present — it's just not accessible through additive decomposition.
 
-### 6.3 Layer-by-Layer Analysis
+### 7.3 Layer-by-Layer Analysis
 
 Using GPT-2 Small with full hidden state access (via HuggingFace transformers), we test decomposition at each transformer layer against both static and contextual vocabularies (50,257 tokens embedded individually at each layer):
 
@@ -266,7 +266,7 @@ The contextual bag-of-words result (83% at L6) proves the mid-layer contextual s
 
 The sentence embedding never decomposes because attention creates a holistic representation: `attention("the cat sat") ≠ attention("the") + attention("cat") + attention("sat")`.
 
-### 6.4 The Attention Bias Discovery
+### 7.4 The Attention Bias Discovery
 
 The contextual hidden state sum can be decomposed as:
 
@@ -338,7 +338,13 @@ The convexity distinction explains the performance gap between methods:
 - **Coordinate descent** dramatically improves static space (corrects cascade errors along the convex surface), but plateaus in contextual space (trapped by local minima)
 - **Stochastic methods** (simulated annealing, random restarts) could escape local minima in contextual space but are untested
 
-Progress on contextual decomposition requires smoothing the landscape — through better bias modeling (per-layer subtraction as suggested by the strata model, Section 6), larger models with stronger token signals, or the black-box API scoring approach (Section 8.2, Stage 3) which bypasses the landscape entirely by using the model's own forward pass as the objective function.
+Progress on contextual decomposition requires smoothing the landscape. Three paths:
+
+1. **Per-layer bias subtraction.** We computed the aggregate attention bias across all 12 transformer layers. But each layer contributes its own bias stratum — each attention operation and each normalization adds a mean shift to the hidden state. Subtracting these strata individually, from the outermost layer inward, would progressively reveal the token signal underneath. We have the per-layer hidden states (from our GPT-2 container) and the infrastructure to compute per-layer biases. The specific experiment: compute the bias at layer 12, subtract it, then compute the bias at layer 11 on the de-biased residual, subtract, and so on. Each layer removed should yield a cleaner signal for coordinate descent. This is untested but directly motivated by the aggregate bias result — if one layer of subtraction took us from 0% to 80%, multiple layers may push further.
+
+2. **Larger models with stronger token signals.** The token-to-bias energy ratio (0.5% at GPT-2 Small L6) may improve with model scale, giving coordinate descent a less noisy landscape to optimize.
+
+3. **Black-box API scoring** (Section 8.2, Stage 3) which bypasses the landscape entirely by using the model's own forward pass as the objective function.
 
 ---
 
@@ -354,15 +360,15 @@ Progress on contextual decomposition requires smoothing the landscape — throug
 
 ## 10. Implications
 
-### 8.1 Security
+### 10.1 Security
 
 Any system storing bag-of-words embedding sums (or approximations thereof) is vulnerable to content recovery. The attack requires only the static embedding matrix — freely available for open models — and nearest-neighbor search. No training, no learned decoder. For systems that do not L2-normalize, token count is also recoverable from the embedding magnitude.
 
-### 8.2 Semantic Compression
+### 10.2 Semantic Compression
 
 Embedding vectors provide fixed-size representations regardless of text length. If approximate text recovery is acceptable, embeddings could serve as a lossy compression scheme — store the vector, recover the content on demand. The fidelity depends on the model's embedding dimensionality and the text's unique token count.
 
-### 8.3 Architectural Motivation
+### 10.3 Architectural Motivation
 
 The fundamental limitation we identify — commutativity of vector addition destroying word order — motivates exploration of non-commutative embedding representations. Matrix embeddings, where tokens are represented as transformations rather than points, would preserve order through the non-commutativity of matrix multiplication while potentially maintaining or exceeding the additive decomposability demonstrated here.
 
