@@ -8,6 +8,6 @@ crystal: '>= 1.19.1'
 
 dependencies:
   usearch:
-    path: ../usearch.cr
+    github: trans/usearch.cr
 
 license: MIT
