@@ -1,9 +1,7 @@
 === Experiment 001: Gettysburg Address ===
-Date: Sat Apr  4 11:15:39 PM EDT 2026
-Building exp001...
+Date: Sun Apr  5 05:20:06 PM EDT 2026
 Running exp001...
-Loading data...   Building index... 0%  Building index... 10%  Building index... 20%  Building index... 30%  Building index... 40%  Building index... 50%  Building index... 60%  Building index... 70%  Building index... 80%  Building index... 90%  Building index... saving...  Building index... done. (cached to /home/trans/Projects/semtrace/data/index.usearch)
-50257 tokens x 768d
+Loading data... 50257 tokens x 768d
 
 === Real Text: Gettysburg Address ===
   Total tokens: 286
@@ -17,24 +15,312 @@ Loading data...   Building index... 0%  Building index... 10%  Building index
     " a"         x7
   Tokens appearing once: 95
 
-  Decomposing...
+  Decomposing (trace mode)...
+   Step        Norm  Token              Hit?
+  ------------------------------------------
+      0  478.7418  " in"              HIT
+      1  476.9359  " in"              HIT
+      2  475.1357  " in"              HIT
+      3  473.3418  " in"              HIT
+      4  471.5535  " in"              HIT
+      5  469.7719  " that"            HIT
+      6  467.9649  " in"              HIT
+      7  466.1907  " that"            HIT
+      8  464.3917  " in"              HIT
+      9  462.6252  " that"            HIT
+     10  460.8343  " in"              HIT
+     11  459.0754  " that"            HIT
+     12  457.2929  " in"              HIT
+     13  455.5421  " that"            HIT
+     14  453.7679  " in"              HIT
+     15  452.0255  " to"              HIT
+     16  450.2464  " that"            HIT
+     17  448.4821  " is"              HIT
+     18  446.6396  "The"              miss
+     19  444.7299  " in"              HIT
+     20  443.0013  " to"              HIT
+     21  441.2352  " that"            HIT
+     22  439.4819  "The"              miss
+     23  437.5816  " is"              HIT
+     24  435.7511  " it"              HIT
+     25  433.9416  " have"            HIT
+     26  432.0692  " to"              HIT
+     27  430.3147  "The"              miss
+     28  428.4252  " that"            HIT
+     29  426.6842  " is"              HIT
+     30  424.8665  " have"            HIT
+     31  423.0049  " it"              HIT
+     32  421.2083  " in"              HIT
+     33  419.5061  "The"              miss
+     34  417.6284  "."                HIT
+     35  415.5537  " have"            HIT
+     36  413.7022  " that"            HIT
+     37  411.9757  " is"              HIT
+     38  410.1750  "The"              miss
+     39  408.3087  " to"              HIT
+     40  406.5782  " it"              HIT
+     41  404.7980  " have"            HIT
+     42  402.9586  "."                HIT
+     43  400.8998  " that"            HIT
+     44  399.1891  "The"              miss
+     45  397.3352  " is"              HIT
+     46  395.5517  " it"              HIT
+     47  393.7859  " have"            HIT
+     48  391.9594  ","                HIT
+     49  389.8699  " to"              HIT
+     50  388.1620  "The"              miss
+     51  386.3222  " that"            HIT
+     52  384.6291  " have"            HIT
+     53  382.8148  "."                HIT
+     54  380.7851  " it"              HIT
+     55  379.0358  "The"              miss
+     56  377.2099  " is"              HIT
+     57  375.4521  " have"            HIT
+     58  373.6519  "."                HIT
+     59  371.6381  " it"              HIT
+     60  369.9019  " of"              HIT
+     61  368.1729  "The"              miss
+     62  366.3638  " we"              HIT
+     63  364.5139  ","                HIT
+     64  362.4701  " have"            HIT
+     65  360.6851  " that"            HIT
+     66  359.0223  " to"              HIT
+     67  357.3539  " we"              HIT
+     68  355.5175  " are"             HIT
+     69  353.7412  "The"              miss
+     70  351.9503  "."                HIT
+     71  349.9703  " it"              HIT
+     72  348.2635  " have"            HIT
+     73  346.5018  " we"              HIT
+     74  344.6826  " of"              HIT
+     75  342.9877  ","                HIT
+     76  340.9832  "The"              miss
+     77  339.2120  " that"            HIT
+     78  337.5824  " are"             HIT
+     79  335.8349  " we"              HIT
+     80  334.0335  " to"              HIT
+     81  332.4017  " have"            HIT
+     82  330.6679  " it"              HIT
+     83  328.9941  "."                HIT
+     84  327.0558  "The"              miss
+     85  325.3097  " for"             HIT
+     86  323.7168  " we"              HIT
+     87  321.9359  " is"              HIT
+     88  320.2620  " have"            HIT
+     89  318.5523  "."                HIT
+     90  316.6398  " this"            HIT
+     91  314.9897  " we"              HIT
+     92  313.2283  "The"              miss
+     93  311.5093  " of"              HIT
+     94  309.8743  " that"            HIT
+     95  308.2990  " are"             HIT
+     96  306.6088  ","                HIT
+     97  304.6840  " we"              HIT
+     98  302.9465  " for"             HIT
+     99  301.3967  " this"            HIT
+    100  299.7781  " have"            HIT
+    101  298.1086  " an"              miss
+    102  296.5752  "The"              miss
+    103  294.8935  "."                HIT
+    104  293.0387  " we"              HIT
+    105  291.3264  " with"            miss
+    106  289.7508  " are"             HIT
+    107  288.1048  " it"              HIT
+    108  286.5196  " an"              miss
+    109  285.0146  " have"            HIT
+    110  283.3860  " this"            HIT
+    111  281.8124  "."                HIT
+    112  279.9944  " we"              HIT
+    113  278.3168  " as"              HIT
+    114  276.8201  "The"              miss
+    115  275.1902  " of"              HIT
+    116  273.6440  " had"             miss
+    117  272.0287  " we"              HIT
+    118  270.3784  ";"                miss
+    119  268.6074  " what"            HIT
+    120  267.0305  " not"             HIT
+    121  265.4712  " does"            miss
+    122  263.8496  " an"              miss
+    123  262.3943  ",\""              miss
+    124  260.6412  " are"             HIT
+    125  259.0646  " this"            HIT
+    126  257.5446  ";"                miss
+    127  255.8046  " had"             miss
+    128  254.2253  " we"              HIT
+    129  252.6138  " what"            HIT
+    130  251.0740  "This"             miss
+    131  249.4682  " for"             HIT
+    132  248.0363  " did"             HIT
+    133  246.4131  ".\""              miss
+    134  244.6887  " not"             HIT
+    135  243.1753  " these"           HIT
+    136  241.5972  ";"                miss
+    137  239.8961  " be"              HIT
+    138  238.3925  " does"            miss
+    139  236.8370  " from"            HIT
+    140  235.3709  " nation"          HIT
+    141  233.5226  " an"              miss
+    142  232.1282  ",\""              miss
+    143  230.4466  " these"           HIT
+    144  228.8987  " give"            miss
+    145  227.3761  " nation"          HIT
+    146  225.5497  " not"             HIT
+    147  224.0766  " glorious"        miss
+    148  222.2493  ","                HIT
+    149  220.5343  " people"          HIT
+    150  218.9520  " had"             miss
+    151  217.4438  " what"            HIT
+    152  215.9715  " glorious"        miss
+    153  214.1651  " pious"           miss
+    154  212.2054  ";"                miss
+    155  210.5516  " glorious"        miss
+    156  208.7897  " can"             HIT
+    157  207.2936  " pious"           miss
+    158  205.3830  " for"             HIT
+    159  204.0106  " but"             HIT
+    160  202.5506  " made"            miss
+    161  201.0408  " taking"          miss
+    162  199.5225  " nation"          HIT
+    163  197.7222  ","                HIT
+    164  196.0422  "\u001C"           miss
+    165  194.3912  " these"           HIT
+    166  192.8837  " be"              HIT
+    167  191.4478  " great"           HIT
+    168  189.8347  "\u001C"           miss
+    169  188.2096  ","                HIT
+    170  186.5326  " colossal"        miss
+    171  184.7514  "\u001C"           miss
+    172  183.1590  " and"             HIT
+    173  181.7333  " people"          HIT
+    174  180.1903  " joyful"          miss
+    175  178.4323  " of"              HIT
+    176  177.0244  "\u001C"           miss
+    177  175.4556  ","                HIT
+    178  173.7856  " not"             HIT
+    179  172.3679  " will"            HIT
+    180  170.8917  " nation"          HIT
+    181  169.1283  " who"             HIT
+    182  167.6039  " glorious"        miss
+    183  165.9395  " an"              miss
+    184  164.6254  "\u001C"           miss
+    185  163.0704  ","                HIT
+    186  161.4308  " —"               HIT
+    187  159.8741  " them"            miss
+    188  158.3112  " nation"          HIT
+    189  156.5942  " here"            HIT
+    190  155.0064  " five"            miss
+    191  153.6425  " don"             miss
+    192  152.2166  " brought"         HIT
+    193  150.6680  " and"             HIT
+    194  149.3172  " pious"           miss
+    195  147.5122  " great"           HIT
+    196  145.9784  " men"             HIT
+    197  144.3571  ","                HIT
+    198  142.7841  "\u001C"           miss
+    199  141.2416  " our"             HIT
+    200  139.7840  " or"              HIT
+    201  138.4266  " considered"      miss
+    202  136.9266  " devotion"        HIT
+    203  135.1792  " seven"           HIT
+    204  133.8230  " here"            HIT
+    205  132.2980  " nation"          HIT
+    206  130.6523  ","                HIT
+    207  129.1081  " wretched"        miss
+    208  127.4523  " taking"          miss
+    209  126.0613  " greater"         miss
+    210  124.5428  " lot"             miss
+    211  123.0254  " and"             HIT
+    212  121.7382  "\u001C"           miss
+    213  120.2790  " their"           HIT
+    214  118.9277  " can"             HIT
+    215  117.6089  " political"       miss
+    216  116.1348  " dedicated"       HIT
+    217  114.5053  ","                HIT
+    218  113.0230  " dedicated"       HIT
+    219  111.4622  " despised"        miss
+    220  109.7812  " men"             HIT
+    221  108.2685  " here"            HIT
+    222  106.8325  " keep"            miss
+    223  105.5006  " years"           HIT
+    224  104.0505  " any"             HIT
+    225  102.7381  " dead"            HIT
+    226  101.1614  " city"            miss
+    227  99.7196  " greater"         miss
+    228  98.3166  " but"             HIT
+    229  97.0926  " moral"           miss
+    230  95.6538  ","                HIT
+    231  94.2665  " war"             HIT
+    232  92.8434  " lived"           miss
+    233  91.3641  " consec"          HIT
+    234  89.6452  " new"             HIT
+    235  88.3399  " And"             miss
+    236  87.1405  " here"            HIT
+    237  85.8392  " long"            HIT
+    238  84.5942  " perished"        miss
+    239  82.9194  " 15"              miss
+    240  81.8527  " earth"           HIT
+    241  80.4108  " freedom"         HIT
+    242  79.0254  " or"              HIT
+    243  77.9223  " realm"           miss
+    244  76.4961  " dedicated"       HIT
+    245  75.1456  ","                HIT
+    246  73.9071  " future"          miss
+    247  72.6241  " dead"            HIT
+    248  71.3167  " shall"           HIT
+    249  70.0939  " men"             HIT
+    250  68.9179  " name"            miss
+    251  67.7100  " devotion"        HIT
+    252  66.4425  " nearly"          miss
+    253  65.4892  " place"           HIT
+    254  64.3487  " test"            miss
+    255  63.2665  " born"            miss
+    256  62.0863  " field"           HIT
+    257  60.9678  " united"          miss
+    258  59.8402  " quarter"         miss
+    259  58.8294  " us"              HIT
+    260  57.8888  " new"             HIT
+    261  57.0306  " measure"         HIT
+    262  56.0528  " dedicated"       HIT
+    263  55.1621  " earth"           HIT
+    264  54.2777  " pay"             miss
+    265  53.5086  " rest"            miss
+    266  52.7278  " fixed"           miss
+    267  52.0186  " last"            HIT
+    268  51.3806  " battle"          HIT
+    269  50.7537  " forever"         miss
+    270  50.0855  " whether"         HIT
+    271  49.5005  " touch"           miss
+    272  48.9500  " hall"            HIT
+    273  48.4371  " —"               HIT
+    274  47.6522  "life"             miss
+    275  47.2144  " so"              HIT
+    276  46.8795  ","                HIT
+    277  46.4500  "rate"             HIT
+    278  46.1371  " duty"            miss
+    279  45.9313  ","                HIT
+    280  45.7744  " missing"         miss
+    281  45.6727  " luck"            miss
+    282  45.6304  " motion"          miss
+    283  45.6303  " conf"            miss
+         45.6730  (final residual)
 
 --- Results ---
-  Total token recovery:  66.1% (189/286, 97 missing, 88 extra)
-  Unique token recovery: 42.0% (60/143)
-  Recovered tokens: 283
-  Final residual: 43.9909
+  Total token recovery:  63.3% (181/286, 105 missing, 90 extra)
+  Unique token recovery: 40.6% (58/143)
+  Recovered tokens: 284
+  Final residual: 45.6730
 
-  Missing unique tokens (83):
+  Missing unique tokens (85):
+    " a"            (appeared 7x)
     " the"          (appeared 7x)
     " on"           (appeared 2x)
+    " conceived"    (appeared 2x)
     " We"           (appeared 2x)
     " dedicate"     (appeared 2x)
     " gave"         (appeared 2x)
     " It"           (appeared 2x)
     " The"          (appeared 2x)
     " they"         (appeared 2x)
-    " us"           (appeared 2x)
     "Four"          (appeared 1x)
     " score"        (appeared 1x)
     " ago"          (appeared 1x)
@@ -45,6 +331,7 @@ Loading data...   Building index... 0%  Building index... 10%  Building index
     " proposition"  (appeared 1x)
     " all"          (appeared 1x)
     " created"      (appeared 1x)
+    " equal"        (appeared 1x)
     " Now"          (appeared 1x)
     " engaged"      (appeared 1x)
     " civil"        (appeared 1x)
@@ -69,7 +356,6 @@ Loading data...   Building index... 0%  Building index... 10%  Building index
     " But"          (appeared 1x)
     " larger"       (appeared 1x)
     " sense"        (appeared 1x)
-    "rate"          (appeared 1x)
     "ow"            (appeared 1x)
     " ground"       (appeared 1x)
     " brave"        (appeared 1x)
@@ -91,6 +377,7 @@ Loading data...   Building index... 0%  Building index... 10%  Building index
     " never"        (appeared 1x)
     " forget"       (appeared 1x)
     " rather"       (appeared 1x)
+    " task"         (appeared 1x)
     " remaining"    (appeared 1x)
     " before"       (appeared 1x)
     " honored"      (appeared 1x)
@@ -98,11 +385,11 @@ Loading data...   Building index... 0%  Building index... 10%  Building index
     " increased"    (appeared 1x)
     " cause"        (appeared 1x)
     " which"        (appeared 1x)
-    " last"         (appeared 1x)
     " full"         (appeared 1x)
     " highly"       (appeared 1x)
     " resolve"      (appeared 1x)
     " died"         (appeared 1x)
+    " vain"         (appeared 1x)
     " under"        (appeared 1x)
     " God"          (appeared 1x)
     " birth"        (appeared 1x)
@@ -111,8 +398,7 @@ Loading data...   Building index... 0%  Building index... 10%  Building index
     " perish"       (appeared 1x)
 
 --- GPT-2 Medium ---
-Loading gpt2-medium...   Building index... 0%  Building index... 10%  Building index... 20%  Building index... 30%  Building index... 40%  Building index... 50%  Building index... 60%  Building index... 70%  Building index... 80%  Building index... 90%  Building index... saving...  Building index... done. (cached to data/gpt2-medium/index.usearch)
-50257 tokens x 1024d
+Loading gpt2-medium... 50257 tokens x 1024d
 
 === Real Text: Gettysburg Address ===
   Total tokens: 286
@@ -129,16 +415,17 @@ Loading gpt2-medium...   Building index... 0%  Building index... 10%  Buildin
   Decomposing...
 
 --- Results ---
-  Total token recovery:  65.0% (186/286, 100 missing, 74 extra)
-  Unique token recovery: 40.6% (58/143)
+  Total token recovery:  64.0% (183/286, 103 missing, 74 extra)
+  Unique token recovery: 39.2% (56/143)
   Recovered tokens: 280
-  Final residual: 50.5790
+  Final residual: 53.4425
 
-  Missing unique tokens (85):
+  Missing unique tokens (87):
     " the"          (appeared 7x)
     " on"           (appeared 2x)
     " conceived"    (appeared 2x)
     " We"           (appeared 2x)
+    " dedicate"     (appeared 2x)
     " It"           (appeared 2x)
     " The"          (appeared 2x)
     " they"         (appeared 2x)
@@ -174,7 +461,7 @@ Loading gpt2-medium...   Building index... 0%  Building index... 10%  Buildin
     " resting"      (appeared 1x)
     " place"        (appeared 1x)
     " those"        (appeared 1x)
-    " lives"        (appeared 1x)
+    " their"        (appeared 1x)
     " might"        (appeared 1x)
     " live"         (appeared 1x)
     " altogether"   (appeared 1x)
@@ -192,6 +479,7 @@ Loading gpt2-medium...   Building index... 0%  Building index... 10%  Buildin
     "rated"         (appeared 1x)
     " far"          (appeared 1x)
     " above"        (appeared 1x)
+    " power"        (appeared 1x)
     " add"          (appeared 1x)
     " detract"      (appeared 1x)
     " little"       (appeared 1x)
@@ -210,11 +498,11 @@ Loading gpt2-medium...   Building index... 0%  Building index... 10%  Buildin
     " increased"    (appeared 1x)
     " cause"        (appeared 1x)
     " which"        (appeared 1x)
-    " measure"      (appeared 1x)
     " highly"       (appeared 1x)
     " resolve"      (appeared 1x)
     " vain"         (appeared 1x)
     " under"        (appeared 1x)
+    " God"          (appeared 1x)
     " birth"        (appeared 1x)
     " freedom"      (appeared 1x)
     " by"           (appeared 1x)
@@ -222,8 +510,7 @@ Loading gpt2-medium...   Building index... 0%  Building index... 10%  Buildin
     " earth"        (appeared 1x)
 
 --- GPT-2 Large ---
-Loading gpt2-large...   Building index... 0%  Building index... 10%  Building index... 20%  Building index... 30%  Building index... 40%  Building index... 50%  Building index... 60%  Building index... 70%  Building index... 80%  Building index... 90%  Building index... saving...  Building index... done. (cached to data/gpt2-large/index.usearch)
-50257 tokens x 1280d
+Loading gpt2-large... 50257 tokens x 1280d
 
 === Real Text: Gettysburg Address ===
   Total tokens: 286
@@ -240,64 +527,358 @@ Loading gpt2-large...   Building index... 0%  Building index... 10%  Building
   Decomposing...
 
 --- Results ---
-  Total token recovery:  94.1% (269/286, 17 missing, 16 extra)
-  Unique token recovery: 89.5% (128/143)
-  Recovered tokens: 286
-  Final residual: 7.3787
-
-  Missing unique tokens (15):
-    " on"           (appeared 2x)
-    " they"         (appeared 2x)
-    " created"      (appeared 1x)
-    " those"        (appeared 1x)
-    " lives"        (appeared 1x)
-    " might"        (appeared 1x)
-    " But"          (appeared 1x)
-    " larger"       (appeared 1x)
-    " remember"     (appeared 1x)
-    " be"           (appeared 1x)
-    " before"       (appeared 1x)
-    " take"         (appeared 1x)
-    " increased"    (appeared 1x)
-    " freedom"      (appeared 1x)
-    " by"           (appeared 1x)
-
---- GPT-2 XL ---
-Loading gpt2-xl...   Building index... 0%  Building index... 10%  Building index... 20%  Building index... 30%  Building index... 40%  Building index... 50%  Building index... 60%  Building index... 70%  Building index... 80%  Building index... 90%  Building index... saving...  Building index... done. (cached to data/gpt2-xl/index.usearch)
-50257 tokens x 1600d
-
-=== Real Text: Gettysburg Address ===
-  Total tokens: 286
-  Unique tokens: 143
-  Unique ratio: 50.0%
-  Most repeated:
-    ","          x20
-    " that"      x13
-    "."          x9
-    " we"        x8
-    " a"         x7
-  Tokens appearing once: 95
-
-  Decomposing...
-
---- Results ---
-  Total token recovery:  94.4% (270/286, 16 missing, 14 extra)
+  Total token recovery:  94.4% (270/286, 16 missing, 16 extra)
   Unique token recovery: 90.2% (129/143)
   Recovered tokens: 288
-  Final residual: 7.3231
+  Final residual: 7.7468
 
   Missing unique tokens (14):
     " on"           (appeared 2x)
     " they"         (appeared 2x)
-    " seven"        (appeared 1x)
     " created"      (appeared 1x)
+    " might"        (appeared 1x)
+    " do"           (appeared 1x)
+    " But"          (appeared 1x)
+    " add"          (appeared 1x)
+    " be"           (appeared 1x)
+    " remaining"    (appeared 1x)
+    " highly"       (appeared 1x)
+    " under"        (appeared 1x)
+    " freedom"      (appeared 1x)
+    " by"           (appeared 1x)
+    " perish"       (appeared 1x)
+
+--- GPT-2 XL ---
+Loading gpt2-xl... 50257 tokens x 1600d
+
+=== Real Text: Gettysburg Address ===
+  Total tokens: 286
+  Unique tokens: 143
+  Unique ratio: 50.0%
+  Most repeated:
+    ","          x20
+    " that"      x13
+    "."          x9
+    " we"        x8
+    " a"         x7
+  Tokens appearing once: 95
+
+  Decomposing (trace mode)...
+   Step        Norm  Token              Hit?
+  ------------------------------------------
+      0  89.4846  " that"            HIT
+      1  88.9833  ","                HIT
+      2  88.5046  " that"            HIT
+      3  88.0097  " in"              HIT
+      4  87.5357  ","                HIT
+      5  87.0649  " that"            HIT
+      6  86.5773  " in"              HIT
+      7  86.1116  " that"            HIT
+      8  85.6311  ","                HIT
+      9  85.1688  " in"              HIT
+     10  84.7118  " that"            HIT
+     11  84.2393  ","                HIT
+     12  83.7858  " that"            HIT
+     13  83.3207  " in"              HIT
+     14  82.8737  ","                HIT
+     15  82.4292  " that"            HIT
+     16  81.9729  " in"              HIT
+     17  81.5355  ","                HIT
+     18  81.1005  " that"            HIT
+     19  80.6533  " in"              HIT
+     20  80.2261  ","                HIT
+     21  79.8012  " that"            HIT
+     22  79.3635  ","                HIT
+     23  78.9466  " in"              HIT
+     24  78.5325  " that"            HIT
+     25  78.1050  " the"             HIT
+     26  77.6934  ","                HIT
+     27  77.2883  " in"              HIT
+     28  76.8871  " that"            HIT
+     29  76.4725  " the"             HIT
+     30  76.0735  ","                HIT
+     31  75.6810  " that"            HIT
+     32  75.2786  " in"              HIT
+     33  74.8928  " we"              HIT
+     34  74.4513  ","                HIT
+     35  74.0709  " the"             HIT
+     36  73.6871  " to"              HIT
+     37  73.3121  " we"              HIT
+     38  72.8819  " a"               HIT
+     39  72.5039  " that"            HIT
+     40  72.1222  ","                HIT
+     41  71.7565  " we"              HIT
+     42  71.3385  " in"              HIT
+     43  70.9770  " a"               HIT
+     44  70.6134  " to"              HIT
+     45  70.2578  " we"              HIT
+     46  69.8520  " have"            HIT
+     47  69.4544  ","                HIT
+     48  69.1052  " that"            HIT
+     49  68.7454  " the"             HIT
+     50  68.3981  " have"            HIT
+     51  68.0116  " to"              HIT
+     52  67.6714  " we"              HIT
+     53  67.2810  " a"               HIT
+     54  66.9405  ","                HIT
+     55  66.6094  " have"            HIT
+     56  66.2351  " for"             HIT
+     57  65.8955  " we"              HIT
+     58  65.5194  " that"            HIT
+     59  65.1856  " not"             HIT
+     60  64.8029  " in"              HIT
+     61  64.4864  " have"            HIT
+     62  64.1270  " a"               HIT
+     63  63.8081  " we"              HIT
+     64  63.4494  " to"              HIT
+     65  63.1399  " are"             HIT
+     66  62.8062  " for"             HIT
+     67  62.4930  " not"             HIT
+     68  62.1339  ","                HIT
+     69  61.8360  " can"             HIT
+     70  61.4821  " we"              HIT
+     71  61.1424  " the"             HIT
+     72  60.8457  " have"            HIT
+     73  60.5147  " and"             HIT
+     74  60.2167  " that"            HIT
+     75  59.9228  " not"             HIT
+     76  59.5877  " can"             HIT
+     77  59.2561  " this"            HIT
+     78  58.9499  " we"              HIT
+     79  58.6346  " for"             HIT
+     80  58.3534  " have"            HIT
+     81  58.0460  " so"              HIT
+     82  57.6963  " here"            HIT
+     83  57.2901  " great"           HIT
+     84  56.8861  " will"            HIT
+     85  56.5708  " of"              HIT
+     86  56.2953  " people"          HIT
+     87  55.9412  " a"               HIT
+     88  55.6756  " nation"          HIT
+     89  55.2388  " and"             HIT
+     90  54.9696  " —"               HIT
+     91  54.6055  " not"             HIT
+     92  54.2997  " are"             HIT
+     93  54.0208  " here"            HIT
+     94  53.6365  " great"           HIT
+     95  53.2568  " this"            HIT
+     96  52.9814  " will"            HIT
+     97  52.6906  " nation"          HIT
+     98  52.2743  " to"              HIT
+     99  52.0268  " we"              HIT
+    100  51.7455  " —"               HIT
+    101  51.4014  " what"            HIT
+    102  51.1115  " people"          HIT
+    103  50.7909  " can"             HIT
+    104  50.5084  " so"              HIT
+    105  50.2018  " here"            HIT
+    106  49.8511  " great"           HIT
+    107  49.5036  " of"              HIT
+    108  49.2624  " have"            HIT
+    109  49.0004  " nation"          HIT
+    110  48.6106  " long"            HIT
+    111  48.2549  " —"               HIT
+    112  47.9317  " their"           HIT
+    113  47.6588  " not"             HIT
+    114  47.3907  " who"             HIT
+    115  47.1090  " be"              HIT
+    116  46.8485  " and"             HIT
+    117  46.6234  " our"             HIT
+    118  46.3511  " dead"            HIT
+    119  45.9563  " nation"          HIT
+    120  45.5959  " here"            HIT
+    121  45.2737  " it"              HIT
+    122  45.0507  " war"             HIT
+    123  44.6948  " will"            HIT
+    124  44.4441  " —"               HIT
+    125  44.1460  " men"             HIT
+    126  43.8194  " as"              HIT
+    127  43.5982  " long"            HIT
+    128  43.2806  " give"            miss
+    129  43.0035  " these"           HIT
+    130  42.7456  " died"            HIT
+    131  42.4025  " shall"           HIT
+    132  42.0846  " new"             HIT
+    133  41.8030  " but"             HIT
+    134  41.5704  " what"            HIT
+    135  41.3326  " never"           HIT
+    136  41.0313  " nation"          HIT
+    137  40.7022  " of"              HIT
+    138  40.4979  " come"            HIT
+    139  40.2142  " dedicated"       HIT
+    140  39.6435  " dedicated"       HIT
+    141  39.1352  " dedicated"       HIT
+    142  38.6916  " consec"          HIT
+    143  38.2201  " or"              HIT
+    144  37.9801  " life"            miss
+    145  37.6530  " great"           HIT
+    146  37.3607  " —"               HIT
+    147  37.0709  " did"             HIT
+    148  36.8222  " their"           HIT
+    149  36.5917  " dedicate"        HIT
+    150  36.1689  " for"             HIT
+    151  35.9657  " dead"            HIT
+    152  35.6138  " devotion"        HIT
+    153  35.2461  ","                HIT
+    154  35.0487  " here"            HIT
+    155  34.7605  " war"             HIT
+    156  34.4442  " place"           HIT
+    157  34.1197  " shall"           HIT
+    158  33.8252  " living"          HIT
+    159  33.4958  " it"              HIT
+    160  33.2981  " men"             HIT
+    161  33.0087  " sacred"          miss
+    162  32.6707  " and"             HIT
+    163  32.4727  " take"            HIT
+    164  32.2335  " perished"        miss
+    165  31.8747  " more"            miss
+    166  31.6486  " these"           HIT
+    167  31.4210  " because"         miss
+    168  31.1940  " field"           HIT
+    169  30.8677  " gave"            HIT
+    170  30.6169  " measure"         HIT
+    171  30.2477  " who"             HIT
+    172  30.0234  " world"           HIT
+    173  29.7530  " us"              HIT
+    174  29.5080  " altogether"      HIT
+    175  29.1770  ","                HIT
+    176  28.9998  " should"          HIT
+    177  28.7739  " dedicated"       HIT
+    178  28.4408  " brave"           HIT
+    179  28.1164  " but"             HIT
+    180  27.9152  " last"            HIT
+    181  27.6604  " conceived"       HIT
+    182  27.2463  " or"              HIT
+    183  27.0453  " struggle"        miss
+    184  26.7382  " greater"         miss
+    185  26.4732  " —"               HIT
+    186  26.2125  " earth"           HIT
+    187  25.9102  " from"            HIT
+    188  25.7229  " liberty"         miss
+    189  25.4062  "."                HIT
+    190  25.2437  " five"            miss
+    191  25.0270  " final"           HIT
+    192  24.7604  "DeliveryDate"     miss
+    193  24.3086  "."                HIT
+    194  24.1359  " can"             HIT
+    195  23.9282  " this"            HIT
+    196  23.7379  " any"             HIT
+    197  23.5357  " portion"         HIT
+    198  23.2577  " say"             HIT
+    199  23.0295  " far"             HIT
+    200  22.7749  " consec"          HIT
+    201  22.4507  " and"             HIT
+    202  22.2745  " our"             HIT
+    203  22.0829  " continent"       HIT
+    204  21.7889  "."                HIT
+    205  21.6326  " live"            HIT
+    206  21.3765  " It"              HIT
+    207  21.2038  " remember"        HIT
+    208  20.9215  " forth"           HIT
+    209  20.6304  " created"         HIT
+    210  20.3886  " power"           HIT
+    211  20.1451  ","                HIT
+    212  19.9922  " vain"            HIT
+    213  19.6719  " years"           HIT
+    214  19.4496  " resting"         HIT
+    215  19.1777  " did"             HIT
+    216  18.9908  " civil"           HIT
+    217  18.7308  "."                HIT
+    218  18.5794  " fathers"         HIT
+    219  18.3010  " We"              HIT
+    220  18.1068  " new"             HIT
+    221  17.9029  " cause"           HIT
+    222  17.6655  " rather"          HIT
+    223  17.4407  " Now"             HIT
+    224  17.2319  " met"             HIT
+    225  16.9862  " those"           HIT
+    226  16.8019  " score"           HIT
+    227  16.5481  "."                HIT
+    228  16.4067  " proposition"     HIT
+    229  16.1403  " above"           HIT
+    230  15.9156  "rated"            HIT
+    231  15.6366  " of"              HIT
+    232  15.4793  " little"          HIT
+    233  15.2688  " birth"           HIT
+    234  15.0124  " It"              HIT
+    235  14.8555  " nor"             HIT
+    236  14.6304  " remaining"       HIT
+    237  14.4106  " engaged"         HIT
+    238  14.1853  " forget"          HIT
+    239  13.9421  ","                HIT
+    240  13.7856  " proper"          HIT
+    241  13.5535  " is"              HIT
+    242  13.4092  " hall"            HIT
+    243  13.1073  " The"             HIT
+    244  12.9533  " devotion"        HIT
+    245  12.7332  "."                HIT
+    246  12.6005  " ground"          HIT
+    247  12.3782  " poor"            HIT
+    248  12.1911  " equal"           HIT
+    249  11.9970  " Here"            miss
+    250  11.8253  " them"            miss
+    251  11.6749  " —"               HIT
+    252  11.5147  " endure"          HIT
+    253  11.3265  " whether"         HIT
+    254  11.1586  "-"                HIT
+    255  11.0263  " conceived"       HIT
+    256  10.8504  " note"            HIT
+    257  10.6738  "field"            HIT
+    258  10.4762  " task"            HIT
+    259  10.2961  " a"               HIT
+    260  10.1622  " brings"          miss
+    261  10.0188  "."                HIT
+    262  9.9094  "rate"             HIT
+    263  9.7637  " all"             HIT
+    264  9.6300  " Liberty"         HIT
+    265  9.4771  " testing"         HIT
+    266  9.3417  " people"          HIT
+    267  9.2302  " ago"             HIT
+    268  9.1117  " The"             HIT
+    269  9.0033  " dead"            HIT
+    270  8.8579  " fitting"         HIT
+    271  8.7307  " resolve"         HIT
+    272  8.6400  "."                HIT
+    273  8.5408  " added"           miss
+    274  8.4563  " government"      HIT
+    275  8.3714  " On"              miss
+    276  8.2829  "ow"               HIT
+    277  8.1684  " and"             HIT
+    278  8.0911  " highly"          HIT
+    279  8.0253  "Four"             HIT
+    280  7.9717  " God"             HIT
+    281  7.9115  " the"             HIT
+    282  7.8545  " detract"         HIT
+    283  7.8376  " battle"          HIT
+    284  7.8147  " is"              HIT
+    285  7.7689  " under"           HIT
+    286  7.7554  "size"             miss
+         7.7936  (final residual)
+
+--- Results ---
+  Total token recovery:  92.3% (264/286, 22 missing, 17 extra)
+  Unique token recovery: 86.0% (123/143)
+  Recovered tokens: 287
+  Final residual: 7.7936
+
+  Missing unique tokens (20):
+    " on"           (appeared 2x)
+    " they"         (appeared 2x)
+    " seven"        (appeared 1x)
+    " brought"      (appeared 1x)
     " lives"        (appeared 1x)
     " might"        (appeared 1x)
+    " do"           (appeared 1x)
     " But"          (appeared 1x)
     " larger"       (appeared 1x)
+    " sense"        (appeared 1x)
+    " struggled"    (appeared 1x)
     " add"          (appeared 1x)
-    " take"         (appeared 1x)
+    " before"       (appeared 1x)
+    " honored"      (appeared 1x)
     " increased"    (appeared 1x)
     " which"        (appeared 1x)
+    " full"         (appeared 1x)
+    " freedom"      (appeared 1x)
     " by"           (appeared 1x)
     " perish"       (appeared 1x)
