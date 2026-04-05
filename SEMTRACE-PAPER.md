@@ -61,6 +61,14 @@ We evaluate three metrics for the nearest-neighbor search:
 
 No single metric dominates across all conditions (Section 5).
 
+### 2.4 Greedy Decomposition as Geometric Probe
+
+An important methodological point: greedy residual decomposition has no hidden parameters. Unlike a trained decoder (e.g., Vec2Text), which can learn to work around geometric obstacles without revealing them, greedy decomposition fails transparently. When it cannot recover a token, that token is genuinely not separable from the residual at that step — a direct measurement of the embedding geometry.
+
+Coordinate descent (Section 4.3) then serves as a complementary probe. It finds the same tokens greedy finds but corrects path-dependent errors, confirming the tokens were geometrically present but reached by a suboptimal sequence of choices. Together, the two methods triangulate the geometry: greedy reveals what is accessible step-by-step; coordinate descent reveals what is accessible globally.
+
+This makes both methods diagnostic instruments, not just algorithms. Their failures characterize the space as precisely as their successes.
+
 ---
 
 ## 3. Static Embedding Decomposition

@@ -26,7 +26,7 @@ COPY src/ src/
 COPY experiments/ experiments/
 
 # Build the CLI
-RUN crystal build src/cli.cr -o bin/semtrace --release
+RUN mkdir -p bin && crystal build src/cli.cr -o bin/semtrace --release
 
 # Download GPT-2 Small embeddings (smallest model, ~150MB)
 RUN bin/semtrace prepare gpt2
