@@ -4,6 +4,7 @@ require "./semtrace/prepare"
 require "./semtrace/embedding_store"
 require "./semtrace/tokenizer"
 require "./semtrace/decomposer"
+require "./semtrace/real_text"
 require "./semtrace/ollama"
 
 module Semtrace
