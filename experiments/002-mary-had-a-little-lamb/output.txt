@@ -1,5 +1,5 @@
 === Experiment 002: Mary Had a Little Lamb ===
-Date: Sun Apr  5 04:42:55 AM EDT 2026
+Date: Sun Apr  5 07:14:43 PM EDT 2026
 Running exp002...
 Loading data... 50257 tokens x 768d
 
@@ -15,7 +15,66 @@ Loading data... 50257 tokens x 768d
     " to"        x3
   Tokens appearing once: 28
 
-  Decomposing...
+  Decomposing (trace mode)...
+   Step        Norm  Token              Hit?
+  ------------------------------------------
+      0  94.3500  " to"              HIT
+      1  92.5291  " to"              HIT
+      2  90.7418  "."                HIT
+      3  88.6317  " in"              miss
+      4  86.9179  "The"              miss
+      5  85.0383  " was"             HIT
+      6  83.1959  " it"              miss
+      7  81.4140  "."                HIT
+      8  79.3694  " a"               HIT
+      9  77.6259  " was"             HIT
+     10  75.8327  "The"              miss
+     11  74.0196  " and"             HIT
+     12  72.2927  " it"              miss
+     13  70.5924  " to"              HIT
+     14  68.9540  " have"            miss
+     15  67.2235  ","                HIT
+     16  65.2600  " was"             HIT
+     17  63.5723  "The"              miss
+     18  61.8726  " a"               HIT
+     19  60.2909  " had"             HIT
+     20  58.6484  "."                HIT
+     21  56.8506  " it"              miss
+     22  55.3181  " went"            HIT
+     23  53.6170  " as"              HIT
+     24  52.1779  " make"            miss
+     25  50.6478  " that"            HIT
+     26  49.2438  " school"          HIT
+     27  47.5270  " an"              miss
+     28  46.1800  " went"            HIT
+     29  44.6035  " children"        HIT
+     30  42.9312  ","                HIT
+     31  41.3123  " denounced"       miss
+     32  39.5663  " Mary"            HIT
+     33  37.8943  " be"              miss
+     34  36.5175  " but"             miss
+     35  35.1977  " don"             miss
+     36  33.8778  " externalToEVA"   miss
+     37  32.4635  " one"             HIT
+     38  31.1612  ","                HIT
+     39  29.7219  " lamb"            HIT
+     40  27.3834  " lamb"            HIT
+     41  25.4264  " school"          HIT
+     42  23.9324  " snow"            HIT
+     43  22.4158  " her"             HIT
+     44  21.1163  " little"          HIT
+     45  19.7434  " at"              HIT
+     46  18.6950  " laugh"           HIT
+     47  17.2320  " day"             HIT
+     48  16.0574  " white"           HIT
+     49  15.0040  " everywhere"      HIT
+     50  13.8521  "ce"               HIT
+     51  12.6786  " which"           HIT
+     52  11.9184  " rules"           HIT
+     53  11.2345  " lamb"            HIT
+     54  10.7531  ","                HIT
+     55  10.5599  " flee"            HIT
+         10.7291  (final residual)
 
 --- Results ---
   Total token recovery:  74.5% (41/55, 14 missing, 15 extra)
@@ -114,7 +173,66 @@ Loading gpt2-xl... 50257 tokens x 1600d
     " to"        x3
   Tokens appearing once: 28
 
-  Decomposing...
+  Decomposing (trace mode)...
+   Step        Norm  Token              Hit?
+  ------------------------------------------
+      0  18.6235  ","                HIT
+      1  18.1930  " to"              HIT
+      2  17.7899  ","                HIT
+      3  17.3989  " a"               HIT
+      4  17.0080  " the"             HIT
+      5  16.6476  " and"             HIT
+      6  16.2866  " was"             HIT
+      7  15.9186  " to"              HIT
+      8  15.5864  " a"               HIT
+      9  15.2736  ","                HIT
+     10  14.9766  " was"             HIT
+     11  14.6678  " that"            HIT
+     12  14.3842  " school"          HIT
+     13  13.9889  " as"              HIT
+     14  13.7148  " had"             HIT
+     15  13.4356  " lamb"            HIT
+     16  12.6408  " the"             HIT
+     17  12.3832  " go"              HIT
+     18  12.0424  " to"              HIT
+     19  11.8071  " little"          HIT
+     20  11.4850  " made"            HIT
+     21  11.2028  " and"             HIT
+     22  10.9876  " lamb"            HIT
+     23  10.3314  " it"              miss
+     24  10.1058  " day"             HIT
+     25  9.8102  " children"        HIT
+     26  9.5217  " at"              HIT
+     27  9.3060  " went"            HIT
+     28  9.0578  " Mary"            HIT
+     29  8.6112  " play"            HIT
+     30  8.3159  " lamb"            HIT
+     31  7.9283  "."                HIT
+     32  7.6962  " snow"            HIT
+     33  7.3405  " everywhere"      HIT
+     34  7.0324  " her"             HIT
+     35  6.7865  " followed"        HIT
+     36  6.4898  " laugh"           HIT
+     37  6.2103  "."                HIT
+     38  5.9887  " white"           HIT
+     39  5.7148  " which"           HIT
+     40  5.4709  " school"          HIT
+     41  5.2258  " It"              HIT
+     42  5.0019  " against"         HIT
+     43  4.7463  " sure"            HIT
+     44  4.4805  " see"             HIT
+     45  4.2735  "ce"               HIT
+     46  3.8496  " flee"            HIT
+     47  3.5452  ","                HIT
+     48  3.2612  "Mary"             HIT
+     49  2.9773  " the"             HIT
+     50  2.6226  " rules"           HIT
+     51  2.1381  " one"             HIT
+     52  1.8121  " Its"             miss
+     53  1.6044  " was"             HIT
+     54  1.2157  "."                HIT
+     55  0.8312  " the"             HIT
+         1.0604  (final residual)
 
 --- Results ---
   Total token recovery:  98.2% (54/55, 1 missing, 2 extra)
