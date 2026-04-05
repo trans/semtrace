@@ -41,7 +41,7 @@ RUN for d in experiments/0*/run.cr; do \
 # Python contextual vocabs built on first run (cached in /semtrace/experiments/contextual/)
 
 # Copy remaining files
-COPY DESIGN.md RESULTS.md PAPER.md BIGWIN.md SEMTRACE-PAPER.md run_all.sh ./
+COPY DESIGN.md PAPER.md BIGWIN.md SEMTRACE-PAPER.md run_all.sh ./
 COPY spec/ spec/
 
 ENTRYPOINT ["/semtrace/run_all.sh"]
