@@ -1,0 +1,126 @@
+=== Experiment 002: Mary Had a Little Lamb ===
+Date: Sun Apr  5 04:42:55 AM EDT 2026
+Running exp002...
+Loading data... 50257 tokens x 768d
+
+=== Real Text: Mary Had a Little Lamb ===
+  Total tokens: 55
+  Unique tokens: 38
+  Unique ratio: 69.1%
+  Most repeated:
+    ","          x4
+    " lamb"      x3
+    " was"       x3
+    " the"       x3
+    " to"        x3
+  Tokens appearing once: 28
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  74.5% (41/55, 14 missing, 15 extra)
+  Unique token recovery: 71.1% (27/38)
+  Recovered tokens: 56
+  Final residual: 10.7291
+
+  Missing unique tokens (11):
+    " the"          (appeared 3x)
+    " It"           (appeared 2x)
+    "Mary"          (appeared 1x)
+    " its"          (appeared 1x)
+    " sure"         (appeared 1x)
+    " go"           (appeared 1x)
+    " followed"     (appeared 1x)
+    " against"      (appeared 1x)
+    " made"         (appeared 1x)
+    " play"         (appeared 1x)
+    " see"          (appeared 1x)
+
+--- GPT-2 Medium ---
+Loading gpt2-medium... 50257 tokens x 1024d
+
+=== Real Text: Mary Had a Little Lamb ===
+  Total tokens: 55
+  Unique tokens: 38
+  Unique ratio: 69.1%
+  Most repeated:
+    ","          x4
+    " lamb"      x3
+    " was"       x3
+    " the"       x3
+    " to"        x3
+  Tokens appearing once: 28
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  74.5% (41/55, 14 missing, 16 extra)
+  Unique token recovery: 65.8% (25/38)
+  Recovered tokens: 56
+  Final residual: 12.6834
+
+  Missing unique tokens (13):
+    " It"           (appeared 2x)
+    "Mary"          (appeared 1x)
+    " had"          (appeared 1x)
+    " its"          (appeared 1x)
+    " flee"         (appeared 1x)
+    "ce"            (appeared 1x)
+    " as"           (appeared 1x)
+    " snow"         (appeared 1x)
+    " everywhere"   (appeared 1x)
+    " followed"     (appeared 1x)
+    " one"          (appeared 1x)
+    " against"      (appeared 1x)
+    " see"          (appeared 1x)
+
+--- GPT-2 Large ---
+Loading gpt2-large... 50257 tokens x 1280d
+
+=== Real Text: Mary Had a Little Lamb ===
+  Total tokens: 55
+  Unique tokens: 38
+  Unique ratio: 69.1%
+  Most repeated:
+    ","          x4
+    " lamb"      x3
+    " was"       x3
+    " the"       x3
+    " to"        x3
+  Tokens appearing once: 28
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  100.0% (55/55, 0 missing, 2 extra)
+  Unique token recovery: 100.0% (38/38)
+  Recovered tokens: 56
+  Final residual: 1.1220
+
+  All unique tokens recovered!
+
+--- GPT-2 XL ---
+Loading gpt2-xl... 50257 tokens x 1600d
+
+=== Real Text: Mary Had a Little Lamb ===
+  Total tokens: 55
+  Unique tokens: 38
+  Unique ratio: 69.1%
+  Most repeated:
+    ","          x4
+    " lamb"      x3
+    " was"       x3
+    " the"       x3
+    " to"        x3
+  Tokens appearing once: 28
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  98.2% (54/55, 1 missing, 2 extra)
+  Unique token recovery: 97.4% (37/38)
+  Recovered tokens: 56
+  Final residual: 1.0604
+
+  Missing unique tokens (1):
+    " its"          (appeared 1x)

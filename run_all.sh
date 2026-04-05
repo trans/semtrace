@@ -37,13 +37,13 @@ run_001() {
 run_002() {
   echo "=== Experiment 002: Mary Had a Little Lamb ==="
   echo "Date: $(date)"
-  run_crystal experiments/002-mary-had-a-little-lamb exp002 "--builtin maryhadalittlelamb"
+  run_crystal experiments/002-mary-had-a-little-lamb exp002 "--builtin mary"
   echo; echo "--- GPT-2 Medium ---"
-  bin/exp002 --data data/gpt2-medium --builtin maryhadalittlelamb
+  bin/exp002 --data data/gpt2-medium --builtin mary
   echo; echo "--- GPT-2 Large ---"
-  bin/exp002 --data data/gpt2-large --builtin maryhadalittlelamb
+  bin/exp002 --data data/gpt2-large --builtin mary
   echo; echo "--- GPT-2 XL ---"
-  bin/exp002 --data data/gpt2-xl --builtin maryhadalittlelamb
+  bin/exp002 --data data/gpt2-xl --builtin mary
 }
 
 # Experiment 003: Tale of Two Cities
@@ -55,11 +55,47 @@ run_003() {
   bin/exp003 --data data/gpt2-xl --file experiments/texts/tale-ch1.txt
 }
 
+# Experiment 004: Optimization (uses optimization_test runner)
+run_004() {
+  echo "=== Experiment 004: Optimization & Semantic Accuracy ==="
+  echo "Date: $(date)"
+  run_crystal experiments/004-optimization-and-semantic exp004 "--data data/gpt2-xl --file experiments/texts/gettysburg.txt"
+}
+
+# Experiment 005: Capacity Test
+run_005() {
+  echo "=== Experiment 005: Capacity Test ==="
+  echo "Date: $(date)"
+  run_crystal experiments/005-capacity-test exp005 "--data data/gpt2-xl --trials 5 --max 300"
+}
+
+# Experiment 006: Llama HNSW (requires Llama data)
+run_006() {
+  echo "=== Experiment 006: Llama 3.2 HNSW ==="
+  echo "Date: $(date)"
+  if [ -f data/llama-3-2-3b-instruct/embeddings.bin ]; then
+    run_crystal experiments/006-llama-gettysburg exp006 "--data data/llama-3-2-3b-instruct --ids data/llama-3-2-3b-instruct/gettysburg_ids.json"
+  else
+    echo "SKIPPED: Llama data not available. Run: bin/semtrace extract-gguf <path-to-gguf>"
+  fi
+}
+
 # Experiment 007: Metric Comparison (brute-force, slow)
 run_007() {
   echo "=== Experiment 007: Metric Comparison ==="
   echo "Date: $(date)"
   run_crystal experiments/007-metric-comparison exp007 "--data data/gpt2-xl --builtin gettysburg"
+}
+
+# Experiment 008: Llama Brute-Force (requires Llama data, slow)
+run_008() {
+  echo "=== Experiment 008: Llama Brute-Force ==="
+  echo "Date: $(date)"
+  if [ -f data/llama-3-2-3b-instruct/embeddings.bin ]; then
+    run_crystal experiments/008-llama-brute-force exp008 "--data data/llama-3-2-3b-instruct --ids data/llama-3-2-3b-instruct/gettysburg_ids.json"
+  else
+    echo "SKIPPED: Llama data not available."
+  fi
 }
 
 # Experiment 009: Union of Metrics (brute-force, slow)
@@ -105,7 +141,7 @@ run_012() {
 
 # Main: run selected or all
 if [ $# -eq 0 ]; then
-  experiments="001 002 003 007 009 010 011 012"
+  experiments="001 002 003 004 005 006 007 008 009 010 011 012"
 else
   experiments="$@"
 fi
