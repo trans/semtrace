@@ -263,4 +263,41 @@ Loading gpt2-large...   Building index... 0%  Building index... 10%  Building
     " by"           (appeared 1x)
 
 --- GPT-2 XL ---
-Loading gpt2-xl...   Building index... 0%  Building index... 10%  Building index... 20%  Building index... 30%  Building index... 40%  Building index... 50%  Building index... 60%  Building index... 70%  Building index... 80%  Building index... 90%
+Loading gpt2-xl...   Building index... 0%  Building index... 10%  Building index... 20%  Building index... 30%  Building index... 40%  Building index... 50%  Building index... 60%  Building index... 70%  Building index... 80%  Building index... 90%  Building index... saving...  Building index... done. (cached to data/gpt2-xl/index.usearch)
+50257 tokens x 1600d
+
+=== Real Text: Gettysburg Address ===
+  Total tokens: 286
+  Unique tokens: 143
+  Unique ratio: 50.0%
+  Most repeated:
+    ","          x20
+    " that"      x13
+    "."          x9
+    " we"        x8
+    " a"         x7
+  Tokens appearing once: 95
+
+  Decomposing...
+
+--- Results ---
+  Total token recovery:  94.4% (270/286, 16 missing, 14 extra)
+  Unique token recovery: 90.2% (129/143)
+  Recovered tokens: 288
+  Final residual: 7.3231
+
+  Missing unique tokens (14):
+    " on"           (appeared 2x)
+    " they"         (appeared 2x)
+    " seven"        (appeared 1x)
+    " created"      (appeared 1x)
+    " lives"        (appeared 1x)
+    " might"        (appeared 1x)
+    " But"          (appeared 1x)
+    " larger"       (appeared 1x)
+    " add"          (appeared 1x)
+    " take"         (appeared 1x)
+    " increased"    (appeared 1x)
+    " which"        (appeared 1x)
+    " by"           (appeared 1x)
+    " perish"       (appeared 1x)
