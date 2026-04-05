@@ -1,0 +1,38 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2945.54it/s]
+Text: 'Mary had a little lamb its fleece was white as snow and everywhere that Mary went the lamb was sure to go'
+Tokens (23): ['Mary', ' had', ' a', ' little', ' lamb', ' its', ' flee', 'ce', ' was', ' white', ' as', ' snow', ' and', ' everywhere', ' that', ' Mary', ' went', ' the', ' lamb', ' was', ' sure', ' to', ' go'], Unique: 21
+
+Building contextual vocab at L6 (f32)...
+Bias norm: 2637.0
+
+============================================================
+PART 1: Static decomposition (sum of static embeddings)
+  Target and vocab quantized to same precision
+    Bits    Recovery   Max Error
+  ------------------------------
+    32b        18/21      0.0000
+    16b        18/21      0.0005
+     8b        18/21      0.0070
+     4b        19/21      0.1265
+
+============================================================
+PART 2: Contextual decomposition (bias-subtracted hidden states)
+  Hidden states quantized, then bias subtracted
+    Bits    Recovery   Signal Norm  Tokens
+  -------------------------------------------------------
+    32b         6/21         554.0  [' being', ' go', ' was', ' thou', ' always', ' were']
+    16b         4/21         554.0  [' being', ' go', ' always', ' thou', ' was', ' flee']
+     8b         0/21         555.8  ['during', ' natural', ' natural', ' natural', ' natural', ' natural']
+     4b         0/21         587.4  ['OND', 'OND', 'OND', 'OND', 'OND', 'OND']
+
+============================================================
+PART 3: Signal-to-noise ratio at each precision
+  After bias subtraction, how much token signal remains?
+    Bits   Total Norm   Bias Norm   Signal Norm   Signal %
+  -------------------------------------------------------
+    32b      65268.4     65268.4         554.0       0.8%
+    16b      65268.9     65268.4         554.0       0.8%
+     8b      65266.3     65268.4         555.8       0.9%
+     4b      65255.1     65268.4         587.6       0.9%
