@@ -1,0 +1,67 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1955.89it/s]
+Text: 'the cat sat on the mat'
+Tokens (6): ['the', ' cat', ' sat', ' on', ' the', ' mat'], Unique: 6
+Layers: 12
+
+Building per-layer contextual vocabularies...
+  Layer  0: avg norm     10.6
+  Layer  1: avg norm    137.3
+  Layer  2: avg norm    629.7
+  Layer  3: avg norm   2573.4
+  Layer  4: avg norm   2755.7
+  Layer  5: avg norm   2904.0
+  Layer  6: avg norm   2997.0
+  Layer  7: avg norm   3052.6
+  Layer  8: avg norm   3086.1
+  Layer  9: avg norm   3106.6
+  Layer 10: avg norm   3116.7
+  Layer 11: avg norm   3117.7
+  Layer 12: avg norm     70.2
+
+Computing per-layer biases from 4 reference sentences...
+
+ Layer   Bias Norm   Consistency
+--------------------------------
+  L 0           7.6      0.999778
+  L 1         116.4      0.996631
+  L 2         562.0      0.999771
+  L 3        2265.7      0.999978
+  L 4        2429.5      0.999971
+  L 5        2558.0      0.999964
+  L 6        2637.0      0.999954
+  L 7        2680.9      0.999937
+  L 8        2703.3      0.999909
+  L 9        2712.8      0.999870
+  L10        2710.4      0.999814
+  L11        2677.6      0.999712
+  L12         128.9      0.994815
+
+============================================================
+DECOMPOSITION COMPARISON
+
+  No bias subtraction (L12): 0/6
+  Aggregate bias subtraction (L12): 0/6  [' slog', ' slit', ' bass', ' slur', ' cabal', ' maid', ' slit', ' stomp']
+
+  Per-layer sequential subtraction:
+    After removing L12 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L11 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L10 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 9 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 8 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 7 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 6 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 5 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 4 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 3 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 2 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 1 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+    After removing L 0 bias: norm=    74.1  hits=0/6  [' bass', ' cabal', ' slog', ' slit', ' slur', ' slit']
+
+  Decomposition at each layer (with that layer's bias subtracted):
+    L 0: 6/6  [' the', ' on', ' mat', ' sat', ' cat', 'the', 'ignt']
+    L 3: 4/6  [' the', ' mat', 'sat', ' the', ' sitting', 'cat', ' on', ' mats']
+    L 6: 3/6  ['sat', ' seated', ' mat', 'the', ' on', ' Cat', ' rodent', ' lie']
+    L 9: 1/6  ['sat', ' seated', 'cat', ' mat', ' scratching', ' lying', ' its', 'Sat']
+    L12: 0/6  [' slog', ' slit', ' bass', ' slur', ' cabal', ' maid', ' slit', ' stomp']
