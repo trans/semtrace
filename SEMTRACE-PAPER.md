@@ -11,7 +11,7 @@
 
 We present *semantic tracing*, a training-free method for recovering token content from embedding vectors via greedy residual decomposition. The algorithm iteratively finds the nearest token embedding to a residual vector, subtracts it, and repeats. On static token-sum embeddings, this approach recovers bag-of-words content with high fidelity — 100% of unique tokens on short texts and 90%+ on medium texts (Gettysburg Address, 143 unique tokens) using GPT-2 XL (1600d). Coordinate descent optimization improves recovery from 43% to 97% on smaller models. We observe a sharp accuracy threshold between 1024 and 1280 dimensions in the GPT-2 family. Union of multiple distance metrics (cosine, L2, inner product) further improves recovery by exploiting complementary greedy paths.
 
-For contextual embeddings, we observe a dominant near-constant bias-like component in transformer hidden states, accounting for approximately 99.5% of hidden state energy in our tested setting (GPT-2 Small, layer 6). Subtracting this component enables partial token recovery (17-80%) from representations that previously yielded 0%. Embedding magnitude encodes token count, and L2 normalization — standard in embedding APIs — destroys both magnitude and the ability to perform additive decomposition in our tested settings.
+For contextual embeddings, we observe a dominant near-constant bias component in transformer hidden states, accounting for approximately 99.5% of hidden state energy (GPT-2 Small, layer 6). Subtracting this component enables partial token recovery (17-80%) from representations that previously yielded 0%. Embedding magnitude encodes token count, and L2 normalization — standard in embedding APIs — destroys both magnitude and the ability to perform additive decomposition.
 
 Vector addition is commutative: word order is mathematically unrecoverable from any sum of static embeddings. We discuss implications for embedding security, semantic compression, and the motivation for non-commutative embedding architectures.
 
@@ -201,7 +201,7 @@ We test three normalization modes on GPT-2 XL with randomly-selected unique toke
 | NormVecs | 100% | 78% | 48% | 19% |
 | NormSum | 0% | 0% | 0% | 0% |
 
-**Normalizing the sum eliminates recovery in our tested setting** — 0% at every N. The greedy algorithm requires the residual norm to decrease with each subtraction. A unit-length target subtracted by a unit-length token produces a residual that immediately inflects upward.
+**Normalizing the sum eliminates recovery** — 0% at every N tested. The greedy algorithm requires the residual norm to decrease with each subtraction. A unit-length target subtracted by a unit-length token produces a residual that immediately inflects upward.
 
 **Normalizing individual vectors** slightly helps at small N (removing magnitude outliers) and is neutral at larger N.
 
@@ -222,7 +222,7 @@ The findings on normalization (Section 5), attention bias (Section 7.4), and mag
 In our experiments with GPT-2 Small at layer 6, a contextual embedding contains (at minimum):
 
 1. **Vocabulary mean** (~3000 norm): the shared direction of all token embeddings. Centering removes this, revealing semantic structure underneath.
-2. **Attention bias** (~2500 norm per token): a near-constant component observed across different sentences (cosine similarity 0.9999+ in our tests). Accounts for approximately 99.5% of the centered hidden state energy.
+2. **Attention bias** (~2500 norm per token): a near-constant component across sentences (cosine similarity 0.9999+). Accounts for approximately 99.5% of the centered hidden state energy.
 3. **Token content** (~16 norm per token): the residual semantic signal. Less than 0.5% of total energy.
 
 We hypothesize that each transformer layer contributes its own bias stratum — one per attention + normalization operation. We compute the aggregate in this work; decomposing per-layer biases is an open direction.
@@ -324,7 +324,7 @@ We observe that the contextual hidden state sum can be decomposed as:
 contextual_sum ≈ token_content + N × per_token_bias
 ```
 
-The per-token bias is near-constant across sentences: cosine similarity 0.9999+ across 8 tested reference sentences of varying content and length. It accounts for approximately 99.5% of the hidden state energy in our tested setting (GPT-2 Small, layer 6). The token-specific signal is less than 0.5%.
+The per-token bias is near-constant across sentences: cosine similarity 0.9999+ across 8 tested reference sentences of varying content and length. It accounts for approximately 99.5% of the hidden state energy (GPT-2 Small, layer 6). The token-specific signal is less than 0.5%.
 
 Subtracting this bias reveals the token signal:
 
@@ -348,7 +348,7 @@ Vector addition is commutative: `E("cat") + E("sat") = E("sat") + E("cat")`. No 
 
 The findings from static and contextual experiments suggest a pipeline for full text recovery from contextual embeddings. Stages 1-2 are demonstrated; Stage 3 is proposed but untested.
 
-**Stage 1: Bias subtraction → candidate tokens.** Subtract the precomputed attention bias (Section 6), estimate N from magnitude (Section 5.2) or binary search (Section 8.4), greedy decompose. Produces a partial bag of words (17-80% in our tests) plus semantic neighbors of missing tokens.
+**Stage 1: Bias subtraction → candidate tokens.** Subtract the precomputed attention bias (Section 6), estimate N from magnitude (Section 5.2) or binary search (Section 8.4), greedy decompose. Produces a partial bag of words (17-80%) plus semantic neighbors of missing tokens.
 
 **Stage 2: Coordinate descent → refined bag.** Initialize from Stage 1, iteratively optimize each position (Section 4.3). On static embeddings this achieves 97%; on contextual, improvement is limited by landscape noise (Section 8.3).
 
@@ -394,9 +394,9 @@ Progress on contextual decomposition likely requires smoothing the landscape. Th
 
 **Embedding inversion.** Morris et al. (2023) demonstrate that text embeddings can be inverted with high fidelity using Vec2Text, a trained corrector model that iteratively refines text hypotheses to match a target embedding. They achieve 92% recovery on 32-token inputs with a BLEU score of 97.3. Subsequent work extends this to zero-shot settings (Zero2Text) and cross-lingual contexts. These methods train neural models on (text, embedding) pairs. Our approach is fundamentally different: we use no training, only the static embedding matrix and nearest-neighbor search. Where Vec2Text learns to invert embeddings, we characterize the geometry that makes inversion possible — the dimensionality threshold, the role of normalization, the attention bias structure, the quantization sensitivity. Trained decoders exploit this geometry implicitly; our approach makes it explicit and measurable.
 
-**Representation anisotropy.** Ethayarajh (2019) shows that contextual word representations are anisotropic — they occupy a narrow cone in embedding space. Our observation that contextual hidden states are dominated by a near-constant bias direction is consistent with this finding and provides a quantitative characterization: the dominant direction accounts for ~99.5% of energy in our tested setting.
+**Representation anisotropy.** Ethayarajh (2019) shows that contextual word representations are anisotropic — they occupy a narrow cone in embedding space. Our observation that contextual hidden states are dominated by a near-constant bias direction is consistent with this finding and provides a quantitative characterization: the dominant direction accounts for ~99.5% of energy (GPT-2 Small, layer 6).
 
-**Embedding privacy.** The security implications of embedding inversion are increasingly recognized. Li et al. (2023) show generative models can recover full sentences from sentence embeddings. IronCore Labs (2024) catalog practical attack vectors against vector databases. Defenses include Gaussian noise injection and differential privacy, both of which degrade retrieval quality. Our finding that L2 normalization eliminates additive decomposition in our tested setting suggests normalization serves as a partial (if unintentional) defense against this specific attack vector.
+**Embedding privacy.** The security implications of embedding inversion are increasingly recognized. Li et al. (2023) show generative models can recover full sentences from sentence embeddings. IronCore Labs (2024) catalog practical attack vectors against vector databases. Defenses include Gaussian noise injection and differential privacy, both of which degrade retrieval quality. Our finding that L2 normalization eliminates additive decomposition suggests normalization serves as a partial (if unintentional) defense against this specific attack vector.
 
 **Concept arithmetic.** Mikolov et al. (2013) establish that embedding spaces support vector arithmetic (king - man + woman ≈ queen). Our work extends this in the opposite direction: rather than composing meaning from arithmetic, we decompose meaning via subtraction. The greedy residual algorithm is the operational inverse of embedding addition.
 
@@ -423,9 +423,9 @@ The fundamental limitation we identify — commutativity of vector addition dest
 ## 11. Limitations
 
 - All static decomposition results assume the target vector is an exact sum of token embeddings. Real-world embeddings from API endpoints involve attention, normalization, and pooling. We address these barriers (Sections 5-7) but full contextual recovery remains partial.
-- The attention bias observation is demonstrated on GPT-2 Small only. The bias is near-constant in our tests (cosine similarity 0.9999+ across 8 sentences), but generalization to larger models and different architectures requires verification.
+- The attention bias observation is demonstrated on GPT-2 Small only. The bias is near-constant (cosine similarity 0.9999+ across 8 tested sentences), but generalization to larger models and different architectures requires verification.
 - The layered bias structure (Section 6.5) is a hypothesis motivated by our observations, not a demonstrated mechanism. Per-layer decomposition is untested.
-- Brute-force search is computationally expensive for large vocabularies (128K+ tokens). HNSW approximate search introduces significant accuracy loss at this scale in our tests. Practical deployment requires either smaller vocabularies or improved approximate search.
+- Brute-force search is computationally expensive for large vocabularies (128K+ tokens). HNSW approximate search introduces significant accuracy loss at this scale. Practical deployment requires either smaller vocabularies or improved approximate search.
 - The coordinate descent result (97.2%) is primarily demonstrated on one text (Gettysburg Address) with GPT-2 Small. The technique is general but scaling behavior requires further study. The result depends on the greedy initialization and may vary by ~3% across runs.
 - The quantization experiment simulates precision reduction on a single model and text. The prediction that quantization degrades contextual recovery more than static recovery is supported by our tests but has not been verified across model families.
 - This work raises security concerns about embedding storage systems. We note the concern but do not provide a full threat model or mitigation framework.
