@@ -1,6 +1,6 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 Loading GPT-2 Small...
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1955.89it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 20969.39it/s]
 Text: 'the cat sat on the mat'
 Tokens (6): ['the', ' cat', ' sat', ' on', ' the', ' mat'], Unique: 6
 Layers: 12
@@ -64,4 +64,5 @@ DECOMPOSITION COMPARISON
     L 3: 4/6  [' the', ' mat', 'sat', ' the', ' sitting', 'cat', ' on', ' mats']
     L 6: 3/6  ['sat', ' seated', ' mat', 'the', ' on', ' Cat', ' rodent', ' lie']
     L 9: 1/6  ['sat', ' seated', 'cat', ' mat', ' scratching', ' lying', ' its', 'Sat']
+    L11: 2/6  ['sat', 'sat', ' tilted', 'cat', ' rests', ' mat', ' paw', ' curled']
     L12: 0/6  [' slog', ' slit', ' bass', ' slur', ' cabal', ' maid', ' slit', ' stomp']

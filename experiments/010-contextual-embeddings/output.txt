@@ -1,8 +1,9 @@
 === Experiment 010: Contextual Embeddings ===
-Date: Sun Apr  5 05:32:08 AM EDT 2026
+Date: Mon Apr  6 01:20:51 AM EDT 2026
 Step 1: Build contextual vocabularies
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 Loading gpt2...
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2857.09it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 12553.48it/s]
 Vocab: 50257, Layers requested: [6, 12]
 
 Building contextual vocab at layer 6...
@@ -16,14 +17,13 @@ Building contextual vocab at layer 12...
 Saved static_vocab.npy: (50257, 768)
 
 Step 2: Decompose
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 Loading model for forward pass...
-Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 14268.31it/s]
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 13582.12it/s]
 Text: 'the cat sat on the mat'
 Tokens (6): ['the', ' cat', ' sat', ' on', ' the', ' mat'], Unique: 6
 
 Loading vocabularies from ./...
-  static: (50257, 768), L6: (50257, 768), L12: (50257, 768)
+  static: (50257, 768), L6: (50257, 768), L11: (50257, 768)
 
 ============================================================
 STATIC BASELINE: sum of static → static vocab
@@ -46,16 +46,16 @@ SENTENCE → CONTEXTUAL VOCAB (L6)
     union   : 1/6 (17%)
 
 ============================================================
-SENTENCE → CONTEXTUAL VOCAB (L12)
+SENTENCE → CONTEXTUAL VOCAB (L11)
   mean-pool:
-    cosine  : 0/6 (0%)  ['anus', 'raviolet', ' nor']
-    ip      : 0/6 (0%)  [' GOODMAN', "'d", 'osph']
-    l2      : 0/6 (0%)  [' THEY', 'ung', 'ultane']
+    cosine  : 0/6 (0%)  ['<|endoftext|>']
+    ip      : 0/6 (0%)  ['ieri']
+    l2      : 0/6 (0%)  [' misunder']
     union   : 0/6 (0%)
   last-token:
-    cosine  : 0/6 (0%)  [' land', 'lein', 'aceae', 'osph']
-    ip      : 0/6 (0%)  [' GOODMAN', "'d", '=~']
-    l2      : 0/6 (0%)  [' THEY', '=~', 'nown']
+    cosine  : 0/6 (0%)  ['<|endoftext|>']
+    ip      : 0/6 (0%)  ['ieri']
+    l2      : 0/6 (0%)  [' misunder']
     union   : 0/6 (0%)
 
 ============================================================
@@ -66,8 +66,8 @@ CONTEXTUAL BAG-OF-WORDS → CONTEXTUAL VOCAB (L6)
     union   : 5/6 (83%)
 
 ============================================================
-CONTEXTUAL BAG-OF-WORDS → CONTEXTUAL VOCAB (L12)
-    cosine  : 0/6 (0%)  ['only', 'king', ' whole', ' bench', 'inas', 'His', ' congrat']
-    ip      : 0/6 (0%)  [' GOODMAN', ' GOODMAN', ' THEY', '=~', ' I', ' resusc']
-    l2      : 0/6 (0%)  [' GOODMAN', ' GOODMAN', "'d", '=~', ' carbon', ' undes']
-    union   : 0/6 (0%)
+CONTEXTUAL BAG-OF-WORDS → CONTEXTUAL VOCAB (L11)
+    cosine  : 5/6 (83%)  ['iling', ' beside', 'the', ' cat', ' mat', ' on', ' sat']
+    ip      : 0/6 (0%)  ['ieri', 'ieri', 'ieri', 'ieri', 'ieri', 'ieri', ' misunder']
+    l2      : 0/6 (0%)  ['ieri', 'ieri', 'ieri', 'ieri', 'ieri', ' misunder', ' misunder']
+    union   : 5/6 (83%)
