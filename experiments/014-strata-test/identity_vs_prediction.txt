@@ -1,0 +1,29 @@
+=== Identity rank (cosine to own static token) vs
+    Prediction rank (logit rank after LayerNorm + wte.T) ===
+
+Text: ['the', ' cat', ' sat', ' on', ' the', ' mat']
+
+ Layer   Avg Identity Rank   Avg Prediction Rank
+--------------------------------------------------
+   emb                   1                     5
+    L1                  16                    60
+    L2                  26                   225
+    L3                  36                   317
+    L4                  44                   414
+    L5                  56                   524
+    L6                  81                   575
+    L7                  94                   653
+    L8                 138                   700
+    L9                 181                   848
+   L10                 176                   775
+   L11                 277                   395
+   L12               44260                   745
+
+Interpretation: Identity degrades gradually (1→277) through L0-L11,
+then collapses at L12 (44,260). This is not a functional change in
+the layer — it's a tipping point where accumulated bias overwhelms
+the signal, amplified by the final LayerNorm norm collapse (3118→70).
+
+Prediction rank doesn't improve monotonically — the output projection
+was trained end-to-end, not per-layer. No single layer is "the
+prediction layer."
