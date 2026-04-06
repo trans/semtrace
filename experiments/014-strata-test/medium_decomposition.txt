@@ -1,0 +1,29 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Medium...
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 68/292 [00:00<00:00, 659.00it/s]Loading weights:  51%|█████▏    | 150/292 [00:00<00:00, 743.92it/s]Loading weights:  77%|███████▋  | 225/292 [00:00<00:00, 683.24it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 786.07it/s]
+Text: ['the', ' cat', ' sat', ' on', ' the', ' mat'], Unique: 6
+Testing layers: 6, 17, 23
+
+============================================================
+Layer 6: Building contextual vocab (50257 tokens)...
+  Done. Avg norm: 3817.9
+  Contextual BoW:      4/6  [' cat', 'The', ' sat', ' on', 'mat', ' the', ' loos']
+  Sentence (raw):      0/6
+  Sentence (debiased): 5/6  [' sat', 'mat', ' the', 'Cat', ' sat', ' on', ' mats', ' mat']
+  Bias norm: 3302.4, Est N: 5.6
+
+============================================================
+Layer 17: Building contextual vocab (50257 tokens)...
+  Done. Avg norm: 3996.3
+  Contextual BoW:      5/6  [' sat', 'The', ' mat', ' the', ' cat', ' on', 'eyes']
+  Sentence (raw):      0/6
+  Sentence (debiased): 1/6  ['Cat', ' sat', 'Cat', 'mat', ' sat', 'Cat', ' kitten', ' thy']
+  Bias norm: 3415.9, Est N: 5.6
+
+============================================================
+Layer 23: Building contextual vocab (50257 tokens)...
+  Done. Avg norm: 2012.5
+  Contextual BoW:      4/6  ['The', ' sat', ' on', ' cat', 'mat', ' the']
+  Sentence (raw):      0/6
+  Sentence (debiased): 1/6  ['Cat', 'sit', 'mat', ' cat', 'Rat', 'sit', 'pat', 'sat']
+  Bias norm: 1543.4, Est N: 5.6
