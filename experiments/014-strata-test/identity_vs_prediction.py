@@ -36,12 +36,18 @@ def main():
     print("=== Identity rank vs Prediction rank at every layer ===")
     print(f"Text: {token_strs}")
     print()
-    print(f"{'Layer':>6s}  {'Avg Identity Rank':>18s}  {'Avg Prediction Rank':>20s}")
-    print("-" * 50)
+    # NOTE: In HuggingFace GPT-2, hidden_states[0..11] are the residual
+    # stream states BEFORE the final LayerNorm (ln_f). hidden_states[12]
+    # is AFTER ln_f. This means L12 is a different representational object.
 
-    for layer_idx in range(13):
+    num_layers = 13  # 0=embed output, 1-11=block outputs, 12=post-ln_f
+    print(f"{'Layer':>6s}  {'Avg Identity Rank':>18s}  {'Avg Prediction Rank':>20s}  Note")
+    print("-" * 70)
+
+    for layer_idx in range(num_layers):
         h = out.hidden_states[layer_idx].squeeze(0).detach()
         h_np = h.numpy()
+        is_post_lnf = (layer_idx == num_layers - 1)
 
         # Identity: cosine to own static token
         identity_ranks = []
@@ -53,8 +59,12 @@ def main():
             identity_ranks.append(int(np.sum(all_sims > sim) + 1))
 
         # Prediction: apply LayerNorm + wte.T, check self-rank
-        h_normed = ln_f(h).detach().numpy()
-        logits = h_normed @ wte.T
+        # For L12 (post-ln_f), skip ln_f to avoid double normalization
+        if is_post_lnf:
+            h_for_logits = h_np
+        else:
+            h_for_logits = ln_f(h).detach().numpy()
+        logits = h_for_logits @ wte.T
         pred_ranks = []
         for i in range(n):
             own_logit = logits[i][tokens[i]]
@@ -62,7 +72,8 @@ def main():
             pred_ranks.append(rank)
 
         lname = "emb" if layer_idx == 0 else f"L{layer_idx}"
-        print(f"{lname:>6s}  {np.mean(identity_ranks):>18.0f}  {np.mean(pred_ranks):>20.0f}")
+        note = "(post-ln_f)" if is_post_lnf else ""
+        print(f"{lname:>6s}  {np.mean(identity_ranks):>18.0f}  {np.mean(pred_ranks):>20.0f}  {note}")
 
 
 if __name__ == "__main__":

@@ -324,9 +324,11 @@ To directly measure whether the static token signal persists through the transfo
 
 Through layers 1-11, the correct token remains consistently in the top few hundred out of 50,257 — the top 0.5% of the vocabulary. The cosine similarity is weak (0.05-0.13) but the ranking is strong: the signal is present, degraded by accumulated bias, but not destroyed.
 
-At L12, the cosine inverts to -0.14 and the rank collapses. This does not indicate destruction of the signal — the model must retain this information to generate predictions. Rather, the final layer applies a transformation (likely the output normalization) that rotates the representation into a different basis. The relationship between hidden state and static token becomes inverted rather than aligned. The signal is still present but no longer accessible by direct cosine comparison to the static embedding matrix.
+At L12, the cosine inverts to -0.14 and the rank collapses to 44,260. An important clarification: in HuggingFace's GPT-2 implementation, `hidden_states[12]` is the output AFTER the final LayerNorm (`ln_f`), whereas `hidden_states[0-11]` are residual stream states BEFORE that normalization. L12 is therefore a different representational object — post-normalization — not simply "one more layer like L11." The sharp inversion is at least partly attributable to this representational discontinuity.
 
-This is the clearest evidence for the norm-stratified structure: each layer buries the token signal under additional bias, maintaining it in a progressively weaker but recoverable form — until the final transformation changes the encoding basis entirely.
+Supporting this: when we apply the output projection (`wte.T`) to each layer's hidden states (applying `ln_f` only to layers 0-11, since L12 is already post-`ln_f`), L12 achieves the best prediction rank (373) — the representation has been prepared for next-token prediction, not for identity comparison.
+
+Through layers 0-11 (the homogeneous residual stream), the token signal degrades gradually but remains in the top 0.5% of the vocabulary. This is the evidence for the norm-stratified structure: each layer buries the token signal under additional bias, maintaining it in a progressively weaker but recoverable form within the residual stream.
 
 A full treatment across model families and the formal relationship between layer count and effective precision range is deferred to subsequent work.
 
