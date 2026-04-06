@@ -292,7 +292,7 @@ We directly measured the bias at each of GPT-2 Small's 13 layers (embedding + 12
 | L11 | 3117.7 | 2677.6 | 0.9997 |
 | L12 | 70.2 | 128.9 | 0.9948 |
 
-The bias norms grow from 7.6 at L0 to ~2700 at L9-L11, then collapse to 128.9 at L12 (the final LayerNorm rescaling). Consistency is 0.999+ at every layer — confirming the bias is structural, not sentence-dependent.
+The bias norms grow from 7.6 at L0 to ~2700 at L9-L11, then collapse to 128.9 at L12. The sharp norm reduction at the final layer likely reflects the output normalization, though the precise mechanism is not verified. Consistency is 0.999+ at every layer — confirming the bias is structural, not sentence-dependent.
 
 Decomposability degrades predictably with layer depth. Using each layer's contextual vocabulary with its own bias subtracted:
 
