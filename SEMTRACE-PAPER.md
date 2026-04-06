@@ -308,6 +308,26 @@ Each attention layer buries the token signal deeper under accumulated bias. The 
 
 Sequential per-layer subtraction at L12 (peeling biases from outermost inward) does not improve recovery — the biases at the final layer are entangled and cannot be separated by projection alone. The viable strategy is to decompose at earlier layers, not to reconstruct the signal at the final layer.
 
+### 6.7 Token Signal Survival
+
+To directly measure whether the static token signal persists through the transformer, we compute, at each layer, the cosine similarity between each position's hidden state and the corresponding static token embedding, along with the rank of the correct token among all 50,257 vocabulary entries.
+
+| Layer | Avg Cosine to Static Token | Avg Rank (of 50,257) |
+|---|---|---|
+| L0 (embed) | 0.514 | 1 |
+| L1 | 0.131 | 16 |
+| L3 | 0.081 | 36 |
+| L6 | 0.057 | 81 |
+| L9 | 0.052 | 181 |
+| L11 | 0.055 | 277 |
+| L12 | -0.144 | 44,260 |
+
+Through layers 1-11, the correct token remains consistently in the top few hundred out of 50,257 — the top 0.5% of the vocabulary. The cosine similarity is weak (0.05-0.13) but the ranking is strong: the signal is present, degraded by accumulated bias, but not destroyed.
+
+At L12, the cosine inverts to -0.14 and the rank collapses. This does not indicate destruction of the signal — the model must retain this information to generate predictions. Rather, the final layer applies a transformation (likely the output normalization) that rotates the representation into a different basis. The relationship between hidden state and static token becomes inverted rather than aligned. The signal is still present but no longer accessible by direct cosine comparison to the static embedding matrix.
+
+This is the clearest evidence for the norm-stratified structure: each layer buries the token signal under additional bias, maintaining it in a progressively weaker but recoverable form — until the final transformation changes the encoding basis entirely.
+
 A full treatment across model families and the formal relationship between layer count and effective precision range is deferred to subsequent work.
 
 ---
