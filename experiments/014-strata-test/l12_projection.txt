@@ -1,0 +1,25 @@
+=== L12 → LayerNorm → wte.T → logits ===
+Text: ['the', ' cat', ' sat', ' on', ' the', ' mat']
+
+ Pos    Token   Self Rank  Top 5 next-token predictions
+---------------------------------------------------------------------------
+   0      the        1053  [',', '\n', '.', ' and', ' the']
+   1      cat        1079  [',', ' and', '.', ' in', '\n']
+   2      sat         590  [',', ' in', ' and', ' on', '.']
+   3       on          26  [' the', ' a', ',', ' it', ' and']
+   4      the           1  [' the', ',', ' a', ' and', ' in']
+   5      mat        1719  [',', ' and', '.', ' in', ' of']
+
+=== Cosine similarity to static token at each stage ===
+ Pos    Token   L11 cos  L11 rank   L12 cos  L12 rank    LN cos   LN rank
+--------------------------------------------------------------------------------
+   0      the    0.0855       158   -0.1498     48485   -0.1402     49569
+   1      cat    0.0095       375   -0.1286     43196   -0.1232     47440
+   2      sat   -0.0405       641   -0.1387     43153   -0.1277     46938
+   3       on    0.1194        25   -0.1625     50177   -0.1519     50256
+   4      the    0.1955         1   -0.1544     49961   -0.1484     50085
+   5      mat   -0.0392       464   -0.1277     30588   -0.1184     40949
+
+Interpretation: L12 transforms from token identity to next-token prediction.
+The logit projection (wte.T) reveals what the model PREDICTS, not what it received.
+LayerNorm does not restore cosine alignment — the inversion is in the representation itself.
