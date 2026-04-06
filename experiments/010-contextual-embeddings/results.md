@@ -43,15 +43,18 @@ Input text: "the cat sat on the mat" (6 tokens, 6 unique)
 
 ### Decomposition Accuracy (tokens recovered out of 6)
 
+**Note**: In HuggingFace GPT-2, `hidden_states[12]` is post-final-LayerNorm (`ln_f`), unlike `hidden_states[0-11]` which are pre-normalization residual stream states. L11 is the correct "final layer" for comparison; L12 is a different representational object.
+
 | Target | Vocab | Layer | Cosine | IP | L2 | Union |
 |---|---|---|---|---|---|---|
 | Static sum | Static | — | **6/6** | **6/6** | **6/6** | **6/6** |
 | Sentence (mean) | Contextual | L6 | 1/6 | 0/6 | 0/6 | 1/6 |
 | Sentence (last) | Contextual | L6 | 1/6 | 0/6 | 0/6 | 1/6 |
-| Sentence (mean) | Contextual | L12 | 0/6 | 0/6 | 0/6 | 0/6 |
-| Sentence (last) | Contextual | L12 | 0/6 | 0/6 | 0/6 | 0/6 |
+| Sentence (mean) | Contextual | L11 (pre-ln_f) | 0/6 | 0/6 | 0/6 | 0/6 |
+| Sentence (last) | Contextual | L11 (pre-ln_f) | 0/6 | 0/6 | 0/6 | 0/6 |
 | Contextual BoW | Contextual | L6 | **5/6** | 0/6 | 0/6 | **5/6** |
-| Contextual BoW | Contextual | L12 | 0/6 | 0/6 | 0/6 | 0/6 |
+| Contextual BoW | Contextual | L11 (pre-ln_f) | **5/6** | 0/6 | 0/6 | **5/6** |
+| Contextual BoW | Contextual | L12 (post-ln_f) | 0/6 | 0/6 | 0/6 | 0/6 |
 
 ### What the Decomposer Found (First Tokens Recovered)
 
@@ -60,9 +63,8 @@ Input text: "the cat sat on the mat" (6 tokens, 6 unique)
 | Static sum → static | cosine | `the`, ` sat`, ` cat`, ` on`, ` mat`, ` the` |
 | Sentence → ctx L6 | cosine | ` sat` (only) |
 | Ctx BoW → ctx L6 | cosine | `ed`, ` beside`, `the`, ` cat`, ` mat`, ` on`, ` sat` |
-| Sentence → ctx L12 | cosine | `anus`, `raviolet`, ` nor` (garbage) |
-| Anything → ctx L12 | IP | ` GOODMAN`, `'d`, `osph` (garbage) |
-| Anything → ctx L12 | L2 | ` THEY`, `ung`, `ultane` (garbage) |
+| Ctx BoW → ctx L11 | cosine | `iling`, ` beside`, `the`, ` cat`, ` mat`, ` on`, ` sat` |
+| Anything → ctx L12 | any | garbage (post-ln_f representation) |
 
 ---
 
@@ -74,11 +76,11 @@ In static space, IP outperformed cosine (Experiment 007). In contextual space, I
 
 This is because contextual embedding norms are extreme: ~3000 at L6, ~70 at L12. IP and L2 are magnitude-sensitive, so they're dominated by norm outliers in the contextual vocabulary.
 
-### 2. Contextual bag-of-words works at L6 (83%), fails at L12 (0%)
+### 2. Contextual bag-of-words: 83% at L6 AND L11
 
-When we sum individually-embedded tokens and decompose against the same contextual vocabulary, L6 with cosine recovers 5/6 tokens (83%). This proves the **contextual space at middle layers does support additive decomposition**.
+When we sum individually-embedded tokens and decompose against the same contextual vocabulary, cosine recovers 5/6 tokens (83%) at both L6 and L11. The additive structure persists through the entire pre-ln_f residual stream.
 
-By L12, even additive decomposition fails completely. The final layer's space is non-additive — the geometry no longer supports vector subtraction as a means of token recovery.
+At L12 (post-ln_f), decomposition fails entirely (0/6). The final LayerNorm masks the additive structure by transforming the representation into a prediction-oriented basis. The structure is not destroyed — it is masked by the normalization.
 
 ### 3. Sentence embeddings never decompose
 
