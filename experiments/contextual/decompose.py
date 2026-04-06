@@ -70,9 +70,11 @@ def main():
     # Forward pass
     with torch.no_grad():
         outputs = model(torch.tensor([tokens]).to(args.device))
+    # Note: hidden_states[12] is post-ln_f, not comparable to 0-11.
+    # We use L11 (last transformer block output, pre-ln_f) as the "final layer."
     hidden_states = {
         "L6": outputs.hidden_states[6].squeeze(0).cpu().numpy(),
-        "L12": outputs.hidden_states[12].squeeze(0).cpu().numpy(),
+        "L11": outputs.hidden_states[11].squeeze(0).cpu().numpy(),
     }
 
     # Free model memory
@@ -84,8 +86,8 @@ def main():
     print(f"\nLoading vocabularies from {args.vocabdir}/...")
     static_vocab = np.load(f"{args.vocabdir}/static_vocab.npy")
     ctx_L6 = np.load(f"{args.vocabdir}/ctx_vocab_L6.npy")
-    ctx_L12 = np.load(f"{args.vocabdir}/ctx_vocab_L12.npy")
-    print(f"  static: {static_vocab.shape}, L6: {ctx_L6.shape}, L12: {ctx_L12.shape}")
+    ctx_L11 = np.load(f"{args.vocabdir}/ctx_vocab_L11.npy")
+    print(f"  static: {static_vocab.shape}, L6: {ctx_L6.shape}, L11: {ctx_L11.shape}")
 
     # Part 1: Static baseline
     print(f"\n{'='*60}")
@@ -94,7 +96,7 @@ def main():
     test_all(static_sum, static_vocab, unique_tokens, max_steps, tokenizer)
 
     # Part 2: Sentence → contextual vocab (THE KEY TEST)
-    for lname, hs, ctx in [("L6", hidden_states["L6"], ctx_L6), ("L12", hidden_states["L12"], ctx_L12)]:
+    for lname, hs, ctx in [("L6", hidden_states["L6"], ctx_L6), ("L11", hidden_states["L11"], ctx_L11)]:
         print(f"\n{'='*60}")
         print(f"SENTENCE → CONTEXTUAL VOCAB ({lname})")
         for pname, pooled in [("mean-pool", hs.mean(axis=0)), ("last-token", hs[-1])]:
@@ -102,7 +104,7 @@ def main():
             test_all(pooled, ctx, unique_tokens, max_steps, tokenizer)
 
     # Part 3: Contextual bag-of-words → contextual vocab (control)
-    for lname, ctx in [("L6", ctx_L6), ("L12", ctx_L12)]:
+    for lname, ctx in [("L6", ctx_L6), ("L11", ctx_L11)]:
         print(f"\n{'='*60}")
         print(f"CONTEXTUAL BAG-OF-WORDS → CONTEXTUAL VOCAB ({lname})")
         ctx_sum = ctx[tokens].sum(axis=0)

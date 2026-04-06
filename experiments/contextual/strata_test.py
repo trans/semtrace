@@ -211,7 +211,8 @@ def main():
 
     # Method D: Try decomposing at each individual layer
     print(f"\n  Decomposition at each layer (with that layer's bias subtracted):")
-    for layer_idx in [0, 3, 6, 9, 12]:
+    # Note: L12 is post-ln_f, not directly comparable to L0-L11
+    for layer_idx in [0, 3, 6, 9, 11, 12]:
         layer_mean = ctx_vocabs[layer_idx].mean(axis=0)
         layer_centered = ctx_vocabs[layer_idx] - layer_mean
         layer_sum = (hs[layer_idx] - layer_mean).sum(axis=0)

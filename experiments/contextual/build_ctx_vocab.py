@@ -3,7 +3,7 @@
 Saves to disk as numpy .npy files — one per layer.
 
 Usage:
-  python3 build_ctx_vocab.py [--model gpt2] [--layers 6,12] [--outdir .]
+  python3 build_ctx_vocab.py [--model gpt2] [--layers 6,11] [--outdir .]
 """
 import argparse
 import numpy as np
@@ -13,7 +13,7 @@ from transformers import GPT2Model
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="gpt2")
-    parser.add_argument("--layers", default="6,12", help="Comma-separated layer indices")
+    parser.add_argument("--layers", default="6,11", help="Comma-separated layer indices. Note: hidden_states[12] is post-ln_f, not comparable to 0-11.")
     parser.add_argument("--outdir", default=".")
     parser.add_argument("--device", default="cpu")
     args = parser.parse_args()
