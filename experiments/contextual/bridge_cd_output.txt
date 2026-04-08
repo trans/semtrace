@@ -1,0 +1,57 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1742.73it/s]
+Forward-passing test sentences...
+Forward-passing reference sentences...
+
+==============================================================================
+LAYER L1
+==============================================================================
+
+  Sentence                                       unique     bridge    bridge+CD  CD tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     3/6          4/6        [' cat', ' the', ' sat', ' mat', ' various', 'hitting']
+  the dog ran in the park                             6     2/6          4/6        [' in', ' dog', ' parks', ' the', ' ran', 'bound']
+  Mary had a little lamb                              5     3/5          4/5        ['Mary', ' lamb', ' a', ' little', ' utilizes']
+  Four score and seven years ago                      6     3/6          3/6        [' seven', ' years', ' scored', ' occurrences', ' before', 'Four']
+  I love cats and dogs                                5     3/5          3/5        [' cats', ' dogs', ' love', ' in', ' definite']
+  the big red car drove fast down the road            9     3/9          3/9        [' car', ' road', 'Red', ' big', ' disturbing', ' fastest', ' a', ' hit', 'bound']
+
+==============================================================================
+LAYER L6
+==============================================================================
+
+  Sentence                                       unique     bridge    bridge+CD  CD tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     3/6          3/6        ['the', ' perched', ' mat', ' cat', ' this', 'ham']
+  the dog ran in the park                             6     4/6          4/6        ['the', ' dog', ' ran', ' Park', ' in', ' shedding']
+  Mary had a little lamb                              5     2/5          2/5        [' Mary', ' had', ' somewhat', ' almond', ' little']
+  Four score and seven years ago                      6     0/6          2/6        ['Four', ' seven', ' insightful', ' lifespan', ' wins', ' security']
+  I love cats and dogs                                5     1/5          1/5        [' pets', ' loves', 'I', ' chicks', ' like']
+  the big red car drove fast down the road            9     4/9          4/9        [' highways', ' big', ' alot', ' down', ' raced', ' red', 'the', ' Christians', ' hit']
+
+==============================================================================
+LAYER L11
+==============================================================================
+
+  Sentence                                       unique     bridge    bridge+CD  CD tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     2/6          2/6        [' lays', 'the', ' cat', 'pet', ' 4', ' chair']
+  the dog ran in the park                             6     3/6          2/6        [' has', ' dog', 'the', ' Run', ' 4', ' flowing']
+  Mary had a little lamb                              5     0/5          0/5        [' Mary', ' has', ' daughter', ' pork', ' small']
+  Four score and seven years ago                      6     4/6          4/6        [' seven', 'Four', ' goals', ' years', ' score', ' Britain']
+  I love cats and dogs                                5     2/5          2/5        [' cats', ' loves', 'I', ' animals', ' provides']
+  the big red car drove fast down the road            9     4/9          2/9        [' road', ' huge', ' drive', ' goes', ' yellow', ' driving', 'big', ' throttle', ' the']
+
+==============================================================================
+LAYER L12
+==============================================================================
+
+  Sentence                                       unique     bridge    bridge+CD  CD tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     2/6          2/6        [' cat', ' lays', 'the', ' chair', ' decrease', 'p']
+  the dog ran in the park                             6     2/6          2/6        [' dog', ' ran', 'that', ' Park', '-', ' raging']
+  Mary had a little lamb                              5     1/5          2/5        ['Mary', ' has', ' pork', ' little', ' allergy']
+  Four score and seven years ago                      6     2/6          2/6        [' seven', 'The', ' score', ' weeks', ' significant', ' author']
+  I love cats and dogs                                5     2/5          2/5        [' cats', ' loves', 'I', ' animal', ' really']
+  the big red car drove fast down the road            9     4/9          4/9        [' huge', ' drove', ' road', ' weird', ' car', ' throttle', ' changes', 'on', ' fast']

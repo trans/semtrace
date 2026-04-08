@@ -1,0 +1,44 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2908.40it/s]
+Test set: 20 sentences, 132 unique tokens
+
+==============================================================================
+LAYER L11 (mean-pool, with and without L2 normalize)
+==============================================================================
+  vocab avg norm: 240.41
+    L11 mean-pool, ctx_vocab, mean_bias debias                     57/132    43.2%
+    L11 mean-pool, bridge to wte                                   43/132    32.6%
+    L11 mean-pool, bridge to wte, +CD                              42/132    31.8%
+    L11 L2-norm mean, bridge to wte, scale=N*100,+CD               32/132    24.2%
+    L11 mean-pool, ctx_vocab, scale=vocab_avg*N                    30/132    22.7%
+    L11 L2-norm mean, ctx_vocab, scale=vocab_avg*N                 30/132    22.7%
+    L11 mean-pool, ctx_vocab, no debias                            29/132    22.0%
+    L11 L2-norm mean, bridge to wte, scale=N*100                   22/132    16.7%
+    L11 mean-pool, ctx_vocab, scale=N*100                          20/132    15.2%
+    L11 L2-norm mean, ctx_vocab, scale=N*100                       20/132    15.2%
+    L11 L2-norm mean, ctx_vocab, scale=1                            6/132     4.5%
+
+  Union analysis at L11:
+    union of top-3 methods: 81/132  (61.4%)
+    (top 3: ['ean-pool, ctx_vocab, mean_bias debias', 'ean-pool, bridge to wte', 'ean-pool, bridge to wte, +CD'])
+
+==============================================================================
+LAYER L12 (mean-pool, with and without L2 normalize)
+==============================================================================
+  vocab avg norm: 184.56
+    L12 mean-pool, bridge to wte, +CD                              44/132    33.3%
+    L12 mean-pool, bridge to wte                                   39/132    29.5%
+    L12 L2-norm mean, bridge to wte, scale=N*100,+CD               23/132    17.4%
+    L12 L2-norm mean, bridge to wte, scale=N*100                   18/132    13.6%
+    L12 mean-pool, ctx_vocab, no debias                             2/132     1.5%
+    L12 mean-pool, ctx_vocab, mean_bias debias                      2/132     1.5%
+    L12 mean-pool, ctx_vocab, scale=N*100                           2/132     1.5%
+    L12 L2-norm mean, ctx_vocab, scale=N*100                        2/132     1.5%
+    L12 mean-pool, ctx_vocab, scale=vocab_avg*N                     1/132     0.8%
+    L12 L2-norm mean, ctx_vocab, scale=vocab_avg*N                  1/132     0.8%
+    L12 L2-norm mean, ctx_vocab, scale=1                            0/132     0.0%
+
+  Union analysis at L12:
+    union of top-3 methods: 51/132  (38.6%)
+    (top 3: ['ean-pool, bridge to wte, +CD', 'ean-pool, bridge to wte', '2-norm mean, bridge to wte, scale=N*100,+CD'])

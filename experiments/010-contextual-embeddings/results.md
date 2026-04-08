@@ -5,6 +5,35 @@
 
 ---
 
+## REVISED INTERPRETATION (2026-04-07)
+
+The numbers in this experiment are floor results, not ceilings. After investigating the per-position structure of GPT-2 hidden states (see `experiments/contextual/attention_trace.py`, `skip_sink.py`, `layer_sweep.py`), we found that the difficulty of contextual decomposition reported here was overwhelmingly an artifact of the **position-0 attention sink**, not a fundamental property of contextual representations.
+
+Specifically:
+
+- **The "contextual vocabulary" used here was sink-corrupted.** `build_ctx_vocab.py` embeds each token by passing it as a single-token sequence — placing every entry at position 0, where the model treats it as the attention sink and inflates its hidden state to ~3000 norm. Every entry in `ctx_vocab_L6.npy` and `ctx_vocab_L11.npy` is therefore a sink-pumped attention dump rather than a representative contextual embedding. The corrected vocabulary uses `[<|endoftext|>, token]` pairs and reads the hidden state at position 1.
+- **The "sentence sum" target was sink-dominated.** Position 0 of any forward-passed sentence contributes ~89% of the sum's magnitude (~2700 vs ~70 per other position at L11). Decomposing the sum decomposes the sink, not the sentence content.
+- **The "Contextual BoW" 83% control worked for the wrong reason.** It summed sink-corrupted vocab entries and decomposed against the same sink-corrupted vocab — both sides shared the same sink, so the comparison was symmetric and the additive structure was found *inside the sink*, not in the residual stream.
+
+Corrected results on the same sentence ("the cat sat on the mat"), using sink-skip + N-corrected debias:
+
+| Layer | Trailing recovery (5/5 = perfect) |
+|---|---|
+| L1 | 5/5 |
+| L3 | 5/5 |
+| L5 | 5/5 |
+| L7 | 5/5 |
+| L9 | 5/5 |
+| L11 | 2/5 |
+
+With `<|endoftext|>` prepended to the input (moving the original first token off the sink position), 6/6 is achievable at L1, L3, L5.
+
+The original conclusions in this file ("attention is the barrier", "a learned mapping remains the viable path") should be read as conditional on the sink contamination. Attention mixing *is* a residual barrier at deep layers, but it is much smaller than this experiment suggested. A learned mapping is no longer required for partial recovery — sink-skip + N-debias is sufficient through L9 of GPT-2 Small.
+
+The original content is preserved below for record.
+
+---
+
 ## Objective
 
 Determine whether contextual (forward-pass) embeddings can be decomposed into token components using greedy residual subtraction. Tests both static and contextual search vocabularies, at middle (L6) and final (L12) transformer layers, with all three distance metrics (cosine, L2, inner product).

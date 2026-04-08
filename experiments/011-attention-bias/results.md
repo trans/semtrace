@@ -5,6 +5,25 @@
 
 ---
 
+## REVISED INTERPRETATION (2026-04-07)
+
+This experiment's central observation — that there is a near-constant "bias" component in contextual hidden states accounting for ~99.5% of the energy — is real but **mischaracterized**. The dominant component is not a per-token bias added uniformly to every position. It is the **position-0 attention sink**: a single-position artifact in which the model uses the first token's hidden state as a scratch space for unused attention budget, growing it to ~2700 norm while every other position remains at ~50–70 norm.
+
+What this changes about each finding:
+
+- **"The bias is identical across sentences (cosine 0.9999+)."** True, but for the wrong reason. We were measuring how consistently the model creates a sink at position 0 (very consistently — it is an architectural property, not a sentence property). The sink's magnitude (~2630–2674 in the table) is essentially constant because it is set by the model's learned attention pattern, not by the sentence content.
+- **"99.5% of the centered hidden state energy is bias."** This is the sink:non-sink ratio, not a bias:content ratio. With sink removal, the actual per-token bias is ~16 norm at L1 growing linearly to ~60 at L11, and the per-position content is ~50–70 norm. The ratio is much closer to 1:1 than 200:1 for non-sink positions.
+- **"Estimated N (norm-ratio) outperforms exact N."** This is **inverted** under the corrected method. Norm-ratio happened to undershoot in a way that was less bad than oversubtracting the sink-contaminated bias. With sink-skip and a clean per-token bias, the *exact* N is the right multiplier, and `N × bias` subtraction works much better than `(||sum||/||bias||) × bias`.
+- **The recovery numbers (2/6, 3/6, 4/5, 1/5, 3/6, 5/9).** These are **floor results**. They reflect partial recovery against a sink-contaminated bias model and a sink-corrupted vocabulary. With sink-skip + N-debias, the same sentences should recover at substantially higher rates on the trailing positions. We re-run them below.
+- **"Linear mapping 89.9% identity preservation."** Stands. That sub-experiment used per-token contextual embeddings against per-token static embeddings, both with position-0 contamination — but symmetrically, so the linear regression found the right rotation. The result is real and unaffected.
+- **"Energy budget: 200:1 bias:signal."** Sink:non-sink, not bias:signal. The corrected ratio is much closer to 1:1.
+
+A re-run with sink-skip + N-debias on the same six sentences is appended at the end of this file.
+
+The original content is preserved below for record.
+
+---
+
 ## Objective
 
 Discover and exploit the structure of the attention contribution to contextual embeddings, enabling greedy decomposition of sentence embeddings that previously produced 0% recovery.
@@ -143,4 +162,55 @@ python3 build_ctx_vocab.py --layers 6,12
 python3 linear_map.py --text "the cat sat on the mat" --layer 6
 
 # Bias subtraction (inline Python — see experiment notes)
+```
+
+---
+
+## Re-run with Sink-Skip + N-Debias (2026-04-07)
+
+Using the corrected method (`<|endoftext|>` prepended, position 0 excluded, `[<|endoftext|>, token]` vocab construction at position 1, `N × bias` debiasing where `bias` is computed from sink-skipped reference sentences). Output captured in `rerun_2026-04-07.txt`.
+
+**Per-token bias norm at L1**: 16.4 (vs 2630 reported above for the sink-contaminated version)
+**Per-token bias norm at L6**: 33.3 (vs 2637 reported above)
+
+The bias norm collapsed by ~80–160× once the sink was removed.
+
+### Results at L1 (best layer for sink-skip method)
+
+| Text | Old (L6, contaminated) | New (L1, sink-skip) |
+|---|---|---|
+| the cat sat on the mat | 2/6 | **6/6** |
+| the dog ran in the park | 3/6 | **5/6** |
+| Mary had a little lamb | 4/5 | **5/5** |
+| I love cats and dogs | 1/5 | **5/5** |
+| Four score and seven years ago | 3/6 | **6/6** |
+| the big red car drove fast down the road | 5/9 | **8/9** |
+| **Total** | **18/37 (49%)** | **35/37 (95%)** |
+
+### Results at L6 (the same layer the original experiment used)
+
+| Text | Old (contaminated bias, norm-ratio N) | New (clean bias, exact N) |
+|---|---|---|
+| the cat sat on the mat | 2/6 | **4/6** |
+| the dog ran in the park | 3/6 | **5/6** |
+| Mary had a little lamb | 4/5 | 4/5 |
+| I love cats and dogs | 1/5 | **2/5** |
+| Four score and seven years ago | 3/6 | **5/6** |
+| the big red car drove fast down the road | 5/9 | **6/9** |
+| **Total** | **18/37 (49%)** | **26/37 (70%)** |
+
+Even at the original target layer (L6), recovery jumps from 49% to 70% just by using the clean bias and exact N. At L1, where the per-token bias is smallest and the residual structure is freshest, recovery jumps to 95%.
+
+### What this confirms
+
+1. **Sink contamination was the dominant problem.** Removing the sink and using the correct multiplier produces a 2× improvement at L6 and a near-doubling at L1.
+2. **Exact N is correct, not norm-ratio.** The "estimated N outperforms exact N" finding from the original experiment is inverted under the corrected method.
+3. **L1 is the right layer for sink-skip decomposition.** The per-token bias is smallest there (16 vs 33 at L6) and the additive structure is freshest, making decomposition cleanest.
+4. **Misses are still semantic neighbors.** "I love cats and dogs" misses 3/5 at L6 but recovers all 5 at L1; the L6 misses are tokens like ` lovers`, ` Dogs`, ` my` — semantic neighbors of the missing tokens, not garbage. The structure is intact, just slightly noisier at the deeper layer.
+
+### Reproduction
+
+```bash
+cd experiments/contextual
+python3 rerun_011.py
 ```

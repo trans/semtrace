@@ -1,0 +1,46 @@
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2827.23it/s]
+
+Test set: 20 sentences, 132 unique tokens total
+
+  Building vocab + bias + W at L1...
+
+  Building vocab + bias + W at L6...
+
+  Building vocab + bias + W at L11...
+
+  Building vocab + bias + W at L12...
+
+==============================================================================
+METHOD COMPARISON (20 sentences, 132 unique tokens)
+==============================================================================
+  S1: static (upper bound, greedy)                         132/132   100.0%  ##################################################
+  S1+CD: static (upper bound, coord descent)               132/132   100.0%  ##################################################
+  CL L1: int8 low band (debias→split)                      118/132    89.4%  ############################################
+  C  L1: (ctx_sum - N*bias) vs ctx_vocab                   117/132    88.6%  ############################################
+  CL L6: int8 low band (debias→split)                       88/132    66.7%  #################################
+  C  L6: (ctx_sum - N*bias) vs ctx_vocab                    86/132    65.2%  ################################
+  BDC L1: BD + coord descent                                77/132    58.3%  #############################
+  B  L1: ctx_sum @ W vs wte                                 72/132    54.5%  ###########################
+  BD L1: (ctx_sum - N*bias) @ W vs wte                      70/132    53.0%  ##########################
+  CL L11: int8 low band (debias→split)                      60/132    45.5%  ######################
+  C  L11: (ctx_sum - N*bias) vs ctx_vocab                   57/132    43.2%  #####################
+  BDC L6: BD + coord descent                                51/132    38.6%  ###################
+  S3 L1: (ctx_sum - N*static_bias) vs wte                   49/132    37.1%  ##################
+  BD L6: (ctx_sum - N*bias) @ W vs wte                      47/132    35.6%  #################
+  BDC L12: BD + coord descent                               44/132    33.3%  ################
+  BD L11: (ctx_sum - N*bias) @ W vs wte                     43/132    32.6%  ################
+  BDC L11: BD + coord descent                               42/132    31.8%  ###############
+  BD L12: (ctx_sum - N*bias) @ W vs wte                     39/132    29.5%  ##############
+  B  L6: ctx_sum @ W vs wte                                 34/132    25.8%  ############
+  B  L11: ctx_sum @ W vs wte                                30/132    22.7%  ###########
+  B  L12: ctx_sum @ W vs wte                                26/132    19.7%  #########
+  S2 L1: ctx_sum vs wte (no debias)                         21/132    15.9%  #######
+  S3 L12: (ctx_sum - N*static_bias) vs wte                  16/132    12.1%  ######
+  S2 L6: ctx_sum vs wte (no debias)                         14/132    10.6%  #####
+  S2 L11: ctx_sum vs wte (no debias)                        14/132    10.6%  #####
+  S3 L6: (ctx_sum - N*static_bias) vs wte                   13/132     9.8%  ####
+  S3 L11: (ctx_sum - N*static_bias) vs wte                   9/132     6.8%  ###
+  C  L12: (ctx_sum - N*bias) vs ctx_vocab                    2/132     1.5%  
+  S2 L12: ctx_sum vs wte (no debias)                         0/132     0.0%  
+  CL L12: int8 low band (debias→split)                       0/132     0.0%  

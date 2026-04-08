@@ -1,0 +1,52 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 3652.89it/s]
+Forward-passing test sentences...
+
+==============================================================================
+LAYER L1
+==============================================================================
+  Building corrected vocab at L1...
+  Per-token bias norm: 16.39
+  Vocab norms: full 63.59, low 63.62, high 1.8023
+
+  Sentence                                       unique    full     low    high   union  bands_high_tokens
+  ----------------------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6    6/6     6/6     0/6     6/6    [' screens', 'changing', ' playback', ' practition', ' Ichigo', ' Fix', ' prolifer', ' Inventory']
+  the dog ran in the park                             6    5/6     6/6     0/6     6/6    [' Brookings', ' copyright', ' begin', ' Tactical', '628', 'assembly', 'ney', ' Pf']
+  Mary had a little lamb                              5    5/5     5/5     0/5     5/5    [' Ryu', ' ATP', ' Sturgeon', ' destruction', ' forgotten', 'effects', 'vol', ' XIII']
+  Four score and seven years ago                      6    6/6     6/6     0/6     6/6    [' Compan', ' expel', ' precaution', ' Dude', 'ements', ' precedence', 'stasy', ' Monetary']
+  I love cats and dogs                                5    5/5     5/5     0/5     5/5    [' reduces', ' tit', ' UTC', ' Ruler', 'type', 'cal', ' Sharon', ' Dallas']
+  the big red car drove fast down the road            9    8/9     8/9     0/9     8/9    [' Charter', ' �', ' judicial', 'Font', ' Zombie', ' transfer', ' Monteneg', ' persona']
+
+==============================================================================
+LAYER L6
+==============================================================================
+  Building corrected vocab at L6...
+  Per-token bias norm: 33.29
+  Vocab norms: full 87.27, low 87.30, high 2.4805
+
+  Sentence                                       unique    full     low    high   union  bands_high_tokens
+  ----------------------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6    4/6     4/6     0/6     4/6    [' MARK', ' Secondly', 'Fle', ' Likes', ' revealing', ' Historical', ' Malik', ' designed']
+  the dog ran in the park                             6    5/6     5/6     0/6     5/6    [' Kanye', ' paternity', ' rave', ' crawl', 'designed', 'picked', ' api', ' Gou']
+  Mary had a little lamb                              5    4/5     5/5     0/5     5/5    [' Cham', 'Chief', ' lovely', 'apons', ' weed', 'Pred', ' coupons', 'FM']
+  Four score and seven years ago                      6    5/6     5/6     0/6     5/6    [' amounts', ' Ahmed', ' Force', ' complexes', ' reuse', ' poem', ' despicable', 'chat']
+  I love cats and dogs                                5    2/5     4/5     0/5     4/5    [' override', ' Morsi', 'uits', ' commander', ' Haskell', ' purchaser', ' mines', 'NF']
+  the big red car drove fast down the road            9    6/9     5/9     0/9     6/9    ['oliberal', ' unlike', ' nonsense', ' TV', ' governs', '646', ' battery', ' beforehand']
+
+==============================================================================
+LAYER L11
+==============================================================================
+  Building corrected vocab at L11...
+  Per-token bias norm: 60.14
+  Vocab norms: full 240.41, low 240.54, high 7.8667
+
+  Sentence                                       unique    full     low    high   union  bands_high_tokens
+  ----------------------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6    4/6     4/6     0/6     4/6    [' Sit', ' Caval', ' Decoder', 'Magic', ' 2018', 'omedical', ' Scalia', ' Euras']
+  the dog ran in the park                             6    5/6     5/6     0/6     5/6    ['Over', ' Cards', ' Figures', ' alle', '864', ' Port', 'uto', 'fman']
+  Mary had a little lamb                              5    4/5     3/5     0/5     4/5    ['ombs', ' invented', 'dy', '4', ' grounding', ' gases', 'ín', ' Wonderful']
+  Four score and seven years ago                      6    0/6     2/6     0/6     2/6    [' Starcraft', ' cakes', ' esteemed', 'TE', 'been', 'usage', 'School', ' Apply']
+  I love cats and dogs                                5    3/5     3/5     0/5     3/5    [' dystop', 'isites', ' Aside', ' Bucks', ' Mem', 'Gs', ' Grill', ' adventures']
+  the big red car drove fast down the road            9    5/9     5/9     0/9     6/9    ['orers', 'submit', ' encomp', ' verification', 'PS', 'ivism', 'killers', 'ryce']

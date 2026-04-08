@@ -1,0 +1,59 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1986.77it/s]
+
+==============================================================================
+LAYER L1
+==============================================================================
+  avg vocab norm: 63.59
+    scale=N*100 (original)                    128/132    97.0%
+    scale=vocab_avg*N                         118/132    89.4%
+    scale=mp_norm*N                           109/132    82.6%
+    sum (no normalize, baseline)              109/132    82.6%
+    scale=vocab_avg*sqrt(N)                    63/132    47.7%
+    topN cosine (scale-free)                   50/132    37.9%
+    scale=vocab_avg                            33/132    25.0%
+    scale=mp_norm (undo norm)                  22/132    16.7%
+    scale=1.0                                  16/132    12.1%
+
+==============================================================================
+LAYER L6
+==============================================================================
+  avg vocab norm: 87.27
+    scale=vocab_avg*N                          53/132    40.2%
+    scale=N*100 (original)                     53/132    40.2%
+    scale=mp_norm*N                            44/132    33.3%
+    sum (no normalize, baseline)               44/132    33.3%
+    topN cosine (scale-free)                   41/132    31.1%
+    scale=vocab_avg*sqrt(N)                    33/132    25.0%
+    scale=vocab_avg                            16/132    12.1%
+    scale=mp_norm (undo norm)                  14/132    10.6%
+    scale=1.0                                  11/132     8.3%
+
+==============================================================================
+LAYER L11
+==============================================================================
+  avg vocab norm: 240.41
+    scale=vocab_avg*N                          30/132    22.7%
+    scale=mp_norm*N                            29/132    22.0%
+    sum (no normalize, baseline)               29/132    22.0%
+    scale=N*100 (original)                     20/132    15.2%
+    scale=vocab_avg*sqrt(N)                    19/132    14.4%
+    topN cosine (scale-free)                   18/132    13.6%
+    scale=vocab_avg                             7/132     5.3%
+    scale=mp_norm (undo norm)                   7/132     5.3%
+    scale=1.0                                   6/132     4.5%
+
+==============================================================================
+LAYER L12
+==============================================================================
+  avg vocab norm: 184.56
+    scale=vocab_avg*sqrt(N)                     2/132     1.5%
+    scale=N*100 (original)                      2/132     1.5%
+    scale=mp_norm*N                             2/132     1.5%
+    sum (no normalize, baseline)                2/132     1.5%
+    scale=vocab_avg*N                           1/132     0.8%
+    scale=1.0                                   0/132     0.0%
+    scale=vocab_avg                             0/132     0.0%
+    scale=mp_norm (undo norm)                   0/132     0.0%
+    topN cosine (scale-free)                    0/132     0.0%

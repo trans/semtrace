@@ -1,0 +1,80 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2222.94it/s]
+Forward-passing test sentences...
+
+==============================================================================
+UPPER BOUND: decompose actual static sum (wte[tokens].sum()) against wte
+==============================================================================
+  Sentence                                       unique    recovery
+  ----------------------------------------------------------------------
+  the cat sat on the mat                              6     6/6   
+  the dog ran in the park                             6     6/6   
+  Mary had a little lamb                              5     5/5   
+  Four score and seven years ago                      6     6/6   
+  I love cats and dogs                                5     5/5   
+  the big red car drove fast down the road            9     9/9   
+
+==============================================================================
+LAYER L1: train W on (corrected_vocab, wte) pairs, test bridge
+==============================================================================
+  Building corrected vocab at L1...
+  Fitting W (768x768, lstsq)...
+  W identity preservation (sample 1000): 99.9%
+
+  Sentence                                       unique     direct    bridged  bridged tokens
+  --------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     1/6          4/6       ['The', ' sat', ' mat', ' on', ' cat', 'plain', '<|endoftext|>', 'ethe']
+  the dog ran in the park                             6     1/6          3/6       ['The', ' dog', ' ran', '<|endoftext|>', 'plain', ' on', ' park']
+  Mary had a little lamb                              5     1/5          3/5       ['Mary', ' did', ' lamb', ' a', ' VERY', '<|endoftext|>']
+  Four score and seven years ago                      6     1/6          3/6       [' seven', ' years', '<|endoftext|>', ' scored', ' ago', ' almost', 'time']
+  I love cats and dogs                                5     1/5          3/5       [' dogs', ' love', '<|endoftext|>', ' kittens', ' and', ' impro']
+  the big red car drove fast down the road            9     1/9          3/9       ['The', ' car', ' road', '<|endoftext|>', ' almost', ' SUV', 'time', ' big']
+
+==============================================================================
+LAYER L6: train W on (corrected_vocab, wte) pairs, test bridge
+==============================================================================
+  Building corrected vocab at L6...
+  Fitting W (768x768, lstsq)...
+  W identity preservation (sample 1000): 99.6%
+
+  Sentence                                       unique     direct    bridged  bridged tokens
+  --------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     1/6          1/6       ['The', ' stood', '367', 'dog', '<|endoftext|>', ' drag', ' mat', 'atos']
+  the dog ran in the park                             6     1/6          2/6       ['The', ' ran', ' dog', ' whether', 'walk', ' your', 'ines']
+  Mary had a little lamb                              5     1/5          3/5       ['Mary', ' had', 'When', ' lamb', ' plenty', ' died']
+  Four score and seven years ago                      6     0/6          2/6       ['Three', 'Seven', ' scored', ' ago', '684', ' years', ' start', ' (@']
+  I love cats and dogs                                5     0/5          1/5       ['It', ' pets', ' loves', '629', 'I', ' superheroes']
+  the big red car drove fast down the road            9     1/9          3/9       [' drove', 'Big', 'The', ' highways', ' raced', ' down', ' big', ' reinvent']
+
+==============================================================================
+LAYER L11: train W on (corrected_vocab, wte) pairs, test bridge
+==============================================================================
+  Building corrected vocab at L11...
+  Fitting W (768x768, lstsq)...
+  W identity preservation (sample 1000): 91.2%
+
+  Sentence                                       unique     direct    bridged  bridged tokens
+  --------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     1/6          1/6       ['�', ' sits', 'Cat', 'the', ' rubbed', ' chair', ' pige']
+  the dog ran in the park                             6     1/6          3/6       [' ran', 'Dog', 'that', ' wandered', ' park', ' in', ' shiny']
+  Mary had a little lamb                              5     0/5          2/5       ['\x14', 'Mary', ' had', 'Little', ' mom', ' berries']
+  Four score and seven years ago                      6     0/6          1/6       ['Three', '�', 'Despite', ' scored', ' years', ' favourites', ' nine']
+  I love cats and dogs                                5     0/5          2/5       ['�', ' cats', ' loves', 'I', 'Sometimes', ' pets', 'rence']
+  the big red car drove fast down the road            9     1/9          2/9       ['\x13', ' drove', 'Big', ' freeway', ' majestic', ' goes', ' yellow', ' dragging']
+
+==============================================================================
+LAYER L12: train W on (corrected_vocab, wte) pairs, test bridge
+==============================================================================
+  Building corrected vocab at L12...
+  Fitting W (768x768, lstsq)...
+  W identity preservation (sample 1000): 85.2%
+
+  Sentence                                       unique     direct    bridged  bridged tokens
+  --------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     0/6          0/6       ['�', ' gazed', 'Cat', ' lays', 'pet', ' you', ' chair']
+  the dog ran in the park                             6     0/6          2/6       ['�', ' wandered', ' dog', 'Police', ' ran', 'ching']
+  Mary had a little lamb                              5     0/5          2/5       ['�', 'Mary', ' drank', ' gets', ' mom', ' lamb']
+  Four score and seven years ago                      6     0/6          1/6       ['\x17', 'Three', 'Despite', ' scored', ' seven', ' months', ' Fraser']
+  I love cats and dogs                                5     0/5          1/5       [' TheNitrome', ' cats', ' loves', 'It', ' :)', ' animals']
+  the big red car drove fast down the road            9     0/9          1/9       ['\x19', ' drove', '\x0b', ' majestic', ' cars', 'Big', ' goes', ' highway']

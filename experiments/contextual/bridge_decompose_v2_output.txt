@@ -1,0 +1,73 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 4154.33it/s]
+Forward-passing test sentences...
+Forward-passing reference sentences (for bias)...
+
+==============================================================================
+LAYER L1
+==============================================================================
+  Building corrected vocab at L1...
+  Per-token bias norm: 16.39
+  Fitting W_A (standard, on raw vocab)...
+  Fitting W_B (on bias-subtracted vocab)...
+
+  Sentence                                       unique   unbiased    A:bias→W    B:both  best tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     4/6          3/6           4/6      ['The', ' sat', ' mat', ' on', ' cat', 'ethe', 'plain']
+  the dog ran in the park                             6     3/6          2/6           3/6      ['The', ' dog', ' ran', ' on', ' park', 'plain']
+  Mary had a little lamb                              5     3/5          3/5           4/5      ['Mary', ' had', ' lamb', ' a', ' VERY', '<|endoftext|>']
+  Four score and seven years ago                      6     3/6          3/6           3/6      [' seven', ' years', ' scored', ' ago', '<|endoftext|>', ' almost', 'time']
+  I love cats and dogs                                5     3/5          3/5           4/5      [' dogs', ' love', '<|endoftext|>', ' cats', 'I', ' impro']
+  the big red car drove fast down the road            9     3/9          3/9           3/9      ['The', ' car', ' road', ' big', ' incent', ' almost', '<|endoftext|>', 'time']
+
+==============================================================================
+LAYER L6
+==============================================================================
+  Building corrected vocab at L6...
+  Per-token bias norm: 33.29
+  Fitting W_A (standard, on raw vocab)...
+  Fitting W_B (on bias-subtracted vocab)...
+
+  Sentence                                       unique   unbiased    A:bias→W    B:both  best tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     1/6          3/6           1/6      ['There', ' perched', ' mat', ' your', ' nausea', 'dog']
+  the dog ran in the park                             6     2/6          4/6           3/6      ['The', ' ran', ' dog', ' describ', ' your', ' park']
+  Mary had a little lamb                              5     3/5          2/5           3/5      ['Mary', ' had', ' tasty', 'Two', ' lamb']
+  Four score and seven years ago                      6     2/6          0/6           1/6      ['Three', 'Seven', ' touchdowns', ' ago', ' designed', ' accol', ' the']
+  I love cats and dogs                                5     1/5          1/5           0/5      [' pets', 'It', ' loves', '629', ' my', ' hooked']
+  the big red car drove fast down the road            9     3/9          4/9           2/9      [' highways', ' slammed', ' big', ' destro', 'Red', ' hill', ' getting', 'Tomorrow']
+
+==============================================================================
+LAYER L11
+==============================================================================
+  Building corrected vocab at L11...
+  Per-token bias norm: 60.14
+  Fitting W_A (standard, on raw vocab)...
+  Fitting W_B (on bias-subtracted vocab)...
+
+  Sentence                                       unique   unbiased    A:bias→W    B:both  best tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     1/6          2/6           0/6      ['�', ' sits', 'Cat', 'there', ' sofa', ' paws']
+  the dog ran in the park                             6     3/6          3/6           1/6      [' wandered', 'Dog', ' ran', 'The', ' snowy', ' ie']
+  Mary had a little lamb                              5     2/5          0/5           3/5      ['\x14', 'Mary', ' had', 'Little', ' mom', ' lamb']
+  Four score and seven years ago                      6     1/6          4/6           1/6      ['Three', ' externalToEVA', 'Despite', ' scored', ' years', ' favourites', ' nine']
+  I love cats and dogs                                5     2/5          2/5           2/5      ['�', ' cats', 'Sometimes', ' loves', 'I', ' pets', 'Indiana']
+  the big red car drove fast down the road            9     2/9          4/9           1/9      ['ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ', ' drove', ' majestic', 'Big', ' freeway', 'Some', ' yellow', ' crashing']
+
+==============================================================================
+LAYER L12
+==============================================================================
+  Building corrected vocab at L12...
+  Per-token bias norm: 49.06
+  Fitting W_A (standard, on raw vocab)...
+  Fitting W_B (on bias-subtracted vocab)...
+
+  Sentence                                       unique   unbiased    A:bias→W    B:both  best tokens
+  -------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     0/6          2/6           0/6      ['�', ' gazed', 'Cat', ' lays', 'pet', ' you', ' chair']
+  the dog ran in the park                             6     2/6          2/6           2/6      ['�', ' wandered', ' dog', 'Police', ' ran', 'ching']
+  Mary had a little lamb                              5     2/5          1/5           2/5      ['�', 'Mary', ' drank', ' gets', ' mom', ' lamb']
+  Four score and seven years ago                      6     1/6          2/6           1/6      ['\x17', 'Three', 'Despite', ' scored', ' seven', ' months', ' Fraser']
+  I love cats and dogs                                5     1/5          2/5           1/5      [' TheNitrome', ' cats', ' loves', 'It', ' :)', ' animals']
+  the big red car drove fast down the road            9     1/9          4/9           1/9      ['\x19', ' drove', '\x0b', ' majestic', ' cars', 'Big', ' goes', ' highway']

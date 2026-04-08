@@ -1,0 +1,30 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2000.31it/s]
+Text: Mary had a little lamb its fleece was white as sno...
+Trailing tokens: 23, unique: 21
+Layer: L1
+
+Building corrected vocab at L1...
+  vocab shape: (50257, 768), avg norm: 63.59
+  per-token bias norm (f32): 16.39
+
+======================================================================
+PART 1: Static decomposition (unchanged baseline)
+======================================================================
+    Bits      Recovery
+  -------------------------
+    32b     18/21  
+    16b     18/21  
+     8b     18/21  
+     4b     19/21  
+
+======================================================================
+PART 2: Contextual decomposition (sink-skip + N-debias) at L1
+======================================================================
+    Bits      Recovery    BiasNorm    TargetNorm  tokens
+  ------------------------------------------------------------------------------------------
+    32b     13/21           16.39         1183.28    [' is', ' to', ' was', ' to', ' was', ' a']
+    16b     13/21           16.39         1183.27    [' is', ' to', ' was', ' to', ' was', ' a']
+     8b     13/21           16.40         1183.22    [' is', ' to', ' was', ' to', ' was', ' a']
+     4b      4/21           17.39         1177.21    [' for', ' 1', ' including', ' delicious', ' for', ' was']

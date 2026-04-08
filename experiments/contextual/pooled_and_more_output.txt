@@ -1,0 +1,97 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1915.39it/s]
+
+==============================================================================
+PART C: Magnitude scaling
+==============================================================================
+
+  C1: Per-layer sum-of-trailing magnitude (averaged across all sentences)
+   Layer   avg ||sum||         std   avg ||mean_pool||  avg ||last_token||
+  ---------------------------------------------------------------------------
+  L 0            30.59        4.32                4.65                5.30
+  L 1           350.78       49.98               53.32               62.18
+  L 2           328.95       47.37               50.00               61.99
+  L 3           351.11       47.17               53.47               67.90
+  L 4           373.04       51.39               56.76               74.24
+  L 5           407.43       55.80               62.00               79.44
+  L 6           441.80       60.85               67.22               85.46
+  L 7           507.40       71.08               77.18               97.32
+  L 8           605.41       87.81               92.02              113.50
+  L 9           740.16      107.36              112.51              130.84
+  L10           942.80      143.21              143.17              153.97
+  L11          1553.76      238.65              235.87              232.99
+  L12          1384.92      225.04              210.16              224.46
+
+  C2: Sentence length vs sum magnitude at L1, L6, L11, L12
+  sentence                                         N     L1 sum     L6 sum    L11 sum    L12 sum
+  -----------------------------------------------------------------------------------------------
+  Mary had a little lamb                           5     272.38     350.73    1184.79    1131.56
+  I love cats and dogs                             5     273.83     353.17    1218.12    1157.27
+  the cat sat on the mat                           6     314.73     417.12    1484.91    1144.89
+  the dog ran in the park                          6     319.69     393.70    1436.32    1267.01
+  Four score and seven years ago                   6     313.95     396.75    1434.28    1145.58
+  she walked slowly to the river                   6     326.73     407.48    1387.12    1383.84
+  morning sun warmed the sleepy village            6     334.26     412.32    1458.15    1256.06
+  the wizard cast a powerful spell                 6     327.65     422.09    1367.97    1245.31
+  rain washed over the dusty street                6     323.06     403.47    1444.63    1192.42
+  music drifted from the open window               6     319.42     395.79    1388.09    1283.32
+  the chef prepared a delicious meal               6     347.80     442.38    1513.92    1277.75
+  stars filled the dark night sky                  6     324.52     403.87    1399.50    1207.56
+  children played with the colorful kite           7     372.18     448.06    1621.26    1487.78
+  fire crackled in the stone fireplace             7     364.97     465.17    1600.39    1450.06
+  the runner crossed the finish line first         7     363.66     464.33    1600.71    1394.12
+  the old man fished from the boat                 8     406.41     509.87    1875.52    1672.47
+  snow fell quietly on the mountain pass           8     403.26     510.23    1771.56    1732.00
+  he opened the book and began to read             8     416.47     544.59    1930.14    1789.62
+  a small bird sang in the tall tree               8     417.44     514.53    1808.12    1677.59
+  the big red car drove fast down the road         9     473.23     580.42    2149.60    1802.24
+
+==============================================================================
+PART A: Pooled-vector decomposition (production style)
+==============================================================================
+  Instead of summing trailing positions, MEAN-pool them and optionally L2-normalize.
+  Each method tested at L1, L6, L11, L12 with mean-pool.
+
+  Building vocab + bias + W at L1...
+  Building vocab + bias + W at L6...
+  Building vocab + bias + W at L11...
+  Building vocab + bias + W at L12...
+
+==============================================================================
+PART B: Union of top methods (sum-based, sink-skip + N-debias)
+==============================================================================
+  For each sentence, take union of recovered tokens across these methods
+  at L1, L6, L11. Reports whether the methods miss different tokens.
+
+  Building vocab at L1 (for union analysis)...
+  Building vocab at L6 (for union analysis)...
+  Building vocab at L11 (for union analysis)...
+
+==============================================================================
+SUMMARY: POOLED-VECTOR METHODS
+==============================================================================
+  mean-pool CN L1: L2-normalized mean vs ctx_vocab              128/132    97.0%
+  mean-pool C  L1: (mean - mean_bias) vs ctx_vocab              117/132    88.6%
+  mean-pool C  L6: (mean - mean_bias) vs ctx_vocab               86/132    65.2%
+  mean-pool BD L1: (mean - mean_bias) @ W vs wte                 70/132    53.0%
+  mean-pool C  L11: (mean - mean_bias) vs ctx_vocab              57/132    43.2%
+  mean-pool CN L6: L2-normalized mean vs ctx_vocab               53/132    40.2%
+  mean-pool BD L6: (mean - mean_bias) @ W vs wte                 47/132    35.6%
+  mean-pool BD L11: (mean - mean_bias) @ W vs wte                43/132    32.6%
+  mean-pool BD L12: (mean - mean_bias) @ W vs wte                39/132    29.5%
+  last-tok L1: hs[-1] vs ctx_vocab                               20/132    15.2%
+  mean-pool CN L11: L2-normalized mean vs ctx_vocab              20/132    15.2%
+  last-tok L6: hs[-1] vs ctx_vocab                               18/132    13.6%
+  last-tok L11: hs[-1] vs ctx_vocab                               9/132     6.8%
+  mean-pool C  L12: (mean - mean_bias) vs ctx_vocab               2/132     1.5%
+  mean-pool CN L12: L2-normalized mean vs ctx_vocab               2/132     1.5%
+  last-tok L12: hs[-1] vs ctx_vocab                               0/132     0.0%
+
+==============================================================================
+SUMMARY: UNION OF METHODS PER LAYER
+==============================================================================
+   Layer           C          CL         BDC       union    union/best
+  L 1      117/132    118/132     77/132    126/132   +8
+  L 6       86/132     88/132     51/132     99/132   +11
+  L11       57/132     60/132     42/132     83/132   +23

@@ -1,0 +1,67 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2961.15it/s]
+Forward-passing test texts...
+  short       : 13 tokens, 11 unique
+  medium      : 29 tokens, 24 unique
+  gettysburg  : 62 tokens, 45 unique
+
+==============================================================================
+LAYER L1
+==============================================================================
+  Per-token bias norm: 16.39
+  short        (n=13, unique=11):
+    greedy full: 10/11 (91%)
+    greedy low : 11/11 (100%)
+    CD full    : 10/11 (91%)
+    CD low     : 11/11 (100%)
+  medium       (n=29, unique=24):
+    greedy full: 9/24 (38%)
+    greedy low : 9/24 (38%)
+    CD full    : 12/24 (50%)
+    CD low     : 13/24 (54%)
+  gettysburg   (n=62, unique=45):
+    greedy full: 11/45 (24%)
+    greedy low : 12/45 (27%)
+    CD full    : 11/45 (24%)
+    CD low     : 11/45 (24%)
+
+==============================================================================
+LAYER L6
+==============================================================================
+  Per-token bias norm: 33.29
+  short        (n=13, unique=11):
+    greedy full: 7/11 (64%)
+    greedy low : 8/11 (73%)
+    CD full    : 8/11 (73%)
+    CD low     : 10/11 (91%)
+  medium       (n=29, unique=24):
+    greedy full: 4/24 (17%)
+    greedy low : 4/24 (17%)
+    CD full    : 7/24 (29%)
+    CD low     : 7/24 (29%)
+  gettysburg   (n=62, unique=45):
+    greedy full: 10/45 (22%)
+    greedy low : 10/45 (22%)
+    CD full    : 12/45 (27%)
+    CD low     : 13/45 (29%)
+
+==============================================================================
+LAYER L11
+==============================================================================
+  Per-token bias norm: 60.14
+  short        (n=13, unique=11):
+    greedy full: 4/11 (36%)
+    greedy low : 4/11 (36%)
+    CD full    : 4/11 (36%)
+    CD low     : 4/11 (36%)
+  medium       (n=29, unique=24):
+    greedy full: 5/24 (21%)
+    greedy low : 4/24 (17%)
+    CD full    : 6/24 (25%)
+    CD low     : 6/24 (25%)
+  gettysburg   (n=62, unique=45):
+    greedy full: 6/45 (13%)
+    greedy low : 5/45 (11%)
+    CD full    : 2/45 (4%)
+    CD low     : 2/45 (4%)

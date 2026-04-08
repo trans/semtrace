@@ -1,0 +1,16 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 3756.02it/s]
+Building corrected vocab at L1...
+Per-token bias norm: 16.39
+
+======================================================================
+CONTEXTUAL DECOMPOSITION + COORD DESCENT (L1, sink-skip + N-debias)
+======================================================================
+
+Sentence                                       unique      Greedy          CD  CD tokens
+----------------------------------------------------------------------------------------------------------------------------------
+  the cat sat on the mat                              6     6/6          6/6       [' the', ' on', ' sat', ' cat', ' mat', 'the']
+  Mary had a little lamb                              5     5/5          5/5       [' a', ' little', ' had', 'Mary', ' lamb']
+  the dog ran in the park                             6     5/6          6/6       ['the', ' the', ' ran', ' dog', ' park', ' in']
+  I love cats and dogs                                5     5/5          5/5       [' love', ' dogs', ' and', ' cats', 'I']

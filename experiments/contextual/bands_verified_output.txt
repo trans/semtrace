@@ -1,0 +1,115 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2513.97it/s]
+Forward-passing 4 reference sentences and 20 test sentences...
+
+==============================================================================
+LAYER L1
+==============================================================================
+  Per-token bias norm: 16.39
+  Vocab norms: full 63.6, low 63.6, high 1.802
+
+  Sentence                                         u  fullD   rawL   rawH   debL   debH
+  ------------------------------------------------------------------------------------------
+  the cat sat on the mat                           6    6/6    6/6    0/6    6/6    0/6 
+  the dog ran in the park                          6    5/6    6/6    0/6    6/6    0/6 
+  Mary had a little lamb                           5    5/5    5/5    0/5    5/5    0/5 
+  Four score and seven years ago                   6    6/6    5/6    0/6    6/6    0/6 
+  I love cats and dogs                             5    5/5    5/5    0/5    5/5    0/5 
+  the big red car drove fast down the road         9    8/9    6/9    0/9    8/9    0/9 
+  she walked slowly to the river                   6    4/6    4/6    0/6    4/6    0/6 
+  the old man fished from the boat                 8    8/8    6/8    0/8    8/8    0/8 
+  children played with the colorful kite           7    6/7    5/7    0/7    6/7    0/7 
+  morning sun warmed the sleepy village            6    5/6    4/6    0/6    5/6    0/6 
+  snow fell quietly on the mountain pass           8    6/8    6/8    0/8    5/8    0/8 
+  he opened the book and began to read             8    8/8    8/8    0/8    8/8    0/8 
+  the wizard cast a powerful spell                 6    5/6    6/6    0/6    5/6    0/6 
+  rain washed over the dusty street                6    6/6    6/6    0/6    6/6    0/6 
+  music drifted from the open window               6    4/6    5/6    0/6    4/6    0/6 
+  a small bird sang in the tall tree               8    7/8    6/8    0/8    8/8    0/8 
+  the chef prepared a delicious meal               6    6/6    5/6    0/6    6/6    0/6 
+  fire crackled in the stone fireplace             7    5/7    5/7    0/7    5/7    0/7 
+  the runner crossed the finish line first         7    7/7    6/7    0/7    7/7    0/7 
+  stars filled the dark night sky                  6    5/6    6/6    0/6    5/6    0/6 
+
+  AGGREGATE (over 20 sentences, 132 unique tokens total):
+    full + N*debias    : 117/132 (88.6%)
+    raw split, low band: 111/132 (84.1%)
+    raw split, high    :   0/132 (0.0%)
+    deb-then-split, low: 118/132 (89.4%)
+    deb-then-split,high:   0/132 (0.0%)
+    low-vs-full per sentence: low_beats=2, low_equals=17, low_loses=1
+
+==============================================================================
+LAYER L6
+==============================================================================
+  Per-token bias norm: 33.29
+  Vocab norms: full 87.3, low 87.3, high 2.480
+
+  Sentence                                         u  fullD   rawL   rawH   debL   debH
+  ------------------------------------------------------------------------------------------
+  the cat sat on the mat                           6    4/6    2/6    0/6    4/6    0/6 
+  the dog ran in the park                          6    5/6    4/6    0/6    5/6    0/6 
+  Mary had a little lamb                           5    4/5    3/5    0/5    5/5    0/5 
+  Four score and seven years ago                   6    5/6    2/6    0/6    5/6    0/6 
+  I love cats and dogs                             5    2/5    2/5    0/5    4/5    0/5 
+  the big red car drove fast down the road         9    6/9    3/9    0/9    5/9    0/9 
+  she walked slowly to the river                   6    4/6    2/6    0/6    4/6    0/6 
+  the old man fished from the boat                 8    4/8    2/8    0/8    4/8    0/8 
+  children played with the colorful kite           7    6/7    2/7    0/7    6/7    0/7 
+  morning sun warmed the sleepy village            6    4/6    1/6    0/6    3/6    0/6 
+  snow fell quietly on the mountain pass           8    4/8    1/8    0/8    4/8    0/8 
+  he opened the book and began to read             8    2/8    2/8    0/8    3/8    0/8 
+  the wizard cast a powerful spell                 6    4/6    1/6    0/6    4/6    0/6 
+  rain washed over the dusty street                6    6/6    3/6    0/6    6/6    0/6 
+  music drifted from the open window               6    4/6    4/6    0/6    4/6    0/6 
+  a small bird sang in the tall tree               8    5/8    3/8    0/8    5/8    0/8 
+  the chef prepared a delicious meal               6    3/6    3/6    0/6    3/6    0/6 
+  fire crackled in the stone fireplace             7    5/7    2/7    0/7    5/7    0/7 
+  the runner crossed the finish line first         7    4/7    1/7    0/7    4/7    0/7 
+  stars filled the dark night sky                  6    5/6    1/6    0/6    5/6    0/6 
+
+  AGGREGATE (over 20 sentences, 132 unique tokens total):
+    full + N*debias    :  86/132 (65.2%)
+    raw split, low band:  44/132 (33.3%)
+    raw split, high    :   0/132 (0.0%)
+    deb-then-split, low:  88/132 (66.7%)
+    deb-then-split,high:   0/132 (0.0%)
+    low-vs-full per sentence: low_beats=3, low_equals=15, low_loses=2
+
+==============================================================================
+LAYER L11
+==============================================================================
+  Per-token bias norm: 60.14
+  Vocab norms: full 240.4, low 240.5, high 7.867
+
+  Sentence                                         u  fullD   rawL   rawH   debL   debH
+  ------------------------------------------------------------------------------------------
+  the cat sat on the mat                           6    4/6    2/6    0/6    4/6    0/6 
+  the dog ran in the park                          6    5/6    2/6    0/6    5/6    0/6 
+  Mary had a little lamb                           5    4/5    2/5    0/5    3/5    0/5 
+  Four score and seven years ago                   6    0/6    1/6    0/6    2/6    0/6 
+  I love cats and dogs                             5    3/5    2/5    0/5    3/5    0/5 
+  the big red car drove fast down the road         9    5/9    2/9    0/9    5/9    0/9 
+  she walked slowly to the river                   6    1/6    2/6    0/6    1/6    0/6 
+  the old man fished from the boat                 8    3/8    2/8    0/8    2/8    0/8 
+  children played with the colorful kite           7    3/7    2/7    0/7    3/7    0/7 
+  morning sun warmed the sleepy village            6    2/6    0/6    0/6    2/6    0/6 
+  snow fell quietly on the mountain pass           8    4/8    1/8    0/8    3/8    0/8 
+  he opened the book and began to read             8    4/8    2/8    0/8    4/8    0/8 
+  the wizard cast a powerful spell                 6    0/6    1/6    0/6    0/6    0/6 
+  rain washed over the dusty street                6    2/6    1/6    0/6    3/6    0/6 
+  music drifted from the open window               6    4/6    1/6    0/6    5/6    0/6 
+  a small bird sang in the tall tree               8    3/8    1/8    0/8    5/8    0/8 
+  the chef prepared a delicious meal               6    3/6    1/6    0/6    2/6    0/6 
+  fire crackled in the stone fireplace             7    2/7    1/7    0/7    2/7    0/7 
+  the runner crossed the finish line first         7    4/7    2/7    0/7    4/7    0/7 
+  stars filled the dark night sky                  6    1/6    0/6    0/6    2/6    0/6 
+
+  AGGREGATE (over 20 sentences, 132 unique tokens total):
+    full + N*debias    :  57/132 (43.2%)
+    raw split, low band:  28/132 (21.2%)
+    raw split, high    :   0/132 (0.0%)
+    deb-then-split, low:  60/132 (45.5%)
+    deb-then-split,high:   0/132 (0.0%)
+    low-vs-full per sentence: low_beats=5, low_equals=11, low_loses=4
