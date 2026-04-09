@@ -1,0 +1,55 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1546.38it/s]
+
+Computing centroid from 40 sentences...
+  centroid norm: 207.13
+  pool emb norms: mean 207.44
+  centered emb norms: mean 15.62
+
+==============================================================================
+Test 1: Pairwise cosines among the centroid pool sentences
+==============================================================================
+  raw cosines: mean=0.9969 min=0.9889 max=0.9994
+  centered:    mean=-0.0237 min=-0.9120 max=0.9172
+
+==============================================================================
+Test 2: Random sequences vs target — raw cosine vs centered cosine
+==============================================================================
+  Random vs target:
+    raw cos:      mean=0.9943 min=0.9825 max=0.9978
+    centered cos: mean=0.4691 min=-0.3113 max=0.8412
+  Permutations vs target:
+    raw cos:      mean=0.9956 min=0.9924 max=0.9996
+    centered cos: mean=0.8465 min=0.6042 max=0.9514
+
+  Discrimination (perm cos - random cos):
+    raw:      +0.0013
+    centered: +0.3775
+
+==============================================================================
+Test 3: Gradient-descent garbage — does centering reveal it as bad?
+==============================================================================
+  Garbage: ['ulty', ' Im', 'Driver', 'rawdownload', ' builds', ' Goodell']
+  vs 'the big red car drove fast':
+    raw cos:      0.997402
+    centered cos: 0.825227
+    raw L2:       14.6386
+    centered L2:  14.6386
+  Percentile of garbage vs 50 random sequences:
+    raw cos (% of random with HIGHER cos):       24%
+    centered cos (% of random with HIGHER cos):  6%
+    raw L2 (% of random with LOWER L2):          14%
+    centered L2 (% of random with LOWER L2):     14%
+
+==============================================================================
+Test 4: Pair distinguishability — semantically similar vs dissimilar
+==============================================================================
+  pair                                                  raw cos   cent cos    raw L2   cent L2
+  -----------------------------------------------------------------------------------------------
+  synonym swap                                           1.0000     0.9959      2.04      2.04
+  swap order                                             0.9999     0.9047      4.35      4.35
+  negation                                               0.9990     0.9803     20.36     20.36
+  unrelated                                              0.9967     0.7624     17.17     17.17
+  different content same topic                           0.9979    -0.5761     24.15     24.15

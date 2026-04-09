@@ -1,0 +1,117 @@
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2046.64it/s]
+
+======================================================================
+Sentence: 'the cat sat on the mat'
+True trailing tokens: ['the', ' cat', ' sat', ' on', ' the', ' mat']
+    step    0: match_loss=  623.332  proj_loss=  184.090  total=  625.173
+    step   50: match_loss=  204.162  proj_loss=40107.633  total=  605.239
+    step  100: match_loss=  152.770  proj_loss=37592.215  total=  528.693
+    step  150: match_loss=  126.612  proj_loss=34030.688  total=  466.919
+    step  200: match_loss=  104.299  proj_loss=30473.984  total=  409.039
+    step  250: match_loss=   92.176  proj_loss=27041.547  total=  362.591
+    step  300: match_loss=   82.827  proj_loss=23859.184  total=  321.419
+    step  350: match_loss=   73.817  proj_loss=20981.992  total=  283.637
+    step  400: match_loss=   62.382  proj_loss=18416.086  total=  246.542
+    step  450: match_loss=   58.858  proj_loss=16491.912  total=  223.778
+  Recovered: [' atop', ' crave', 'artist', '1', ' this', '¶']
+  True:      ['the', ' cat', ' sat', ' on', ' the', ' mat']
+  Position-match: 0/6
+  Bag-match:      0/6
+  Final embedding dist: 246.0992, cos: 0.996997
+
+======================================================================
+Sentence: 'the dog ran in the park'
+True trailing tokens: ['the', ' dog', ' ran', ' in', ' the', ' park']
+    step    0: match_loss= 1057.494  proj_loss=  189.734  total= 1059.392
+    step   50: match_loss=  171.405  proj_loss=40749.172  total=  578.896
+    step  100: match_loss=  141.557  proj_loss=37425.992  total=  515.816
+    step  150: match_loss=  119.313  proj_loss=33185.488  total=  451.168
+    step  200: match_loss=   99.625  proj_loss=29133.135  total=  390.957
+    step  250: match_loss=   84.839  proj_loss=25439.051  total=  339.229
+    step  300: match_loss=   72.242  proj_loss=22143.770  total=  293.680
+    step  350: match_loss=   60.661  proj_loss=19233.244  total=  252.994
+    step  400: match_loss=   51.334  proj_loss=16688.232  total=  218.216
+    step  450: match_loss=   46.317  proj_loss=14647.777  total=  192.794
+  Recovered: [' stuck', ' mobilize', 'ajor', ' ecology', '█', ' corrid']
+  True:      ['the', ' dog', ' ran', ' in', ' the', ' park']
+  Position-match: 0/6
+  Bag-match:      0/6
+  Final embedding dist: 859.7416, cos: 0.990708
+
+======================================================================
+Sentence: 'Mary had a little lamb'
+True trailing tokens: ['Mary', ' had', ' a', ' little', ' lamb']
+    step    0: match_loss= 2547.518  proj_loss=  163.332  total= 2549.151
+    step   50: match_loss=  319.429  proj_loss=35345.754  total=  672.887
+    step  100: match_loss=  195.199  proj_loss=34425.250  total=  539.452
+    step  150: match_loss=  155.246  proj_loss=32640.188  total=  481.648
+    step  200: match_loss=  136.122  proj_loss=30608.830  total=  442.210
+    step  250: match_loss=  123.069  proj_loss=28496.307  total=  408.032
+    step  300: match_loss=  112.421  proj_loss=26395.344  total=  376.375
+    step  350: match_loss=  103.308  proj_loss=24358.516  total=  346.893
+    step  400: match_loss=   95.543  proj_loss=22415.715  total=  319.700
+    step  450: match_loss=   88.856  proj_loss=20564.906  total=  294.506
+  Recovered: [' ML', ' Lavrov', ' Photography', ' pets', ' on']
+  True:      ['Mary', ' had', ' a', ' little', ' lamb']
+  Position-match: 0/5
+  Bag-match:      0/5
+  Final embedding dist: 1153.9683, cos: 0.994979
+
+======================================================================
+Sentence: 'Four score and seven years ago'
+True trailing tokens: ['Four', ' score', ' and', ' seven', ' years', ' ago']
+    step    0: match_loss= 2077.943  proj_loss=  194.939  total= 2079.893
+    step   50: match_loss=  172.654  proj_loss=40227.371  total=  574.928
+    step  100: match_loss=  130.538  proj_loss=38857.008  total=  519.109
+    step  150: match_loss=  110.420  proj_loss=36518.871  total=  475.609
+    step  200: match_loss=   97.623  proj_loss=34017.820  total=  437.802
+    step  250: match_loss=   87.701  proj_loss=31489.508  total=  402.596
+    step  300: match_loss=   79.218  proj_loss=29017.408  total=  369.392
+    step  350: match_loss=   71.767  proj_loss=26639.777  total=  338.165
+    step  400: match_loss=   65.235  proj_loss=24406.330  total=  309.298
+    step  450: match_loss=   59.478  proj_loss=22322.264  total=  282.701
+  Recovered: [' lying', 'up', ' look', ' It', ' unbeaten', ' for']
+  True:      ['Four', ' score', ' and', ' seven', ' years', ' ago']
+  Position-match: 0/6
+  Bag-match:      0/6
+  Final embedding dist: 1314.5320, cos: 0.989053
+
+======================================================================
+Sentence: 'I love cats and dogs'
+True trailing tokens: ['I', ' love', ' cats', ' and', ' dogs']
+    step    0: match_loss=  809.675  proj_loss=  166.245  total=  811.338
+    step   50: match_loss=  221.426  proj_loss=35654.789  total=  577.974
+    step  100: match_loss=  150.596  proj_loss=32333.988  total=  473.936
+    step  150: match_loss=  123.825  proj_loss=28068.170  total=  404.507
+    step  200: match_loss=  106.836  proj_loss=24073.203  total=  347.568
+    step  250: match_loss=   93.561  proj_loss=20507.111  total=  298.632
+    step  300: match_loss=   81.823  proj_loss=17387.328  total=  255.697
+    step  350: match_loss=   71.469  proj_loss=14676.549  total=  218.234
+    step  400: match_loss=   63.601  proj_loss=12343.029  total=  187.031
+    step  450: match_loss=   56.761  proj_loss=10365.193  total=  160.413
+  Recovered: [' resin', 'rolet', ',', ' programmers', ' the']
+  True:      ['I', ' love', ' cats', ' and', ' dogs']
+  Position-match: 0/5
+  Bag-match:      0/5
+  Final embedding dist: 2389.2544, cos: 0.987870
+
+======================================================================
+Sentence: 'the big red car drove fast'
+True trailing tokens: ['the', ' big', ' red', ' car', ' drove', ' fast']
+    step    0: match_loss=  257.687  proj_loss=  205.436  total=  259.741
+    step   50: match_loss=  154.194  proj_loss=39014.844  total=  544.342
+    step  100: match_loss=  106.989  proj_loss=34221.387  total=  449.203
+    step  150: match_loss=   83.336  proj_loss=28632.828  total=  369.664
+    step  200: match_loss=   68.993  proj_loss=23502.281  total=  304.016
+    step  250: match_loss=   58.705  proj_loss=19034.807  total=  249.054
+    step  300: match_loss=   50.258  proj_loss=15282.774  total=  203.086
+    step  350: match_loss=   43.159  proj_loss=12204.462  total=  165.204
+    step  400: match_loss=   37.232  proj_loss= 9716.767  total=  134.400
+    step  450: match_loss=   31.768  proj_loss= 7709.581  total=  108.864
+  Recovered: ['enegger', ' Actual', ' energy', 'arger', 'inery', ' ha']
+  True:      ['the', ' big', ' red', ' car', ' drove', ' fast']
+  Position-match: 0/6
+  Bag-match:      0/6
+  Final embedding dist: 221.7473, cos: 0.998121

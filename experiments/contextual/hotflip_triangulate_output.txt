@@ -1,0 +1,96 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  92%|█████████▏| 136/148 [00:00<00:00, 1284.97it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1388.08it/s]
+Building L1 corrected vocab (for initial anchor)...
+  vocab shape: (50257, 768)
+
+======================================================================
+Sentence: 'the cat sat on the mat'
+  True: ['the', ' cat', ' sat', ' on', ' the', ' mat']
+  Anchor (L1 per-pos): ['the', ' cat', ' sat', ' on', ' the', ' mat']
+    pos-match: 6/6
+    initial dist to target: 0.0000
+  After HotFlip (8 iters, top-K=20):
+    ['the', ' cat', ' sat', ' on', ' the', ' mat']
+    pos-match: 6/6, dist: 0.0000
+    *** PERFECT RECOVERY ***
+  Wrong anchor (random): [' rise', ' spawning', ' phon', ' vastly', 'Ra', ' Lighting']
+    initial dist: 201.1453
+  After HotFlip from wrong: [' rise', ' spawning', ' phon', ' horribly', '\x0c', ' Lighting']
+    pos-match: 0/6, dist: 114.0599
+
+======================================================================
+Sentence: 'the dog ran in the park'
+  True: ['the', ' dog', ' ran', ' in', ' the', ' park']
+  Anchor (L1 per-pos): ['the', ' dog', ' ran', ' in', ' the', ' park']
+    pos-match: 6/6
+    initial dist to target: 0.0000
+  After HotFlip (8 iters, top-K=20):
+    ['the', ' dog', ' ran', ' in', ' the', ' park']
+    pos-match: 6/6, dist: 0.0000
+    *** PERFECT RECOVERY ***
+  Wrong anchor (random): [' rise', ' spawning', ' phon', ' vastly', 'Ra', ' Lighting']
+    initial dist: 918.7435
+  After HotFlip from wrong: [' climbs', ' spawning', ' phon', ' vehemently', 'Ra', ' illuminated']
+    pos-match: 0/6, dist: 86.8418
+
+======================================================================
+Sentence: 'Mary had a little lamb'
+  True: ['Mary', ' had', ' a', ' little', ' lamb']
+  Anchor (L1 per-pos): ['Mary', ' had', ' a', ' little', ' lamb']
+    pos-match: 5/5
+    initial dist to target: 0.0000
+  After HotFlip (8 iters, top-K=20):
+    ['Mary', ' had', ' a', ' little', ' lamb']
+    pos-match: 5/5, dist: 0.0000
+    *** PERFECT RECOVERY ***
+  Wrong anchor (random): [' rise', ' spawning', ' phon', ' vastly', 'Ra']
+    initial dist: 2638.1753
+  After HotFlip from wrong: [' hike', ' spawning', ' phon', ' remarkably', 'raising']
+    pos-match: 0/5, dist: 230.5993
+
+======================================================================
+Sentence: 'Four score and seven years ago'
+  True: ['Four', ' score', ' and', ' seven', ' years', ' ago']
+  Anchor (L1 per-pos): ['Four', ' score', ' and', ' seven', ' years', ' ago']
+    pos-match: 6/6
+    initial dist to target: 0.0000
+  After HotFlip (8 iters, top-K=20):
+    ['Four', ' score', ' and', ' seven', ' years', ' ago']
+    pos-match: 6/6, dist: 0.0000
+    *** PERFECT RECOVERY ***
+  Wrong anchor (random): [' rise', ' spawning', ' phon', ' vastly', 'Ra', ' Lighting']
+    initial dist: 641.2889
+  After HotFlip from wrong: [' Rise', ' spawning', ' phon', ' decidedly', 'raising', ' Fires']
+    pos-match: 0/6, dist: 124.7793
+
+======================================================================
+Sentence: 'I love cats and dogs'
+  True: ['I', ' love', ' cats', ' and', ' dogs']
+  Anchor (L1 per-pos): ['I', ' love', ' cats', ' and', ' dogs']
+    pos-match: 5/5
+    initial dist to target: 0.0000
+  After HotFlip (8 iters, top-K=20):
+    ['I', ' love', ' cats', ' and', ' dogs']
+    pos-match: 5/5, dist: 0.0000
+    *** PERFECT RECOVERY ***
+  Wrong anchor (random): [' rise', ' spawning', ' phon', ' vastly', 'Ra']
+    initial dist: 2864.0554
+  After HotFlip from wrong: [' rises', ' spawning', ' accents', ' grossly', 'ro']
+    pos-match: 0/5, dist: 129.3492
+
+======================================================================
+Sentence: 'the big red car drove fast'
+  True: ['the', ' big', ' red', ' car', ' drove', ' fast']
+  Anchor (L1 per-pos): ['the', ' big', ' red', ' car', ' drove', ' fast']
+    pos-match: 6/6
+    initial dist to target: 0.0000
+  After HotFlip (8 iters, top-K=20):
+    ['the', ' big', ' red', ' car', ' drove', ' fast']
+    pos-match: 6/6, dist: 0.0000
+    *** PERFECT RECOVERY ***
+  Wrong anchor (random): [' rise', ' spawning', ' phon', ' vastly', 'Ra', ' Lighting']
+    initial dist: 397.9075
+  After HotFlip from wrong: [' rose', ' spawns', ' phon', ' harshly', ' BRA', '�']
+    pos-match: 0/6, dist: 85.7829

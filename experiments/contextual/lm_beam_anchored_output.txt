@@ -1,0 +1,208 @@
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  33%|███▎      | 49/148 [00:00<00:00, 387.30it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 932.52it/s]
+Building L1 vocab (for per-position anchor)...
+
+======================================================================
+Sentence: 'the cat sat on the mat'
+  L1 per-position recovers 6/6 correctly
+
+  --- Anchor size 0: prefix = [] ---
+     best beam: ['A', ' man', ' wearing', ' nothing', '.', ' It']
+     pos-match: 0/6, dist: 155.5659
+     * beam 1: ['A', ' man', ' wearing', ' nothing', '.', ' It']  match=0/6  dist=155.5659
+       beam 2: ['A', ' man', ' wearing', ' nothing', ' over', ' 60']  match=0/6  dist=158.6358
+       beam 3: ['A', ' man', ' wearing', ' nothing', ' over', ' 20']  match=0/6  dist=159.3104
+
+  --- Anchor size 1: prefix = ['the'] ---
+     best beam: ['the', ' new', ' video', ' in', ' a', ' long']
+     pos-match: 1/6, dist: 133.1476
+     * beam 1: ['the', ' new', ' video', ' in', ' a', ' long']  match=1/6  dist=133.1476
+       beam 2: ['the', ' new', ' video', ' in', ' a', ' nutshell']  match=1/6  dist=140.0019
+       beam 3: ['the', ' game', "'s", ' plot', 'line', ' takes']  match=1/6  dist=146.3504
+
+  --- Anchor size 2: prefix = ['the', ' cat'] ---
+     best beam: ['the', ' cat', "'s", ' collar', ' in', ' a']
+     pos-match: 2/6, dist: 77.6730
+     * beam 1: ['the', ' cat', "'s", ' collar', ' in', ' a']  match=2/6  dist=77.6730
+       beam 2: ['the', ' cat', "'s", ' back', ' in', ' distress']  match=2/6  dist=80.3836
+       beam 3: ['the', ' cat', ' is', ' on', ' top', ' the']  match=3/6  dist=86.3639
+
+  --- Anchor size 3: prefix = ['the', ' cat', ' sat'] ---
+     best beam: ['the', ' cat', ' sat', ' on', ' their', ' shoulder']
+     pos-match: 4/6, dist: 10.0890
+     * beam 1: ['the', ' cat', ' sat', ' on', ' their', ' shoulder']  match=4/6  dist=10.0890
+       beam 2: ['the', ' cat', ' sat', ' on', ' their', ' stomach']  match=4/6  dist=11.4564
+       beam 3: ['the', ' cat', ' sat', ' on', ' your', ' side']  match=4/6  dist=11.4897
+
+======================================================================
+Sentence: 'the dog ran in the park'
+  L1 per-position recovers 6/6 correctly
+
+  --- Anchor size 0: prefix = [] ---
+     best beam: ['A', ' woman', "'s", ' blood', 'lust', ' comes']
+     pos-match: 0/6, dist: 129.7954
+     * beam 1: ['A', ' woman', "'s", ' blood', 'lust', ' comes']  match=0/6  dist=129.7954
+       beam 2: ['A', ' woman', "'s", ' face', ' covered', ' to']  match=0/6  dist=133.8689
+       beam 3: ['A', ' woman', "'s", ' face', ' covered', ' over']  match=0/6  dist=134.0779
+
+  --- Anchor size 1: prefix = ['the'] ---
+     best beam: ['the', ' game', ' was', ' a', ' failure', ' on']
+     pos-match: 1/6, dist: 102.7098
+     * beam 1: ['the', ' game', ' was', ' a', ' failure', ' on']  match=1/6  dist=102.7098
+       beam 2: ['the', ' game', ' was', ' a', ' failure', ' in']  match=1/6  dist=104.1323
+       beam 3: ['the', ' game', ' was', ' a', ' failure', ' for']  match=1/6  dist=107.6882
+
+  --- Anchor size 2: prefix = ['the', ' dog'] ---
+     best beam: ['the', ' dog', ' was', ' still', ' inside', ' in']
+     pos-match: 2/6, dist: 46.5392
+     * beam 1: ['the', ' dog', ' was', ' still', ' inside', ' in']  match=2/6  dist=46.5392
+       beam 2: ['the', ' dog', ' was', ' seen', ' leaving', '.']  match=2/6  dist=49.2906
+       beam 3: ['the', ' dog', ' was', ' still', ' inside', ' after']  match=2/6  dist=57.4614
+
+  --- Anchor size 3: prefix = ['the', ' dog', ' ran'] ---
+     best beam: ['the', ' dog', ' ran', ' a', ' lot', ' when']
+     pos-match: 3/6, dist: 28.6867
+     * beam 1: ['the', ' dog', ' ran', ' a', ' lot', ' when']  match=3/6  dist=28.6867
+       beam 2: ['the', ' dog', ' ran', ' a', ' lot', ' like']  match=3/6  dist=31.3134
+       beam 3: ['the', ' dog', ' ran', ' a', ' lot', ' as']  match=3/6  dist=33.2242
+
+======================================================================
+Sentence: 'Mary had a little lamb'
+  L1 per-position recovers 5/5 correctly
+
+  --- Anchor size 0: prefix = [] ---
+     best beam: ['We', ' love', ' a', ' little', ' extra']
+     pos-match: 2/5, dist: 143.9535
+     * beam 1: ['We', ' love', ' a', ' little', ' extra']  match=2/5  dist=143.9535
+       beam 2: ['We', ' love', ' a', ' little', ' adventure']  match=2/5  dist=145.5572
+       beam 3: ['We', ' love', ' a', ' little', ' girl']  match=2/5  dist=153.2545
+
+  --- Anchor size 1: prefix = ['Mary'] ---
+     best beam: ['Mary', ',', ' a', ' retired', ' military']
+     pos-match: 2/5, dist: 144.1254
+     * beam 1: ['Mary', ',', ' a', ' retired', ' military']  match=2/5  dist=144.1254
+       beam 2: ['Mary', ',', ' a', ' former', ' police']  match=2/5  dist=144.8859
+       beam 3: ['Mary', ',', ' what', "'s", ' a']  match=1/5  dist=147.0293
+
+  --- Anchor size 2: prefix = ['Mary', ' had'] ---
+     best beam: ['Mary', ' had', ' a', ' little', ' talk']
+     pos-match: 4/5, dist: 47.2922
+     * beam 1: ['Mary', ' had', ' a', ' little', ' talk']  match=4/5  dist=47.2922
+       beam 2: ['Mary', ' had', ' a', ' little', ' help']  match=4/5  dist=51.8980
+       beam 3: ['Mary', ' had', ' a', ' small', ' smile']  match=3/5  dist=53.8139
+
+  --- Anchor size 3: prefix = ['Mary', ' had', ' a'] ---
+     best beam: ['Mary', ' had', ' a', ' little', ' talk']
+     pos-match: 4/5, dist: 47.2922
+     * beam 1: ['Mary', ' had', ' a', ' little', ' talk']  match=4/5  dist=47.2922
+       beam 2: ['Mary', ' had', ' a', ' little', ' help']  match=4/5  dist=51.8980
+       beam 3: ['Mary', ' had', ' a', ' small', ' smile']  match=3/5  dist=53.8139
+
+======================================================================
+Sentence: 'Four score and seven years ago'
+  L1 per-position recovers 6/6 correctly
+
+  --- Anchor size 0: prefix = [] ---
+     best beam: ['The', ' last', ' five', ' hours', ' in', ' Baltimore']
+     pos-match: 0/6, dist: 84.0620
+     * beam 1: ['The', ' last', ' five', ' hours', ' in', ' Baltimore']  match=0/6  dist=84.0620
+       beam 2: ['The', ' last', ' few', ' hours', ' in', ' Baltimore']  match=0/6  dist=86.8095
+       beam 3: ['The', ' last', ' few', ' hours', ' in', ' Paris']  match=0/6  dist=89.5920
+
+  --- Anchor size 1: prefix = ['Four'] ---
+     best beam: ['Four', ' more', ' men', ' convicted', ' by', ' state']
+     pos-match: 1/6, dist: 92.6944
+     * beam 1: ['Four', ' more', ' men', ' convicted', ' by', ' state']  match=1/6  dist=92.6944
+       beam 2: ['Four', ' more', ' men', ' convicted', ' after', ' rape']  match=1/6  dist=93.5558
+       beam 3: ['Four', ' more', ' men', ' convicted', ' for', ' using']  match=1/6  dist=95.5772
+
+  --- Anchor size 2: prefix = ['Four', ' score'] ---
+     best beam: ['Four', ' score', ' cards', ' from', ' one', ' side']
+     pos-match: 2/6, dist: 46.6027
+     * beam 1: ['Four', ' score', ' cards', ' from', ' one', ' side']  match=2/6  dist=46.6027
+       beam 2: ['Four', ' score', 'boards', ' for', ' you', ' in']  match=2/6  dist=49.5983
+       beam 3: ['Four', ' score', 'lines', ' from', ' one', ' year']  match=2/6  dist=51.2906
+
+  --- Anchor size 3: prefix = ['Four', ' score', ' and'] ---
+     best beam: ['Four', ' score', ' and', ' nine', ' out', ' for']
+     pos-match: 3/6, dist: 59.6530
+     * beam 1: ['Four', ' score', ' and', ' nine', ' out', ' for']  match=3/6  dist=59.6530
+       beam 2: ['Four', ' score', ' and', ' 11', ' percent', ' higher']  match=3/6  dist=60.6215
+       beam 3: ['Four', ' score', ' and', ' six', ' per', ' cent']  match=3/6  dist=61.2201
+
+======================================================================
+Sentence: 'I love cats and dogs'
+  L1 per-position recovers 5/5 correctly
+
+  --- Anchor size 0: prefix = [] ---
+     best beam: ['We', ' love', ' a', ' story', ' from']
+     pos-match: 1/5, dist: 104.4445
+     * beam 1: ['We', ' love', ' a', ' story', ' from']  match=1/5  dist=104.4445
+       beam 2: ['We', ' love', ' a', ' story', ' like']  match=1/5  dist=106.8452
+       beam 3: ['We', ' love', ' a', ' game', ' where']  match=1/5  dist=108.8808
+
+  --- Anchor size 1: prefix = ['I'] ---
+     best beam: ['I', ' love', ' playing', ' games', ' online']
+     pos-match: 2/5, dist: 65.6082
+     * beam 1: ['I', ' love', ' playing', ' games', ' online']  match=2/5  dist=65.6082
+       beam 2: ['I', ' love', ' playing', ' games', ' as']  match=2/5  dist=76.6371
+       beam 3: ['I', ' love', ' playing', ' games', ',']  match=2/5  dist=80.9318
+
+  --- Anchor size 2: prefix = ['I', ' love'] ---
+     best beam: ['I', ' love', ' these', ' shoes', ' so']
+     pos-match: 2/5, dist: 56.2980
+     * beam 1: ['I', ' love', ' these', ' shoes', ' so']  match=2/5  dist=56.2980
+       beam 2: ['I', ' love', ' these', ' boots', ' very']  match=2/5  dist=56.5207
+       beam 3: ['I', ' love', ' these', ' shoes', ' very']  match=2/5  dist=58.6620
+
+  --- Anchor size 3: prefix = ['I', ' love', ' cats'] ---
+     best beam: ['I', ' love', ' cats', ' and', ' dogs']
+     pos-match: 5/5, dist: 0.0000
+     *** PERFECT ***
+     * beam 1: ['I', ' love', ' cats', ' and', ' dogs']  match=5/5  dist=0.0000
+       beam 2: ['I', ' love', ' cats', ' and', ' kittens']  match=4/5  dist=2.0385
+       beam 3: ['I', ' love', ' cats', ' and', ' animals']  match=4/5  dist=6.8391
+
+======================================================================
+Sentence: 'the big red car drove fast'
+  L1 per-position recovers 6/6 correctly
+
+  --- Anchor size 0: prefix = [] ---
+     best beam: ['A', ' man', "'s", ' blood', ' in', ' blood']
+     pos-match: 0/6, dist: 118.8087
+     * beam 1: ['A', ' man', "'s", ' blood', ' in', ' blood']  match=0/6  dist=118.8087
+       beam 2: ['A', ' man', "'s", ' blood', ' in', ' water']  match=0/6  dist=121.4565
+       beam 3: ['A', ' man', "'s", ' blood', ' in', ' my']  match=0/6  dist=121.4726
+
+  --- Anchor size 1: prefix = ['the'] ---
+     best beam: ['the', ' game', ',', ' a', ' small', ' team']
+     pos-match: 1/6, dist: 84.5970
+     * beam 1: ['the', ' game', ',', ' a', ' small', ' team']  match=1/6  dist=84.5970
+       beam 2: ['the', ' game', ',', ' a', ' great', ' series']  match=1/6  dist=86.2287
+       beam 3: ['the', ' game', ',', ' a', ' small', ' village']  match=1/6  dist=86.6396
+
+  --- Anchor size 2: prefix = ['the', ' big'] ---
+     best beam: ['the', ' big', ' boys', '".', ' A', ' small']
+     pos-match: 2/6, dist: 52.9898
+     * beam 1: ['the', ' big', ' boys', '".', ' A', ' small']  match=2/6  dist=52.9898
+       beam 2: ['the', ' big', ' boys', '".', ' A', ' quick']  match=2/6  dist=58.5947
+       beam 3: ['the', ' big', ' boys', '".', ' A', ' great']  match=2/6  dist=59.2659
+
+  --- Anchor size 3: prefix = ['the', ' big', ' red'] ---
+     best beam: ['the', ' big', ' red', ' man', ' is', ' dead']
+     pos-match: 3/6, dist: 42.9309
+     * beam 1: ['the', ' big', ' red', ' man', ' is', ' dead']  match=3/6  dist=42.9309
+       beam 2: ['the', ' big', ' red', ' button', ' is', ' off']  match=3/6  dist=43.9848
+       beam 3: ['the', ' big', ' red', ' box', ' was', ' so']  match=3/6  dist=44.1363
+
+======================================================================
+SUMMARY: pos-match per anchor size
+======================================================================
+  sentence                                  anc=0  anc=1  anc=2  anc=3
+  the cat sat on the mat                    0/6  1/6  2/6  4/6
+  the dog ran in the park                   0/6  1/6  2/6  3/6
+  Mary had a little lamb                    2/5  2/5  4/5  4/5
+  Four score and seven years ago            0/6  1/6  2/6  3/6
+  I love cats and dogs                      1/5  2/5  2/5  5/5
+  the big red car drove fast                0/6  1/6  2/6  3/6

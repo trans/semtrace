@@ -1,0 +1,40 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  35%|███▌      | 52/148 [00:00<00:00, 483.27it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1109.40it/s]
+Building L12 corrected vocab...
+Fitting bridge W (L12 -> wte)...
+
+Pre-computing targets and random baselines...
+
+==============================================================================
+BRIDGE + CD AT L12 — token match AND L2 distance to target
+==============================================================================
+  sentence                                    u  bag_match   L2_recov    L2_rand  L2_pct
+  ----------------------------------------------------------------------------------------------------
+  the cat sat on the mat                      6    2/6        18.34     22.74  17%
+  the dog ran in the park                     6    2/6        23.07     29.23  30%
+  Mary had a little lamb                      5    2/5        29.92     42.69  23%
+  Four score and seven years ago              6    2/6        29.19     33.84  23%
+  I love cats and dogs                        5    2/5        29.76     45.00  13%
+  the big red car drove fast down the ro      9    4/9        22.91     20.35  67%
+  she walked slowly to the river              6    3/6        29.80     44.92  13%
+  the old man fished from the boat            8    1/8        22.73     22.18  60%
+  children played with the colorful kite      7    2/7        26.86     30.30  30%
+  morning sun warmed the sleepy village       6    1/6        14.95     27.73  3%
+ *snow fell quietly on the mountain pass      8    1/8        13.40     32.32  0%
+ *he opened the book and began to read        8    3/8        18.76     41.39  0%
+  the wizard cast a powerful spell            6    2/6        15.68     24.43  3%
+  rain washed over the dusty street           6    4/6        25.93     27.89  37%
+ *music drifted from the open window          6    2/6        17.56     33.99  0%
+  a small bird sang in the tall tree          8    2/8        15.74     21.57  30%
+ *the chef prepared a delicious meal          6    2/6        11.33     33.32  0%
+  fire crackled in the stone fireplace        7    2/7        18.93     29.34  17%
+  the runner crossed the finish line fir      7    4/7        24.25     24.23  47%
+ *stars filled the dark night sky             6    1/6        11.99     25.26  0%
+
+  AGGREGATE:
+    bag-match total: 44/132  (33.3%)
+    avg L2 recovered: 21.06
+    avg L2 random:    30.63
+    sentences where bridge L2 < random_min: 5/20

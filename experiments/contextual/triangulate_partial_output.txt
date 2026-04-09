@@ -1,0 +1,106 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  14%|█▎        | 20/148 [00:00<00:00, 150.31it/s]Loading weights:  26%|██▋       | 39/148 [00:00<00:00, 166.65it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 469.69it/s]
+Building L1 vocab for per-position anchor...
+
+======================================================================
+Sentence: 'the cat sat on the mat'
+
+  A. 50% random corruption (3 positions corrupted)
+     anchor: [' Lighting', ' cat', ' sat', ' Ev', ' the', ' Cooperation']
+     anchor pos-match: 3/6
+     after HotFlip: [' illuminated', ' canine', ' sat', ' Ev', ' in', ' Cooperation']
+     pos-match: 1/6, dist: 72.1490
+
+  B. Keep first 3 positions correct, randomize rest
+     anchor: ['the', ' cat', ' sat', 'ntil', 'ossible', ' announces']
+     anchor pos-match: 3/6
+     after HotFlip (first 3 locked): ['the', ' cat', ' sat', 'ntil', 'ossible', ' discusses']
+     pos-match: 3/6, dist: 154.4716
+
+======================================================================
+Sentence: 'the dog ran in the park'
+
+  A. 50% random corruption (3 positions corrupted)
+     anchor: ['the', ' dog', ' ran', 'ARC', ' 裏', ' hemorrh']
+     anchor pos-match: 3/6
+     after HotFlip: ['The', ' dogs', ' ran', '\x19', ' 裏', ' gastrointestinal']
+     pos-match: 1/6, dist: 60.6823
+
+  B. Keep first 3 positions correct, randomize rest
+     anchor: ['the', ' dog', ' ran', ' delegation', ' Reach', 'ountain']
+     anchor pos-match: 3/6
+     after HotFlip (first 3 locked): ['the', ' dog', ' ran', ' delegation', ' reaches', ' Forest']
+     pos-match: 3/6, dist: 53.5673
+
+======================================================================
+Sentence: 'Mary had a little lamb'
+
+  A. 50% random corruption (2 positions corrupted)
+     anchor: ['landers', ' had', ' a', ' little', ' 144']
+     anchor pos-match: 3/5
+     after HotFlip: ['LAND', ' had', ' a', ' little', ' 146']
+     pos-match: 3/5, dist: 193.3323
+
+  B. Keep first 3 positions correct, randomize rest
+     anchor: ['Mary', ' had', ' a', ' ?)', ' Humans']
+     anchor pos-match: 3/5
+     after HotFlip (first 3 locked): ['Mary', ' had', ' a', '...)', ' humanoid']
+     pos-match: 3/5, dist: 59.7130
+
+======================================================================
+Sentence: 'Four score and seven years ago'
+
+  A. 50% random corruption (3 positions corrupted)
+     anchor: ['Four', ' 376', ' thous', ' seven', ' years', ' specialization']
+     anchor pos-match: 3/6
+     after HotFlip: ['Several', ' 286', ' thous', ' thirteen', ' seasons', ' outsourcing']
+     pos-match: 0/6, dist: 89.8388
+
+  B. Keep first 3 positions correct, randomize rest
+     anchor: ['Four', ' score', ' and', ' doorstep', 'HE', ' Malik']
+     anchor pos-match: 3/6
+     after HotFlip (first 3 locked): ['Four', ' score', ' and', ' door', 'hers', ' Barack']
+     pos-match: 3/6, dist: 117.5708
+
+======================================================================
+Sentence: 'I love cats and dogs'
+
+  A. 50% random corruption (2 positions corrupted)
+     anchor: [' 192', ' love', ' cats', 'aught', ' dogs']
+     anchor pos-match: 3/5
+     after HotFlip: [' 192', ' thinks', ' cats', ' prosecuted', ' horses']
+     pos-match: 1/5, dist: 88.9036
+
+  B. Keep first 3 positions correct, randomize rest
+     anchor: ['I', ' love', ' cats', ' rigging', 'icans']
+     anchor pos-match: 3/5
+     after HotFlip (first 3 locked): ['I', ' love', ' cats', ' determines', 'icans']
+     pos-match: 3/5, dist: 67.9370
+
+======================================================================
+Sentence: 'the big red car drove fast'
+
+  A. 50% random corruption (3 positions corrupted)
+     anchor: ['the', ' big', ' red', ' grim', ' Discovery', ' Calvin']
+     anchor pos-match: 3/6
+     after HotFlip: ['their', ' big', ' green', ' hopeless', 'iscovery', ' Calvin']
+     pos-match: 1/6, dist: 53.8626
+
+  B. Keep first 3 positions correct, randomize rest
+     anchor: ['the', ' big', ' red', 'minist', ' elastic', ' Low']
+     anchor pos-match: 3/6
+     after HotFlip (first 3 locked): ['the', ' big', ' red', ' priest', ' adhesive', ' dips']
+     pos-match: 3/6, dist: 32.8831
+
+======================================================================
+SUMMARY
+======================================================================
+  sentence                                    n   A_in   A_out   B_in   B_out
+  the cat sat on the mat                      6    3/6     1/6     3/6     3/6
+  the dog ran in the park                     6    3/6     1/6     3/6     3/6
+  Mary had a little lamb                      5    3/5     3/5     3/5     3/5
+  Four score and seven years ago              6    3/6     0/6     3/6     3/6
+  I love cats and dogs                        5    3/5     1/5     3/5     3/5
+  the big red car drove fast                  6    3/6     1/6     3/6     3/6

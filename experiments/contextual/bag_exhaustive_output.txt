@@ -1,0 +1,100 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2049.40it/s]
+
+======================================================================
+Sentence: 'the cat sat on the mat'
+  bag: ['the', ' cat', ' sat', ' on', ' the', ' mat'], n=6
+  unique permutations: 720
+  true sequence L2: 0.0000
+  best permutation L2: 0.0000  perfect=True
+  rank of true sequence among permutations: 0 (0 = best)
+  random L2: mean=23.39, min=14.18
+  best permutation L2 is below all 50 random samples
+  top 5 by L2:
+    TRUE  ['the', ' cat', ' sat', ' on', ' the', ' mat']  L2=0.0000
+          ['the', ' cat', ' mat', ' sat', ' on', ' the']  L2=5.5637
+          [' cat', ' sat', ' on', ' the', 'the', ' mat']  L2=5.5675
+          ['the', ' cat', ' sat', ' on', ' mat', ' the']  L2=5.6832
+          ['the', ' mat', ' the', ' cat', ' sat', ' on']  L2=5.9897
+
+======================================================================
+Sentence: 'the dog ran in the park'
+  bag: ['the', ' dog', ' ran', ' in', ' the', ' park'], n=6
+  unique permutations: 720
+  true sequence L2: 0.0000
+  best permutation L2: 0.0000  perfect=True
+  rank of true sequence among permutations: 0 (0 = best)
+  random L2: mean=29.57, min=14.92
+  best permutation L2 is below all 50 random samples
+  top 5 by L2:
+    TRUE  ['the', ' dog', ' ran', ' in', ' the', ' park']  L2=0.0000
+          ['the', ' dog', ' ran', ' the', ' park', ' in']  L2=4.5223
+          ['the', ' park', ' the', ' dog', ' ran', ' in']  L2=5.7448
+          ['the', ' dog', ' ran', ' in', ' park', ' the']  L2=5.8156
+          ['the', ' park', ' dog', ' ran', ' in', ' the']  L2=5.9961
+
+======================================================================
+Sentence: 'Mary had a little lamb'
+  bag: ['Mary', ' had', ' a', ' little', ' lamb'], n=5
+  unique permutations: 120
+  true sequence L2: 0.0000
+  best permutation L2: 0.0000  perfect=True
+  rank of true sequence among permutations: 0 (0 = best)
+  random L2: mean=44.43, min=15.25
+  best permutation L2 is below all 50 random samples
+  top 5 by L2:
+    TRUE  ['Mary', ' had', ' a', ' little', ' lamb']  L2=0.0000
+          ['Mary', ' had', ' a', ' lamb', ' little']  L2=8.1461
+          [' lamb', 'Mary', ' had', ' a', ' little']  L2=16.5848
+          ['Mary', ' had', ' little', ' a', ' lamb']  L2=17.9988
+          ['Mary', ' had', ' little', ' lamb', ' a']  L2=22.5849
+
+======================================================================
+Sentence: 'Four score and seven years ago'
+  bag: ['Four', ' score', ' and', ' seven', ' years', ' ago'], n=6
+  unique permutations: 720
+  true sequence L2: 0.0000
+  best permutation L2: 0.0000  perfect=True
+  rank of true sequence among permutations: 0 (0 = best)
+  random L2: mean=35.14, min=21.63
+  best permutation L2 is below all 50 random samples
+  top 5 by L2:
+    TRUE  ['Four', ' score', ' and', ' seven', ' years', ' ago']  L2=0.0000
+          ['Four', ' score', ' seven', ' and', ' years', ' ago']  L2=4.0246
+          ['Four', ' seven', ' score', ' years', ' and', ' ago']  L2=5.5807
+          ['Four', ' score', ' years', ' and', ' ago', ' seven']  L2=5.7067
+          ['Four', ' score', ' years', ' and', ' seven', ' ago']  L2=5.8419
+
+======================================================================
+Sentence: 'I love cats and dogs'
+  bag: ['I', ' love', ' cats', ' and', ' dogs'], n=5
+  unique permutations: 120
+  true sequence L2: 0.0000
+  best permutation L2: 0.0000  perfect=True
+  rank of true sequence among permutations: 0 (0 = best)
+  random L2: mean=43.76, min=16.37
+  best permutation L2 is below all 50 random samples
+  top 5 by L2:
+    TRUE  ['I', ' love', ' cats', ' and', ' dogs']  L2=0.0000
+          ['I', ' love', ' dogs', ' and', ' cats']  L2=3.8062
+          ['I', ' love', ' dogs', ' cats', ' and']  L2=4.2310
+          ['I', ' love', ' cats', ' dogs', ' and']  L2=4.5653
+          [' cats', ' love', ' and', ' dogs', 'I']  L2=10.5797
+
+======================================================================
+Sentence: 'the big red car drove fast'
+  bag: ['the', ' big', ' red', ' car', ' drove', ' fast'], n=6
+  unique permutations: 720
+  true sequence L2: 0.0000
+  best permutation L2: 0.0000  perfect=True
+  rank of true sequence among permutations: 0 (0 = best)
+  random L2: mean=21.37, min=9.81
+  best permutation L2 is below all 50 random samples
+  top 5 by L2:
+    TRUE  ['the', ' big', ' red', ' car', ' drove', ' fast']  L2=0.0000
+          ['the', ' big', ' car', ' drove', ' fast', ' red']  L2=4.0827
+          [' red', ' big', ' drove', ' fast', ' car', 'the']  L2=4.3352
+          ['the', ' big', ' car', ' drove', ' red', ' fast']  L2=4.8827
+          ['the', ' big', ' red', ' drove', ' fast', ' car']  L2=4.9223
