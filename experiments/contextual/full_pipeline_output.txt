@@ -1,0 +1,98 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  76%|███████▋  | 113/148 [00:00<00:00, 1129.44it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1280.01it/s]
+Building L1 vocab (one-time)...
+
+======================================================================
+TARGET: 'the cat sat on the mat'
+  Random baseline L2: mean=23.71
+  True sequence: the  cat  sat  on  the  mat
+
+  --- Stage 1: L1 per-position bag recovery ---
+  Bag recovery: 6/6
+
+  --- Stage 2: LLM ordering (Mistral 7B) ---
+  Mistral says: The cat sat on the mat.
+  [Stage 2]  L2=8.9067  pos=0/6   cat  sat  on  the  mat the
+
+  --- Stage 3: Leave-one-out diagnostics ---
+  Most suspicious positions: [4, 5, 1, 0, 3]
+    pos  4 (      ' mat'): delta=-2.0140
+    pos  5 (       'the'): delta=-0.9094
+    pos  1 (      ' sat'): delta=+1.3162
+    pos  0 (      ' cat'): delta=+3.6095
+    pos  3 (      ' the'): delta=+4.8932
+
+  --- Stage 4: Targeted search on suspicious positions ---
+  [Stage 4.1]  L2=5.5675  pos=1/6   cat  sat  on  the the  mat
+  [Stage 4.2]  L2=5.5675  pos=1/6   cat  sat  on  the the  mat
+  [Stage 4.3]  L2=5.5675  pos=1/6   cat  sat  on  the the  mat
+
+  --- Stage 5: Swap refinement ---
+  [FINAL]  L2=5.5675  pos=1/6   cat  sat  on  the the  mat
+  TRUE:  the  cat  sat  on  the  mat
+
+  76.5% of the way from random to perfect (by L2)
+
+======================================================================
+TARGET: 'the old man fished from the boat while the sun rose slowly'
+  Random baseline L2: mean=33.33
+  True sequence: the  old  man  f ished  from  the  boat  while  the  sun  rose  slowly
+
+  --- Stage 1: L1 per-position bag recovery ---
+  Bag recovery: 13/13
+
+  --- Stage 2: LLM ordering (Mistral 7B) ---
+  Mistral says: The old man fished slowly from the boat while the sun rose.
+  [Stage 2]  L2=12.6394  pos=7/13   old  man  f ished  slowly  from  the  boat  while  the  sun  rose the
+
+  --- Stage 3: Leave-one-out diagnostics ---
+  Most suspicious positions: [1, 2, 10, 11, 9]
+    pos  1 (      ' man'): delta=-8.4005
+    pos  2 (        ' f'): delta=-4.6063
+    pos 10 (      ' sun'): delta=-4.4842
+    pos 11 (     ' rose'): delta=-4.3438
+    pos  9 (      ' the'): delta=-3.6367
+
+  --- Stage 4: Targeted search on suspicious positions ---
+  [Stage 4.1]  L2=4.8480  pos=6/13   the  man  f ished  slowly  from  the  boat  while  old  sun  rose the
+  [Stage 4.2]  L2=3.4305  pos=7/13  the  man  f ished  slowly  from  the  boat  while  old  sun  rose  the
+  [Stage 4.3]  L2=3.2445  pos=8/13  the  man  f ished  slowly  from  the  boat  while  the  sun  rose  old
+
+  --- Stage 5: Swap refinement ---
+  [FINAL]  L2=2.9612  pos=6/13  the  man  f ished  slowly  from  the  boat  while  the  old  sun  rose
+  TRUE:  the  old  man  f ished  from  the  boat  while  the  sun  rose  slowly
+
+  91.1% of the way from random to perfect (by L2)
+
+======================================================================
+TARGET: 'Mary had a little lamb its fleece was white as snow and everywhere that Mary went the lamb was sure to go'
+  Random baseline L2: mean=53.34
+  True sequence: Mary  had  a  little  lamb  its  flee ce  was  white  as  snow  and  everywhere  that  Mary  went  the  lamb  was  sure  to  go
+
+  --- Stage 1: L1 per-position bag recovery ---
+  Bag recovery: 23/23
+
+  --- Stage 2: LLM ordering (Mistral 7B) ---
+  Mistral says: The correct order of the shuffled words to form a grammatical English sentence is: "That little Mary had a white lamb, and it went everywhere as snow."
+  [Stage 2]  L2=24.7598  pos=3/23   the  to  a  little  Mary  had  white  lamb  and  went  everywhere  as  snow Mary  its  flee ce  was  that  lamb  was  sure  go
+
+  --- Stage 3: Leave-one-out diagnostics ---
+  Most suspicious positions: [13, 0, 1, 2, 22]
+    pos 13 (      'Mary'): delta=-5.6681
+    pos  0 (      ' the'): delta=-2.9207
+    pos  1 (       ' to'): delta=-1.5329
+    pos  2 (        ' a'): delta=-1.2681
+    pos 22 (       ' go'): delta=-0.6270
+
+  --- Stage 4: Targeted search on suspicious positions ---
+  [Stage 4.1]  L2=13.7411  pos=4/23  Mary  to  a  little  Mary  had  white  lamb  and  went  everywhere  as  snow  the  its  flee ce  was  that  lamb  was  sure  go
+  [Stage 4.2]  L2=8.5359  pos=2/23  Mary  to  go  little  Mary  had  white  lamb  and  went  everywhere  as  snow  the  its  flee ce  was  that  lamb  was  sure  a
+  [Stage 4.3]  L2=6.7522  pos=2/23  Mary  to  go  little  Mary  had  a  lamb  and  went  everywhere  as  snow  the  its  flee ce  was  that  lamb  was  sure  white
+
+  --- Stage 5: Swap refinement ---
+  [FINAL]  L2=3.6607  pos=2/23  Mary  to  go  little  white  had  a  lamb  and  everywhere  that  Mary  was  lamb  its  flee ce  snow  as  went  was  sure  the
+  TRUE:  Mary  had  a  little  lamb  its  flee ce  was  white  as  snow  and  everywhere  that  Mary  went  the  lamb  was  sure  to  go
+
+  93.1% of the way from random to perfect (by L2)
