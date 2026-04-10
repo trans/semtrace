@@ -1,0 +1,106 @@
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  17%|█▋        | 25/148 [00:00<00:00, 177.08it/s]Loading weights:  30%|███       | 45/148 [00:00<00:00, 169.61it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 420.82it/s]
+
+======================================================================
+BEAM WIDTH = 4
+======================================================================
+
+  'the cat sat on the mat'
+    best:  ['the', ' cat', ' on', ' the', ' mat', ' sat']  match=2/6  L2=7.4419  
+    true:  ['the', ' cat', ' sat', ' on', ' the', ' mat']
+    beam 1: ['the', ' cat', ' on', ' the', ' mat', ' sat']  match=2/6  L2=7.4419
+    beam 2: ['the', ' cat', ' on', ' the', ' sat', ' mat']  match=3/6  L2=12.1097
+    beam 3: ['the', ' on', ' the', ' mat', ' sat', ' cat']  match=1/6  L2=26.3722
+
+  'the dog ran in the park'
+    best:  ['the', ' dog', ' in', ' the', ' park', ' ran']  match=2/6  L2=14.1374  
+    true:  ['the', ' dog', ' ran', ' in', ' the', ' park']
+    beam 1: ['the', ' dog', ' in', ' the', ' park', ' ran']  match=2/6  L2=14.1374
+    beam 2: ['the', ' in', ' the', ' park', ' dog', ' ran']  match=1/6  L2=25.7150
+    beam 3: ['the', ' dog', ' in', ' the', ' ran', ' park']  match=3/6  L2=27.0270
+
+  'Mary had a little lamb'
+    best:  ['Mary', ' had', ' a', ' little', ' lamb']  match=5/5  L2=0.0000  PERFECT
+
+  'Four score and seven years ago'
+    best:  ['Four', ' years', ' and', ' seven', ' score', ' ago']  match=4/6  L2=12.7919  
+    true:  ['Four', ' score', ' and', ' seven', ' years', ' ago']
+    beam 1: ['Four', ' years', ' and', ' seven', ' score', ' ago']  match=4/6  L2=12.7919
+    beam 2: ['Four', ' years', ' ago', ' and', ' seven', ' score']  match=1/6  L2=23.2202
+    beam 3: ['Four', ' and', ' seven', ' years', ' ago', ' score']  match=1/6  L2=24.6683
+
+  'I love cats and dogs'
+    best:  ['I', ' love', ' cats', ' and', ' dogs']  match=5/5  L2=0.0000  PERFECT
+
+  'the big red car drove fast'
+    best:  ['the', ' big', ' red', ' car', ' drove', ' fast']  match=6/6  L2=0.0000  PERFECT
+
+  B=4 total: 24/34 position-match (70.6%)
+
+======================================================================
+BEAM WIDTH = 8
+======================================================================
+
+  'the cat sat on the mat'
+    best:  ['the', ' cat', ' sat', ' on', ' the', ' mat']  match=6/6  L2=0.0000  PERFECT
+
+  'the dog ran in the park'
+    best:  ['the', ' dog', ' in', ' the', ' park', ' ran']  match=2/6  L2=14.1374  
+    true:  ['the', ' dog', ' ran', ' in', ' the', ' park']
+    beam 1: ['the', ' dog', ' in', ' the', ' park', ' ran']  match=2/6  L2=14.1374
+    beam 2: ['the', ' park', ' in', ' the', ' dog', ' ran']  match=1/6  L2=23.0582
+    beam 3: ['the', ' park', ' in', ' the', ' ran', ' dog']  match=1/6  L2=25.0254
+
+  'Mary had a little lamb'
+    best:  ['Mary', ' had', ' a', ' little', ' lamb']  match=5/5  L2=0.0000  PERFECT
+
+  'Four score and seven years ago'
+    best:  ['Four', ' years', ' ago', ' and', ' score', ' seven']  match=1/6  L2=12.3475  
+    true:  ['Four', ' score', ' and', ' seven', ' years', ' ago']
+    beam 1: ['Four', ' years', ' ago', ' and', ' score', ' seven']  match=1/6  L2=12.3475
+    beam 2: ['Four', ' years', ' and', ' seven', ' score', ' ago']  match=4/6  L2=12.7919
+    beam 3: ['Four', ' years', ' ago', ' and', ' seven', ' score']  match=1/6  L2=23.2202
+
+  'I love cats and dogs'
+    best:  ['I', ' love', ' cats', ' and', ' dogs']  match=5/5  L2=0.0000  PERFECT
+
+  'the big red car drove fast'
+    best:  ['the', ' big', ' red', ' car', ' drove', ' fast']  match=6/6  L2=0.0000  PERFECT
+
+  B=8 total: 25/34 position-match (73.5%)
+
+======================================================================
+BEAM WIDTH = 16
+======================================================================
+
+  'the cat sat on the mat'
+    best:  ['the', ' cat', ' sat', ' on', ' the', ' mat']  match=6/6  L2=0.0000  PERFECT
+
+  'the dog ran in the park'
+    best:  ['the', ' dog', ' ran', ' in', ' the', ' park']  match=6/6  L2=0.0000  PERFECT
+
+  'Mary had a little lamb'
+    best:  ['Mary', ' had', ' a', ' little', ' lamb']  match=5/5  L2=0.0000  PERFECT
+
+  'Four score and seven years ago'
+    best:  ['Four', ' and', ' seven', ' score', ' years', ' ago']  match=3/6  L2=11.9595  
+    true:  ['Four', ' score', ' and', ' seven', ' years', ' ago']
+    beam 1: ['Four', ' and', ' seven', ' score', ' years', ' ago']  match=3/6  L2=11.9595
+    beam 2: ['Four', ' years', ' ago', ' and', ' score', ' seven']  match=1/6  L2=12.3475
+    beam 3: ['Four', ' years', ' and', ' seven', ' score', ' ago']  match=4/6  L2=12.7919
+
+  'I love cats and dogs'
+    best:  ['I', ' love', ' cats', ' and', ' dogs']  match=5/5  L2=0.0000  PERFECT
+
+  'the big red car drove fast'
+    best:  ['the', ' big', ' red', ' car', ' drove', ' fast']  match=6/6  L2=0.0000  PERFECT
+
+  B=16 total: 31/34 position-match (91.2%)
+
+======================================================================
+SUMMARY
+======================================================================
+  B=  4: 24/34 position-match (70.6%)
+  B=  8: 25/34 position-match (73.5%)
+  B= 16: 31/34 position-match (91.2%)
