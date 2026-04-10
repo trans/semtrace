@@ -1,0 +1,166 @@
+Centered-cosine production pipeline on Llama 3.2 3B
+
+Building vocabulary (215 words)...
+Centroid norm: 0.6827
+
+======================================================================
+TARGET: 'the cat sat on the mat'
+
+  Stage 1: Centered cosine word probing
+  Top 15 words: ['mat', 'cats', 'everywhere', 'father', 'cat', 'slowly', 'ago', 'brother', 'sit', 'caught', 'yes', 'sat', 'if', 'sitting', 'queen']
+  True words found in top 15: ['mat', 'cat', 'sat'] (3/5)
+
+  Stage 2: Generate candidates from content words
+  Generated 12 candidates
+
+  Stage 3: Verify candidates by cosine
+  Top 5:
+    cos=0.4475  words=5/5  "The cat sat on the mat."
+    cos=0.4189  words=3/5  "The cats are lying on the mat slowly, and the father is everywhere."
+    cos=0.4175  words=1/5  "Father's old mat was covered with cats, slowly, everywhere ago. Brother found it."
+    cos=0.4119  words=1/5  "Father's old mat was covered with cats, slowly, ago."
+    cos=0.3995  words=1/5  "Father's old mat was slowly covered with cats everywhere, even his brother's."
+
+  Stage 4: Hill-climbing from best candidate
+    round 1: 'The' → 'the' → cos=0.5683  "the cat sat on the mat."
+    round 2: 'on' → 'by' → cos=0.5750  "the cat sat by the mat."
+    round 3: 'cat' → 'dog' → cos=0.5763  "the dog sat by the mat."
+    round 4: 'mat.' → 'mat' → cos=0.8713  "the dog sat by the mat"
+    round 5: 'the' → 'dog' → cos=0.8788  "dog dog sat by the mat"
+    round 6: 'dog' → 'cat' → cos=0.8833  "dog cat sat by the mat"
+    round 7: 'dog' → 'the' → cos=0.9469  "the cat sat by the mat"
+    round 8: 'by' → 'on' → cos=1.0000  "the cat sat on the mat"
+
+  RESULT: cos=1.0000  words=5/5
+    recovered: "the cat sat on the mat"
+    true:      "the cat sat on the mat"
+    *** NEAR-PERFECT RECOVERY ***
+    *** EXACT MATCH ***
+
+======================================================================
+TARGET: 'she walked slowly to the river'
+
+  Stage 1: Centered cosine word probing
+  Top 15 words: ['river', 'father', 'mother', 'slowly', 'would', 'children', 'said', 'brother', 'woman', 'does', 'water', 'queen', 'could', 'came', 'door']
+  True words found in top 15: ['river', 'slowly'] (2/6)
+
+  Stage 2: Generate candidates from content words
+  Generated 10 candidates
+
+  Stage 3: Verify candidates by cosine
+  Top 5:
+    cos=0.4673  words=3/6  "The children watched their father and mother slowly by the river."
+    cos=0.4499  words=3/6  "The children watched the river slowly, with their father and mother."
+    cos=0.4192  words=2/6  "The father read a bedtime story to his children."
+    cos=0.4055  words=3/6  "Father and mother would tell slow stories about the river to their children and brother."
+    cos=0.3945  words=2/6  "The father read bedtime stories to his children every night."
+
+  Stage 4: Hill-climbing from best candidate
+    round 1: 'The' → 'the' → cos=0.5534  "the children watched their father and mother slowly by the river."
+    round 2: 'children' → 'dogs' → cos=0.5643  "the dogs watched their father and mother slowly by the river."
+    round 3: 'and' → 'river' → cos=0.5677  "the dogs watched their father river mother slowly by the river."
+    round 4: 'father' → 'sister' → cos=0.5814  "the dogs watched their sister river mother slowly by the river."
+    round 5: 'dogs' → 'old' → cos=0.5876  "the old watched their sister river mother slowly by the river."
+    round 6: 'slowly' → 'was' → cos=0.5930  "the old watched their sister river mother was by the river."
+    round 7: 'the' → 'old' → cos=0.5980  "the old watched their sister river mother was by old river."
+    round 8: 'sister' → 'queen' → cos=0.6052  "the old watched their queen river mother was by old river."
+
+  RESULT: cos=0.6052  words=2/6
+    recovered: "the old watched their queen river mother was by old river."
+    true:      "she walked slowly to the river"
+
+======================================================================
+TARGET: 'Mary had a little lamb'
+
+  Stage 1: Centered cosine word probing
+  Top 15 words: ['lamb', 'ago', 'Mary', 'father', 'said', 'cats', 'who', 'from', 'dogs', 'also', 'would', 'children', 'mother', 'came', 'she']
+  True words found in top 15: ['lamb', 'Mary'] (2/5)
+
+  Stage 2: Generate candidates from content words
+  Generated 10 candidates
+
+  Stage 3: Verify candidates by cosine
+  Top 5:
+    cos=0.4839  words=0/5  "Mary's father said, 'I have some lambs and cats.' (ago not used in this context"
+    cos=0.4610  words=2/5  "The farmer's little lamb followed him closely."
+    cos=0.4434  words=0/5  "Who is Mary's father that said he bought new cats, from you?"
+    cos=0.3838  words=2/5  "Mary's father said he got new cats from a lamb farm."
+    cos=0.3737  words=1/5  "I had dinner with friends two hours ago."
+
+  Stage 4: Hill-climbing from best candidate
+    round 1: 'Mary's' → 'played' → cos=0.5030  "played father said, 'I have some lambs and cats.' (ago not used in this context"
+    round 2: 'father' → 'lamb' → cos=0.5071  "played lamb said, 'I have some lambs and cats.' (ago not used in this context"
+    round 3: 'played' → 'if' → cos=0.5113  "if lamb said, 'I have some lambs and cats.' (ago not used in this context"
+    round 4: 'lamb' → 'cats' → cos=0.5124  "if cats said, 'I have some lambs and cats.' (ago not used in this context"
+    round 5: 'said,' → 'from' → cos=0.5169  "if cats from 'I have some lambs and cats.' (ago not used in this context"
+    round 6: 'if' → 'yes' → cos=0.5209  "yes cats from 'I have some lambs and cats.' (ago not used in this context"
+    round 7: 'have' → 'is' → cos=0.5270  "yes cats from 'I is some lambs and cats.' (ago not used in this context"
+    round 8: 'and' → 'walked' → cos=0.5289  "yes cats from 'I is some lambs walked cats.' (ago not used in this context"
+
+  RESULT: cos=0.5289  words=0/5
+    recovered: "yes cats from 'I is some lambs walked cats.' (ago not used in this context"
+    true:      "Mary had a little lamb"
+
+======================================================================
+TARGET: 'the old man fished from the boat'
+
+  Stage 1: Centered cosine word probing
+  Top 15 words: ['boat', 'slowly', 'would', 'said', 'but', 'children', 'truck', 'river', 'those', 'still', 'father', 'walk', 'fished', 'caught', 'also']
+  True words found in top 15: ['boat', 'fished'] (2/6)
+
+  Stage 2: Generate candidates from content words
+  Generated 10 candidates
+
+  Stage 3: Verify candidates by cosine
+  Top 5:
+    cos=0.4274  words=3/6  "The man said he would row the boat slowly, but the children wanted to ride a truck by the river."
+    cos=0.4243  words=2/6  "The children said that the boat would go slowly."
+    cos=0.4048  words=3/6  "The man said he would row the boat slowly against the river current, but the children wanted to ride a truck instead."
+    cos=0.3919  words=3/6  "The man said, "But children, let's row the boat slowly near the river, not by the fast truck."
+    cos=0.3737  words=1/6  "Sailing in a boat on a tranquil lake was a peaceful experience."
+
+  Stage 4: Hill-climbing from best candidate
+    round 1: 'The' → 'everywhere' → cos=0.4945  "everywhere man said he would row the boat slowly, but the children wanted to ride a truck by the river."
+    round 2: 'man' → 'children' → cos=0.5135  "everywhere children said he would row the boat slowly, but the children wanted to ride a truck by the river."
+    round 3: 'said' → 'was' → cos=0.5216  "everywhere children was he would row the boat slowly, but the children wanted to ride a truck by the river."
+    round 4: 'would' → 'truck' → cos=0.5259  "everywhere children was he truck row the boat slowly, but the children wanted to ride a truck by the river."
+    round 5: 'children' → 'in' → cos=0.5325  "everywhere in was he truck row the boat slowly, but the children wanted to ride a truck by the river."
+    round 6: 'everywhere' → 'the' → cos=0.5354  "the in was he truck row the boat slowly, but the children wanted to ride a truck by the river."
+    round 7: 'in' → 'of' → cos=0.5413  "the of was he truck row the boat slowly, but the children wanted to ride a truck by the river."
+    round 8: 'he' → 'cats' → cos=0.5464  "the of was cats truck row the boat slowly, but the children wanted to ride a truck by the river."
+
+  RESULT: cos=0.5464  words=2/6
+    recovered: "the of was cats truck row the boat slowly, but the children wanted to ride a truck by the river."
+    true:      "the old man fished from the boat"
+
+======================================================================
+TARGET: 'children played with the colorful kite'
+
+  Stage 1: Centered cosine word probing
+  Top 15 words: ['kite', 'came', 'slowly', 'fleece', 'she', 'those', 'me', 'them', 'children', 'woman', 'ago', 'carpet', 'also', 'who', 'dogs']
+  True words found in top 15: ['kite', 'children'] (2/6)
+
+  Stage 2: Generate candidates from content words
+  Generated 10 candidates
+
+  Stage 3: Verify candidates by cosine
+  Top 5:
+    cos=0.4765  words=3/6  "She came with a slow, colorful kite made of fleece."
+    cos=0.4675  words=1/6  "She slowly came with a fleece, those flying kites."
+    cos=0.4667  words=3/6  "The child flew a colorful kite high into the sky."
+    cos=0.4608  words=3/6  "She slowly came with the kite made from fleece, me chasing them."
+    cos=0.4358  words=3/6  "The child flew a colorful kite in the windy park."
+
+  Stage 4: Hill-climbing from best candidate
+    round 1: 'She' → 'life' → cos=0.5573  "life came with a slow, colorful kite made of fleece."
+    round 2: 'came' → 'is' → cos=0.5652  "life is with a slow, colorful kite made of fleece."
+    round 3: 'life' → 'me' → cos=0.5691  "me is with a slow, colorful kite made of fleece."
+    round 4: 'is' → 'played' → cos=0.5741  "me played with a slow, colorful kite made of fleece."
+    round 5: 'with' → 'at' → cos=0.5783  "me played at a slow, colorful kite made of fleece."
+    round 6: 'played' → 'me' → cos=0.5924  "me me at a slow, colorful kite made of fleece."
+    round 7: 'me' → 'with' → cos=0.5974  "with me at a slow, colorful kite made of fleece."
+    round 8: 'at' → 'on' → cos=0.6012  "with me on a slow, colorful kite made of fleece."
+
+  RESULT: cos=0.6012  words=3/6
+    recovered: "with me on a slow, colorful kite made of fleece."
+    true:      "children played with the colorful kite"

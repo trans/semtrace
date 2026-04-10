@@ -1,0 +1,96 @@
+Generate-and-verify attack on Llama 3.2 3B
+
+
+======================================================================
+TARGET: 'the cat sat on the mat'
+  (6 words)
+
+  Strategy 1: Word-by-word beam (generate short, score by cosine)
+    word 1: cos=0.1500  "The It"
+    word 2: cos=0.3149  "The It "The"
+    word 3: cos=0.4013  "The It "It" There"
+    word 4: cos=0.4597  "The It "The "The" It"
+    word 5: cos=0.4769  "The It "The "The" It It"
+    word 6: cos=0.4769  "The It "The "The" It It It"
+
+  Final beams:
+    cos=0.4769  words=1/6  "The It "The "The" It It It"
+    cos=0.4769  words=1/6  "The It "The "The" It It It"
+    cos=0.4769  words=1/6  "The It "The "The" It It It"
+    cos=0.4769  words=1/6  "The It "The "The" It It It"
+    cos=0.4746  words=1/6  "The It "It" "It" It It It"
+
+  Strategy 2: Full-sentence generation + cosine verification
+  6 candidates scored
+  Top 5:
+    cos=0.5216  words=1/6  "The It looks like you started to say"
+    cos=0.4668  words=1/6  "The I'm happy to help, but it looks"
+    cos=0.4661  words=1/6  "The It looks like you started to ask"
+    cos=0.4308  words=1/6  "The I'm happy to help, but it seems"
+    cos=0.4200  words=1/6  "The I'm happy to help with your question,"
+
+  BEST OVERALL: cos=0.5216  words=1/6
+    recovered: "The It looks like you started to say"
+    true:      "the cat sat on the mat"
+
+======================================================================
+TARGET: 'she walked slowly to the river'
+  (6 words)
+
+  Strategy 1: Word-by-word beam (generate short, score by cosine)
+    word 1: cos=0.3080  "The I'd"
+    word 2: cos=0.3849  "The It "There"
+    word 3: cos=0.3975  "The It "It" "There"
+    word 4: cos=0.4098  "The It "There It It"
+    word 5: cos=0.4092  "The It "There It It It"
+    word 6: cos=0.3923  "The It "There It It It It"
+
+  Final beams:
+    cos=0.3923  words=1/6  "The It "There It It It It"
+    cos=0.3923  words=1/6  "The It "There It It It It"
+    cos=0.3923  words=1/6  "The It "There It It It It"
+    cos=0.3923  words=1/6  "The It "There It It It It"
+    cos=0.3923  words=1/6  "The It "There It It It It"
+
+  Strategy 2: Full-sentence generation + cosine verification
+  9 candidates scored
+  Top 5:
+    cos=0.5591  words=2/6  "The It looks like you started to say"
+    cos=0.5585  words=2/6  "The It seems like you started to say"
+    cos=0.5166  words=2/6  "The It seems like you started to ask"
+    cos=0.5058  words=2/6  "The It looks like you started to ask"
+    cos=0.4697  words=2/6  "The I'm happy to help, but it seems"
+
+  BEST OVERALL: cos=0.5591  words=2/6
+    recovered: "The It looks like you started to say"
+    true:      "she walked slowly to the river"
+
+======================================================================
+TARGET: 'Mary had a little lamb'
+  (5 words)
+
+  Strategy 1: Word-by-word beam (generate short, score by cosine)
+    word 1: cos=0.3167  "The I'd"
+    word 2: cos=0.3829  "The I'm It"
+    word 3: cos=0.4279  "The I'm I It"
+    word 4: cos=0.4671  "The I'm I "It's "Like"
+    word 5: cos=0.4671  "The I'm I "It's "Like"
+
+  Final beams:
+    cos=0.4671  words=0/5  "The I'm I "It's "Like"
+    cos=0.4530  words=0/5  "The I'm I "It's "Like It"
+    cos=0.4530  words=0/5  "The I'm I "It's "Like It"
+    cos=0.4438  words=0/5  "The I'm I It "I'm It"
+    cos=0.4438  words=0/5  "The I'm I It "I'm It"
+
+  Strategy 2: Full-sentence generation + cosine verification
+  4 candidates scored
+  Top 5:
+    cos=0.4831  words=0/5  "The It seems like you were about"
+    cos=0.4601  words=0/5  "The I'd be happy to help with"
+    cos=0.3580  words=0/5  "The It seems like you started to"
+    cos=0.3557  words=0/5  "The It looks like you started to"
+
+  BEST OVERALL: cos=0.4831  words=0/5
+    recovered: "The It seems like you were about"
+    true:      "Mary had a little lamb"
