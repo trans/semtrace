@@ -1,0 +1,53 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 3143.23it/s]
+
+Text: 'Mary had a little lamb its fleece was white as snow and everywhere that Mary went the lamb was sure to go'
+Tokens (23): Mary  had  a  little  lamb  its  flee ce  was  white  as  snow  and  everywhere  that  Mary  went  the  lamb  was  sure  to  go
+
+======================================================================
+Sanity check: backward pass with TRUE contributions
+======================================================================
+  recovered:     reportprint     サーティ  �        サーティ     
+  pos-match: 0/23
+  L0 estimate relative error: 75.858261
+
+======================================================================
+Candidate (5 swaps from true): pos-match=14/23, L2=22.1342
+   was  had  the  to ce  its  flee  lamb Mary  white  as  snow  and  everywhere  that  Mary  went  a  lamb  was  little  sure  go
+
+======================================================================
+Iterative backward refinement
+======================================================================
+
+  Iteration 1:
+    recovered:                      � 
+    pos-match: 0/23, L2=130.7162
+    no improvement (was 14 pos-match)
+
+  Iteration 2:
+    recovered:  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ
+    pos-match: 0/23, L2=126.4911
+    no improvement (was 0 pos-match)
+
+  Iteration 3:
+    recovered:  サーティ          サーティ �  サーティ  サーティ  サーティ  サーティ  サーティ �    �  サーティ 
+    pos-match: 0/23, L2=126.0785
+    no improvement (was 0 pos-match)
+
+  Iteration 4:
+    recovered:  サーティ   サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ
+    pos-match: 0/23, L2=127.1344
+    no improvement (was 0 pos-match)
+
+  Iteration 5:
+    recovered:  サーティ   quickShip     サーティ   サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ �  サーティ 
+    pos-match: 0/23, L2=125.6575
+    no improvement (was 0 pos-match)
+
+======================================================================
+FINAL: pos-match=0/23, L2=125.6575
+   サーティ   quickShip     サーティ   サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ  サーティ �  サーティ 
+TRUE:
+  Mary  had  a  little  lamb  its  flee ce  was  white  as  snow  and  everywhere  that  Mary  went  the  lamb  was  sure  to  go

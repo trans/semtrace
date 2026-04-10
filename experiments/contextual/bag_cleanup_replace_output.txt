@@ -1,0 +1,112 @@
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2097.74it/s]
+Building L12 vocab and bridge...
+
+======================================================================
+'the cat sat on the mat'
+  Overshoot (6 tokens): 2/6 correct
+  N-forced  (6 tokens): 2/6 correct
+  Trimmed   (6 tokens): 2/6 correct
+  Replaced  (6 tokens): 2/6 correct
+    dirty:    [' cat', ' lays', 'the', ' chair', ' decrease', 'p']
+    cleaned:  [' cat', ' lays', 'the', ' chair', ' decrease', 'p']
+    true:     ['the', ' cat', ' sat', ' on', ' the', ' mat']
+
+======================================================================
+'the dog ran in the park'
+  Overshoot (6 tokens): 2/6 correct
+  N-forced  (6 tokens): 2/6 correct
+  Trimmed   (6 tokens): 2/6 correct
+  Replaced  (6 tokens): 2/6 correct
+    dirty:    [' dog', ' ran', 'that', ' Park', '-', ' raging']
+    cleaned:  [' dog', ' ran', 'that', ' Park', '-', ' raging']
+    true:     ['the', ' dog', ' ran', ' in', ' the', ' park']
+
+======================================================================
+'Mary had a little lamb'
+  Overshoot (5 tokens): 1/5 correct
+  N-forced  (5 tokens): 1/5 correct
+  Trimmed   (5 tokens): 1/5 correct
+  Replaced  (5 tokens): 1/5 correct
+    dirty:    ['Mary', ' gets', ' pork', ' mother', ' allergy']
+    cleaned:  ['Mary', ' gets', ' pork', ' mother', ' allergy']
+    true:     ['Mary', ' had', ' a', ' little', ' lamb']
+
+======================================================================
+'Four score and seven years ago'
+  Overshoot (6 tokens): 2/6 correct
+  N-forced  (6 tokens): 2/6 correct
+  Trimmed   (6 tokens): 2/6 correct
+  Replaced  (6 tokens): 2/6 correct
+    dirty:    [' seven', 'It', ' score', ' weeks', ' significant', ' author']
+    cleaned:  [' seven', 'It', ' score', ' weeks', ' significant', ' author']
+    true:     ['Four', ' score', ' and', ' seven', ' years', ' ago']
+
+======================================================================
+'I love cats and dogs'
+  Overshoot (6 tokens): 2/5 correct
+  N-forced  (5 tokens): 2/5 correct
+  Trimmed   (5 tokens): 2/5 correct
+  Replaced  (5 tokens): 2/5 correct
+    dirty:    [' cats', ' loves', 'I', ' animal', ' really']
+    cleaned:  [' cats', ' loves', 'I', ' really', ' MAP']
+    true:     ['I', ' love', ' cats', ' and', ' dogs']
+
+======================================================================
+'the big red car drove fast down the road'
+  Overshoot (10 tokens): 4/9 correct
+  N-forced  (9 tokens): 4/9 correct
+  Trimmed   (9 tokens): 3/9 correct
+  Replaced  (9 tokens): 3/9 correct
+    dirty:    [' huge', ' drove', ' road', ' weird', ' car', ' throttle', ' changes', 'on', ' fast']
+    cleaned:  [' huge', ' road', ' weird', ' car', ' throttle', ' changes', 'on', ' fast', ' Top']
+    true:     ['the', ' big', ' red', ' car', ' drove', ' fast', ' down', ' the', ' road']
+
+======================================================================
+'she walked slowly to the river'
+  Overshoot (7 tokens): 3/6 correct
+  N-forced  (6 tokens): 3/6 correct
+  Trimmed   (6 tokens): 3/6 correct
+  Replaced  (6 tokens): 3/6 correct
+    dirty:    [' externalToEVA', ' walked', ' river', ' she', ' slowly', 'm']
+    cleaned:  [' walked', ' river', ' she', ' slowly', 'm', ' click']
+    true:     ['she', ' walked', ' slowly', ' to', ' the', ' river']
+
+======================================================================
+'the old man fished from the boat'
+  Overshoot (9 tokens): 1/8 correct
+  N-forced  (8 tokens): 1/8 correct
+  Trimmed   (8 tokens): 1/8 correct
+  Replaced  (8 tokens): 1/8 correct
+    dirty:    ['\x1c', ' ancient', ' boat', ' is', 'that', ' 39', ' fish', '-']
+    cleaned:  [' ancient', ' boat', ' is', 'that', ' 39', ' fish', '-', ' mute']
+    true:     ['the', ' old', ' man', ' f', 'ished', ' from', ' the', ' boat']
+
+======================================================================
+'children played with the colorful kite'
+  Overshoot (8 tokens): 3/7 correct
+  N-forced  (7 tokens): 2/7 correct
+  Trimmed   (7 tokens): 3/7 correct
+  Replaced  (7 tokens): 3/7 correct
+    dirty:    [' toys', ' children', ' colorful', ' k', ' play', ' �', ' mouse']
+    cleaned:  [' toys', ' children', ' colorful', ' k', ' play', ' mouse', ' the']
+    true:     ['children', ' played', ' with', ' the', ' colorful', ' k', 'ite']
+
+======================================================================
+'morning sun warmed the sleepy village'
+  Overshoot (7 tokens): 1/6 correct
+  N-forced  (6 tokens): 1/6 correct
+  Trimmed   (6 tokens): 1/6 correct
+  Replaced  (6 tokens): 1/6 correct
+    dirty:    [' externalToEVA', ' sleepy', ' morning', ' temperature', ' inspired', '.']
+    cleaned:  [' sleepy', ' morning', ' temperature', ' inspired', '.', ' Iceland']
+    true:     ['morning', ' sun', ' warmed', ' the', ' sleepy', ' village']
+
+======================================================================
+AGGREGATE
+======================================================================
+  N-forced dirty bag:     20/64 (31.2%)
+  With overshoot:         21/64 (32.8%)
+  After LOO trim:         20/64 (31.2%)
+  After replacement:      20/64 (31.2%)

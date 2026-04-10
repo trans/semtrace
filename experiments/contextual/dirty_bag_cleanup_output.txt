@@ -1,0 +1,246 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1668.41it/s]
+Building L12 vocab and bridge...
+
+======================================================================
+Sentence: 'the cat sat on the mat'
+  Dirty bag: 2/6 correct tokens
+  [' cat', ' lays', 'the', ' chair', ' decrease', 'p']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     5           'p'   -2.5256     WRONG  <<
+     4   ' decrease'   +1.4601     WRONG  
+     2         'the'   +3.6033     RIGHT  
+     3      ' chair'   +5.9126     WRONG  
+     1       ' lays'   +7.6912     WRONG  
+     0        ' cat'  +10.3746     RIGHT  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 1 tokens
+    true positives (correctly flagged wrong): 1
+    false positives (incorrectly flagged right): 0
+    precision: 100.0%  recall: 25.0%
+
+  Cleaned bag: 2/6 correct out of 5 kept
+  (was 2/6 in 6 before cleanup)
+
+======================================================================
+Sentence: 'the dog ran in the park'
+  Dirty bag: 2/6 correct tokens
+  [' dog', ' ran', 'that', ' Park', '-', ' raging']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     4           '-'   -5.0233     WRONG  <<
+     2        'that'   -3.3649     WRONG  <<
+     3       ' Park'   -2.3742     WRONG  <<
+     5     ' raging'   +1.1903     WRONG  
+     1        ' ran'   +9.0845     RIGHT  
+     0        ' dog'  +12.4608     RIGHT  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 3 tokens
+    true positives (correctly flagged wrong): 3
+    false positives (incorrectly flagged right): 0
+    precision: 100.0%  recall: 75.0%
+
+  Cleaned bag: 2/6 correct out of 3 kept
+  (was 2/6 in 6 before cleanup)
+
+======================================================================
+Sentence: 'Mary had a little lamb'
+  Dirty bag: 2/5 correct tokens
+  ['Mary', ' has', ' pork', ' little', ' allergy']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     4    ' allergy'   -4.4422     WRONG  <<
+     3     ' little'   -0.0324     RIGHT  !!
+     2       ' pork'   +5.9868     WRONG  
+     0        'Mary'   +9.5245     RIGHT  
+     1        ' has'  +19.9080     WRONG  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 2 tokens
+    true positives (correctly flagged wrong): 1
+    false positives (incorrectly flagged right): 1
+    precision: 50.0%  recall: 33.3%
+
+  Cleaned bag: 1/5 correct out of 3 kept
+  (was 2/5 in 5 before cleanup)
+
+======================================================================
+Sentence: 'Four score and seven years ago'
+  Dirty bag: 2/6 correct tokens
+  [' seven', 'The', ' score', ' weeks', ' significant', ' author']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     0      ' seven'  -10.6408     RIGHT  !!
+     1         'The'   -5.3364     WRONG  <<
+     5     ' author'   -2.1553     WRONG  <<
+     4  ' significant'   -0.0539     WRONG  <<
+     2      ' score'   +0.1436     RIGHT  
+     3      ' weeks'   +8.1653     WRONG  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 4 tokens
+    true positives (correctly flagged wrong): 3
+    false positives (incorrectly flagged right): 1
+    precision: 75.0%  recall: 75.0%
+
+  Cleaned bag: 1/6 correct out of 2 kept
+  (was 2/6 in 6 before cleanup)
+
+======================================================================
+Sentence: 'I love cats and dogs'
+  Dirty bag: 2/5 correct tokens
+  [' cats', ' loves', 'I', ' animal', ' really']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     3     ' animal'   -3.0795     WRONG  <<
+     4     ' really'   -2.9886     WRONG  <<
+     2           'I'   +0.6047     RIGHT  
+     1      ' loves'  +11.4196     WRONG  
+     0       ' cats'  +11.5339     RIGHT  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 2 tokens
+    true positives (correctly flagged wrong): 2
+    false positives (incorrectly flagged right): 0
+    precision: 100.0%  recall: 66.7%
+
+  Cleaned bag: 2/5 correct out of 3 kept
+  (was 2/5 in 5 before cleanup)
+
+======================================================================
+Sentence: 'the big red car drove fast down the road'
+  Dirty bag: 4/9 correct tokens
+  [' huge', ' drove', ' road', ' weird', ' car', ' throttle', ' changes', 'on', ' fast']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     1      ' drove'   -6.3257     RIGHT  !!
+     5   ' throttle'   -2.9069     WRONG  <<
+     7          'on'   -1.6779     WRONG  <<
+     6    ' changes'   -1.4310     WRONG  <<
+     8       ' fast'   -0.9604     RIGHT  !!
+     4        ' car'   -0.4570     RIGHT  !!
+     2       ' road'   -0.0359     RIGHT  !!
+     3      ' weird'   +4.8474     WRONG  
+     0       ' huge'   +6.6346     WRONG  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 7 tokens
+    true positives (correctly flagged wrong): 3
+    false positives (incorrectly flagged right): 4
+    precision: 42.9%  recall: 60.0%
+
+  Cleaned bag: 0/9 correct out of 2 kept
+  (was 4/9 in 9 before cleanup)
+
+======================================================================
+Sentence: 'she walked slowly to the river'
+  Dirty bag: 3/6 correct tokens
+  ['ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ', ' walked', ' river', ' she', ' slowly', 'm']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     0  'ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ'   -7.8963     WRONG  <<
+     2      ' river'   -2.6781     RIGHT  !!
+     5           'm'   -2.1214     WRONG  <<
+     3        ' she'   +7.5780     WRONG  
+     1     ' walked'   +8.3678     RIGHT  
+     4     ' slowly'   +8.8560     RIGHT  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 3 tokens
+    true positives (correctly flagged wrong): 2
+    false positives (incorrectly flagged right): 1
+    precision: 66.7%  recall: 66.7%
+
+  Cleaned bag: 2/6 correct out of 3 kept
+  (was 3/6 in 6 before cleanup)
+
+======================================================================
+Sentence: 'the old man fished from the boat'
+  Dirty bag: 1/8 correct tokens
+  ['\x1c', ' ancient', ' boat', ' is', 'that', ' 39', ' fish', '-']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     0        '\x1c'   -4.6407     WRONG  <<
+     4        'that'   -3.4698     WRONG  <<
+     1    ' ancient'   -1.7199     WRONG  <<
+     6       ' fish'   -0.8656     WRONG  <<
+     7           '-'   +0.8984     WRONG  
+     5         ' 39'   +1.1184     WRONG  
+     2       ' boat'   +1.1535     RIGHT  
+     3         ' is'   +5.1488     WRONG  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 4 tokens
+    true positives (correctly flagged wrong): 4
+    false positives (incorrectly flagged right): 0
+    precision: 100.0%  recall: 57.1%
+
+  Cleaned bag: 1/8 correct out of 4 kept
+  (was 1/8 in 8 before cleanup)
+
+======================================================================
+Sentence: 'children played with the colorful kite'
+  Dirty bag: 2/7 correct tokens
+  [' toy', ' children', ' colorful', 'K', ' the', ' �', ' mouse']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     3           'K'   -8.6412     WRONG  <<
+     5          ' �'   -4.4170     WRONG  <<
+     6      ' mouse'   -0.6211     WRONG  <<
+     4        ' the'   +0.8376     RIGHT  
+     0        ' toy'   +3.9529     WRONG  
+     2   ' colorful'   +6.6134     RIGHT  
+     1   ' children'   +7.8449     WRONG  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 3 tokens
+    true positives (correctly flagged wrong): 3
+    false positives (incorrectly flagged right): 0
+    precision: 100.0%  recall: 60.0%
+
+  Cleaned bag: 2/7 correct out of 4 kept
+  (was 2/7 in 7 before cleanup)
+
+======================================================================
+Sentence: 'morning sun warmed the sleepy village'
+  Dirty bag: 1/6 correct tokens
+  [' RandomRedditor', ' sleepy', ' morning', ' temperature', ' sunny', ' in']
+
+  Leave-one-out analysis (sorted by suspicion):
+   pos         token     delta    actual
+     0  ' RandomRedditor'   -4.8851     WRONG  <<
+     5         ' in'   -1.1137     WRONG  <<
+     4      ' sunny'   -0.3463     WRONG  <<
+     3  ' temperature'   +3.5626     WRONG  
+     2    ' morning'   +4.0424     WRONG  
+     1     ' sleepy'   +4.0586     RIGHT  
+
+  Intruder detection (delta < 0 = flag as wrong):
+    flagged for removal: 3 tokens
+    true positives (correctly flagged wrong): 3
+    false positives (incorrectly flagged right): 0
+    precision: 100.0%  recall: 60.0%
+
+  Cleaned bag: 1/6 correct out of 3 kept
+  (was 1/6 in 6 before cleanup)
+
+======================================================================
+AGGREGATE
+======================================================================
+  Before cleanup: 21/64 correct tokens in dirty bags
+  After cleanup:  14/64 correct tokens in cleaned bags
+  (Cleanup removes intruders but may also remove some correct tokens)
