@@ -1,0 +1,77 @@
+Production attack pipeline on Llama 3.2 3B
+
+
+======================================================================
+TARGET: 'the cat sat on the mat'
+======================================================================
+
+  Stage 1: Thematic probing (195 words)...
+  Top 20 theme words: ['everywhere', 'walked', 'played', 'cats', 'children', 'but', 'yes', 'said', 'slowly', 'also', 'fished', 'drove', 'about', 'would', 'that', 'much', 'each', 'could', 'they', 'need']
+
+  Stage 2: Generate candidates from theme words...
+  Generated 15 candidates
+    Everywhere, children chased after their cats
+    Yesterday, I slowly walked through the park
+    But the cat didn't play as expected
+    Children said they loved their pets dearly
+    Even in the rain, we continued to walk
+    ...and 10 more
+
+  Stage 3: Verify candidates by cosine to target...
+  Top 5 candidates:
+    cos=0.6087  But the cat didn't play as expected
+    cos=0.5948  Yes, I can see you're playing with your cat now
+    cos=0.5701  Yes, I agreed to walk with you today
+    cos=0.5588  Children said they loved their pets dearly
+    cos=0.5558  Everywhere, children chased after their cats
+
+  Best starting point: cos=0.6087
+    "But the cat didn't play as expected"
+
+  Stage 4: Hill-climbing (word-by-word replacement)...
+    round 1: pos 0 'But' → 'slowly' → cos=0.6682  "slowly the cat didn't play as expected"
+    round 2: pos 1 'the' → 'a' → cos=0.6684  "slowly a cat didn't play as expected"
+    round 3: pos 4 'play' → 'sit' → cos=0.6750  "slowly a cat didn't sit as expected"
+    round 4: pos 0 'slowly' → 'the' → cos=0.6777  "the a cat didn't sit as expected"
+    round 5: pos 1 'a' → 'was' → cos=0.6825  "the was cat didn't sit as expected"
+
+  RESULT: cos=0.6825
+    recovered: "the was cat didn't sit as expected"
+    true:      "the cat sat on the mat"
+    word overlap: 2/5
+
+======================================================================
+TARGET: 'she walked slowly to the river'
+======================================================================
+
+  Stage 1: Thematic probing (195 words)...
+  Top 20 theme words: ['river', 'walked', 'children', 'everywhere', 'would', 'said', 'slowly', 'village', 'about', 'could', 'also', 'played', 'when', 'woman', 'those', 'but', 'yes', 'they', 'that', 'might']
+
+  Stage 2: Generate candidates from theme words...
+  Generated 15 candidates
+    Children walked slowly along the river
+    The villagers said the river was everywhere
+    She would often walk by the river's edge
+    Everywhere you look, there's a river
+    Could you tell me about this nearby village?
+    ...and 10 more
+
+  Stage 3: Verify candidates by cosine to target...
+  Top 5 candidates:
+    cos=0.9230  He walked slowly as children played near the river
+    cos=0.8604  Children walked slowly along the river
+    cos=0.8522  He slowly made his way through the village near the river
+    cos=0.7248  She would often walk by the river's edge
+    cos=0.7109  Everywhere you look, there's a river
+
+  Best starting point: cos=0.9230
+    "He walked slowly as children played near the river"
+
+  Stage 4: Hill-climbing (word-by-word replacement)...
+    round 1: pos 0 'He' → 'she' → cos=0.9548  "she walked slowly as children played near the river"
+    round 2: no improvement found
+
+  RESULT: cos=0.9548
+    recovered: "she walked slowly as children played near the river"
+    true:      "she walked slowly to the river"
+    word overlap: 5/6

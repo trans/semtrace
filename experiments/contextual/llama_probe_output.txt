@@ -1,0 +1,70 @@
+Probing Llama 3.2 3B via Ollama embed API...
+
+Embedding dim: 3072
+Embedding norm: 0.999999
+(norm ≈ 1.0 means L2-normalized)
+
+======================================================================
+Test 1: Cosine discrimination between sentence pairs
+======================================================================
+
+  Pairwise cosines (sample):
+    cos=0.6327  L2=0.8571  similar topic (animals)
+    cos=0.5168  L2=0.9830  unrelated (cat/quantum)
+    cos=0.5561  L2=0.9423  different content
+    cos=0.4754  L2=1.0243  related (cats)
+    cos=0.6739  L2=0.8075  unrelated (cake/stocks)
+    cos=0.8047  L2=0.6250  similar (park/garden)
+
+  All pairwise cosines: mean=0.5897 min=0.4754 max=0.8047
+  Random 6-word vs target: mean=0.5243 min=0.4734 max=0.5924
+
+======================================================================
+Test 2: Semantic clustering of individual word embeddings
+======================================================================
+
+  Nearest neighbors (among 24 words):
+       cat → [('dog', '0.705'), ('bird', '0.619'), ('fish', '0.586')]
+      king → [('queen', '0.670'), ('happy', '0.515'), ('flower', '0.509')]
+     happy → [('sad', '0.691'), ('flower', '0.634'), ('love', '0.613')]
+       car → [('truck', '0.567'), ('cat', '0.469'), ('flower', '0.461')]
+     water → [('flower', '0.618'), ('fish', '0.577'), ('tree', '0.566')]
+       big → [('small', '0.652'), ('happy', '0.598'), ('dog', '0.563')]
+
+======================================================================
+Test 3: Is embed(sentence) ≈ sum of embed(each word)?
+======================================================================
+  the cat sat on the mat                      cos(sent, raw_sum)=0.5323  cos(sent, norm_sum)=0.5323
+  Mary had a little lamb                      cos(sent, raw_sum)=0.4826  cos(sent, norm_sum)=0.4826
+  I love cats and dogs                        cos(sent, raw_sum)=0.5946  cos(sent, norm_sum)=0.5946
+
+======================================================================
+Test 4: Greedy decomposition against a word vocabulary
+======================================================================
+  Vocabulary: 158 words
+  Embedding vocabulary...
+  the cat sat on the mat                 found: ['everywhere', 'mat']  overlap: 1/5
+  Mary had a little lamb                 found: ['lamb']  overlap: 1/5
+  I love cats and dogs                   found: ['dogs', 'from']  overlap: 1/5
+  the big red car drove fast             found: ['drove', 'from']  overlap: 1/6
+
+======================================================================
+Test 5: Leave-one-out — which word contributes most?
+======================================================================
+
+  'the cat sat on the mat'
+          removed   cos_without   delta_from_1
+              the      0.952772       0.047228
+              cat      0.884346       0.115654
+              sat      0.803610       0.196390
+               on      0.917990       0.082010
+              the      0.907517       0.092483
+              mat      0.507558       0.492442
+
+  'Mary had a little lamb'
+          removed   cos_without   delta_from_1
+             Mary      0.913589       0.086411
+              had      0.894692       0.105308
+                a      0.926709       0.073291
+           little      0.932846       0.067154
+             lamb      0.486680       0.513320
