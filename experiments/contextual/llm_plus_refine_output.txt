@@ -1,0 +1,55 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  41%|████      | 60/148 [00:00<00:00, 576.89it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 995.37it/s]
+Building L1 vocab...
+
+======================================================================
+Original: 'the old man fished from the boat while the sun rose slowly'
+  L1 bag recovery: 13/13
+  Shuffled words: while, the, man, the, sun, boat, slowly, fished, from, the, old, rose
+  Mistral output: The old man fished slowly from the boat while the sun rose.
+  Mapped to tokens:  old  man  f ished  slowly  from  the  boat  while  the  sun  rose the
+  LLM ordering: pos-match=7/13, L2=12.6394
+  Swap refinement:
+      round 1: swap pos 0,12 → L2=3.2445
+      round 2: swap pos 11,12 → L2=2.9625
+      round 3: swap pos 10,11 → L2=2.9612
+  After refinement: pos-match=6/13, L2=2.9612
+  Refined: the  man  f ished  slowly  from  the  boat  while  the  old  sun  rose
+  True:    the  old  man  f ished  from  the  boat  while  the  sun  rose  slowly
+
+======================================================================
+Original: 'snow fell quietly on the mountain pass as the travelers slept'
+  L1 bag recovery: 12/12
+  Shuffled words: as, on, quietly, the, mountain, pass, travelers, the, snow, fell, slept
+  Mistral output: The travelers slept on the mountain pass as the snow fell quietly.
+  Mapped to tokens:  travelers  slept  on  the  mountain  pass  as  the  fell  quietly s now
+  LLM ordering: pos-match=0/12, L2=28.4764
+  Swap refinement:
+      round 1: swap pos 0,9 → L2=13.5158
+      round 2: swap pos 8,10 → L2=10.8039
+      round 3: swap pos 9,11 → L2=8.8977
+      round 4: swap pos 0,1 → L2=8.4993
+      round 5: swap pos 0,10 → L2=7.4683
+      round 6: swap pos 4,5 → L2=6.0549
+  After refinement: pos-match=0/12, L2=6.0549
+  Refined:  fell  quietly  on  the  pass  mountain  as  the s now  slept  travelers
+  True:    s now  fell  quietly  on  the  mountain  pass  as  the  travelers  slept
+
+======================================================================
+Original: 'Mary had a little lamb its fleece was white as snow and everywhere that Mary went the lamb was sure to go'
+  L1 bag recovery: 23/23
+  Shuffled words: go, its, a, went, as, everywhere, the, sure, fleece, that, was, Mary, snow, had, and, lamb, lamb, was, white, Mary, little, to
+  Mistral output: The correct order of the shuffled words to form a grammatical English sentence is: "That little Mary had a white lamb, and it went everywhere as snow."
+  Mapped to tokens:  the  to  a  little  Mary  had  white  lamb  and  went  everywhere  as  snow Mary  its  flee ce  was  that  lamb  was  sure  go
+  LLM ordering: pos-match=3/23, L2=24.7598
+  Swap refinement:
+      round 1: swap pos 0,13 → L2=13.7411
+      round 2: swap pos 1,5 → L2=6.8237
+      round 3: swap pos 5,22 → L2=5.5535
+      round 4: swap pos 9,10 → L2=4.3702
+      round 5: swap pos 12,18 → L2=3.4793
+  After refinement: pos-match=4/23, L2=3.4793
+  Refined: Mary  had  a  little  Mary  go  white  lamb  and  everywhere  went  as  that  the  its  flee ce  was  snow  lamb  was  sure  to
+  True:    Mary  had  a  little  lamb  its  flee ce  was  white  as  snow  and  everywhere  that  Mary  went  the  lamb  was  sure  to  go

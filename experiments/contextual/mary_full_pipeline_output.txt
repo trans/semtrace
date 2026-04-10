@@ -1,0 +1,65 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  29%|██▉       | 43/148 [00:00<00:00, 417.72it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 919.60it/s]
+
+Text: 'Mary had a little lamb its fleece was white as snow and everywhere that Mary went the lamb was sure to go'
+Tokens (23): ['Mary', ' had', ' a', ' little', ' lamb', ' its', ' flee', 'ce', ' was', ' white', ' as', ' snow', ' and', ' everywhere', ' that', ' Mary', ' went', ' the', ' lamb', ' was', ' sure', ' to', ' go']
+Unique: 21
+Target pooled L12 norm: 243.07
+Random baseline L2: mean=56.76, min=37.45
+
+======================================================================
+Stage 1: Per-position L1 decomposition
+======================================================================
+Building L1 vocab...
+  recovered: ['Mary', ' had', ' a', ' little', ' lamb', ' its', ' flee', 'ce', ' was', ' white', ' as', ' snow', ' and', ' everywhere', ' that', ' Mary', ' went', ' the', ' lamb', ' was', ' sure', ' to', ' go']
+  pos-match: 23/23
+  bag-match: 21/21
+  *** PERFECT BAG RECOVERY ***
+
+======================================================================
+Stage 2: Bag-constrained beam search for order recovery
+======================================================================
+
+  --- Beam width B=8 ---
+      step 5/23, 137 candidates → kept 8
+      step 10/23, 103 candidates → kept 8
+      step 15/23, 64 candidates → kept 8
+      step 20/23, 26 candidates → kept 8
+      scoring 8 completed beams by L2...
+  best beam:
+    text:   and  a  little  to  go  as  that  was  the  white  snow  everywhere  was  had  its  flee ce  lamb  lamb  Mary  sure  went Mary
+    pos-match: 3/23
+    L2: 16.1580
+    beam 1: pm=3/23  L2=16.1580   and  a  little  to  go  as  that  was  the  white  snow  everywhere  was  had  its  flee ce  lamb  lamb  Mary  sure  went Mary
+    beam 2: pm=3/23  L2=16.1680   and  a  little  to  go  as  that  was  the  white  snow  was  everywhere  had  its  flee ce  lamb  lamb  Mary  sure  went Mary
+    beam 3: pm=2/23  L2=16.6096   and  a  little  to  go  as  that  was  the  white  snow  was  everywhere  had  its  flee ce  lamb  lamb  Mary  went  sure Mary
+
+  --- Beam width B=16 ---
+      step 5/23, 281 candidates → kept 16
+      step 10/23, 208 candidates → kept 16
+      step 15/23, 128 candidates → kept 16
+      step 20/23, 50 candidates → kept 16
+      scoring 16 completed beams by L2...
+  best beam:
+    text:   and  that  was  to  go  a  little  as  the  snow  was  had  its  white  flee ce  went  everywhere  lamb  lamb  sure  Mary Mary
+    pos-match: 3/23
+    L2: 12.4426
+    beam 1: pm=3/23  L2=12.4426   and  that  was  to  go  a  little  as  the  snow  was  had  its  white  flee ce  went  everywhere  lamb  lamb  sure  Mary Mary
+    beam 2: pm=2/23  L2=12.6401   and  that  was  to  go  a  little  as  the  snow  was  had  its  white  flee ce  went  everywhere  lamb  lamb  Mary  sure Mary
+    beam 3: pm=0/23  L2=12.6551   and  that  was  to  go  a  little  as  the  snow  was  had  its  white  flee ce  sure  went  everywhere  Mary  lamb  lamb Mary
+
+  --- Beam width B=32 ---
+      step 5/23, 553 candidates → kept 32
+      step 10/23, 409 candidates → kept 32
+      step 15/23, 256 candidates → kept 32
+      step 20/23, 105 candidates → kept 32
+      scoring 32 completed beams by L2...
+  best beam:
+    text:   had  to  go  a  little  as  the  snow  was  everywhere  and  was  sure  that  its  flee ce  white  Mary Mary  lamb  lamb  went
+    pos-match: 1/23
+    L2: 8.6008
+    beam 1: pm=1/23  L2=8.6008   had  to  go  a  little  as  the  snow  was  everywhere  and  was  sure  that  its  flee ce  white  Mary Mary  lamb  lamb  went
+    beam 2: pm=1/23  L2=8.7685   had  to  go  a  little  as  the  snow  was  everywhere  and  was  sure  that  its  flee ce  white  Mary Mary  went  lamb  lamb
+    beam 3: pm=2/23  L2=8.7882   had  to  go  a  little  as  the  snow  was  everywhere  and  was  sure  that  its  flee ce  white  lamb  lamb  Mary  went Mary

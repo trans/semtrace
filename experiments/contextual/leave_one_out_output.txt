@@ -1,0 +1,80 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading GPT-2 Small...
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1930.02it/s]
+
+======================================================================
+Candidate: TRUE
+  sequence: Mary  had  a  little  lamb  its  flee ce  was  white  as  snow  and  everywhere  that  Mary  went  the  lamb  was  sure  to  go
+  base L2: 0.0000
+
+  Leave-one-out (remove position k, compute L2 of remaining):
+   pos         token   L2_without     delta     verdict
+     1        ' had'      13.8156  +13.8156  correct
+     2          ' a'       8.8554   +8.8554  correct
+     0        'Mary'       8.2953   +8.2953  correct
+     5        ' its'       7.1564   +7.1564  correct
+    12        ' and'       5.1384   +5.1384  correct
+     9      ' white'       4.3426   +4.3426  correct
+     8        ' was'       4.2565   +4.2565  correct
+    13  ' everywhere'       4.0186   +4.0186  correct
+    21         ' to'       3.3134   +3.3134  correct
+    20       ' sure'       3.1325   +3.1325  correct
+     6       ' flee'       3.0506   +3.0506  correct
+     4       ' lamb'       2.9077   +2.9077  correct
+    18       ' lamb'       2.7306   +2.7306  correct
+    11       ' snow'       2.6500   +2.6500  correct
+    15       ' Mary'       2.5636   +2.5636  correct
+    16       ' went'       2.4270   +2.4270  correct
+    10         ' as'       2.2876   +2.2876  correct
+     3     ' little'       2.2508   +2.2508  correct
+    14       ' that'       2.0309   +2.0309  correct
+     7          'ce'       1.9772   +1.9772  correct
+    19        ' was'       1.4841   +1.4841  correct
+    22         ' go'       1.2956   +1.2956  correct
+    17        ' the'       1.2366   +1.2366  correct
+
+======================================================================
+Candidate: SHUFFLED
+  sequence: ce  the  as  flee  went  was  lamb  snow  white  sure Mary  Mary  its  that  lamb  and  go  little  to  everywhere  a  was  had
+  base L2: 31.9586
+
+  Leave-one-out (remove position k, compute L2 of remaining):
+   pos         token   L2_without     delta     verdict
+     8      ' white'      33.9560   +1.9973  WRONG pos
+    15        ' and'      33.9498   +1.9912  WRONG pos
+     4       ' went'      33.7412   +1.7826  WRONG pos
+     0          'ce'      33.7156   +1.7569  WRONG pos
+    13       ' that'      33.1423   +1.1836  WRONG pos
+    19  ' everywhere'      33.0467   +1.0880  WRONG pos
+     3       ' flee'      33.0219   +1.0633  WRONG pos
+    11       ' Mary'      32.9115   +0.9529  WRONG pos
+     6       ' lamb'      32.8561   +0.8975  WRONG pos
+     5        ' was'      32.8551   +0.8965  WRONG pos
+    18         ' to'      32.7475   +0.7889  WRONG pos
+     9       ' sure'      32.6539   +0.6953  WRONG pos
+    21        ' was'      32.5884   +0.6297  WRONG pos
+    12        ' its'      32.5709   +0.6123  WRONG pos
+    14       ' lamb'      32.4010   +0.4424  WRONG pos
+    22        ' had'      32.2400   +0.2814  WRONG pos
+    17     ' little'      32.1065   +0.1479  WRONG pos
+    20          ' a'      31.7664   -0.1922  WRONG pos
+     7       ' snow'      31.5776   -0.3810  WRONG pos
+     1        ' the'      31.5033   -0.4553  WRONG pos
+    16         ' go'      31.3542   -0.6044  WRONG pos
+     2         ' as'      30.1334   -1.8252  WRONG pos
+    10        'Mary'      23.4247   -8.5340  WRONG pos
+
+======================================================================
+Position-wise refinement guided by leave-one-out
+======================================================================
+  Starting L2: 31.9586
+  round 1: swap suspicious pos 10 with 22 → L2=21.9842
+  round 2: swap suspicious pos 2 with 1 → L2=18.5122
+  round 3: swap suspicious pos 0 with 22 → L2=15.4287
+  round 4: swap suspicious pos 7 with 20 → L2=12.4568
+  round 5: swap suspicious pos 9 with 17 → L2=11.5415
+
+  Final: L2=11.5415  pos-match=1/23
+  Mary  as  the  flee  went  was  lamb  a  white  little  had  Mary  its  that  lamb  and  go  sure  to  everywhere  snow  was ce
+  True: Mary  had  a  little  lamb  its  flee ce  was  white  as  snow  and  everywhere  that  Mary  went  the  lamb  was  sure  to  go
